@@ -1,0 +1,95 @@
+/* ─── Base ─── */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.textWrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  vertical-align: bottom;
+}
+
+.phrase {
+  display: block;
+}
+
+.arrow {
+  flex-shrink: 0;
+}
+
+/* ─── Text variant ─── */
+.textVariant {
+  @include text-link;
+  overflow: hidden;
+}
+
+/* ─── Pill variant — cube flip ─── */
+.pill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--color-text-dim);
+  padding: 7px 16px;
+  transition: border-color 0.3s var(--ease-out);
+
+  /* fill face — starts below, slides up on hover */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--color-text);
+    transform: translateY(100%);
+    transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  /* text layers sit above the fill */
+  .textWrap {
+    position: relative;
+    z-index: 1;
+    transition:
+      transform 0.38s cubic-bezier(0.76, 0, 0.24, 1),
+      color     0.3s  var(--ease-out);
+  }
+
+  .arrow {
+    position: relative;
+    z-index: 1;
+    transition:
+      transform 0.38s cubic-bezier(0.76, 0, 0.24, 1),
+      color     0.3s  var(--ease-out);
+  }
+
+  &:hover {
+    border-color: var(--color-text);
+
+    /* fill slides in */
+    &::before      { transform: translateY(0); }
+
+    /* text exits upward — cube face rotating away */
+    .textWrap      { transform: translateY(-110%); color: var(--color-bg); }
+    .arrow         { transform: translateY(-110%); color: var(--color-bg); }
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+/* ─── Size variants ─── */
+.sm {
+  font-size: var(--fs-small);
+}
+
+.md {
+  font-size: var(--fs-body);
+}
+
+.lg {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--tracking-heading);
+}

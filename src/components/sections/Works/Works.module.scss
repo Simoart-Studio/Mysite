@@ -1,0 +1,106 @@
+.section {
+  padding-block: var(--s-32);
+}
+
+.inner {
+  @include container;
+}
+
+.header {
+  margin-bottom: var(--s-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.label {
+  @include label;
+}
+
+.headline {
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text);
+}
+
+/* ─── Grid ─── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-10);
+
+  @include respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: var(--s-12);
+  }
+}
+
+/* ─── Card ─── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:hover .img {
+    transform: scale(1.03);
+  }
+
+  &:hover .cardTitle {
+    opacity: 0.55;
+  }
+}
+
+.imgWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-bg-raised);
+}
+
+.img {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.cardFooter {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-2);
+}
+
+.cardTag {
+  @include label;
+  color: var(--color-text-dim);
+}
+
+.cardYear {
+  @include label;
+  color: var(--color-text-dim);
+}
+
+.cardTitle {
+  font-size: var(--fs-h3);
+  font-weight: 400;
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text);
+  transition: opacity var(--dur-fast) var(--ease-out);
+}

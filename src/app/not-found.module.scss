@@ -1,0 +1,46 @@
+.page {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-6);
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 20vw, 12rem);
+  font-weight: 400;
+  color: var(--color-border-hi);
+  line-height: 1;
+  letter-spacing: var(--tracking-hero);
+  user-select: none;
+}
+
+.headline {
+  font-size: var(--fs-h1);
+  font-weight: 400;
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text);
+}
+
+.body {
+  font-size: var(--fs-lead);
+  color: var(--color-text-muted);
+}
+
+.cta {
+  @include text-link;
+  font-size: var(--fs-body);
+  color: var(--color-text);
+  margin-top: var(--s-4);
+
+  &:focus-visible { @include focus-ring; }
+}

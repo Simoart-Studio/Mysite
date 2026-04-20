@@ -1,0 +1,82 @@
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--s-3) 0;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+
+  .root:hover &,
+  .rootOpen & { border-bottom-color: var(--color-text-muted); }
+}
+
+.placeholder span,
+.placeholder {
+  color: var(--color-text-dim);
+}
+
+.chevron {
+  display: inline-flex;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #1a1a17;
+  border: 1px solid var(--color-border);
+  padding: var(--s-2) 0;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--color-text);
+    background: rgb(255 255 255 / 0.04);
+  }
+}
+
+.optionActive {
+  color: var(--color-text);
+}
+
+.optionDot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-text-dim);
+  flex-shrink: 0;
+  transition: background var(--dur-fast) var(--ease-out);
+
+  .optionActive & { background: #4ade80; }
+  .option:hover &  { background: var(--color-text-muted); }
+}

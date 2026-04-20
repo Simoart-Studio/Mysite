@@ -1,0 +1,13 @@
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
