@@ -16,6 +16,26 @@ type CaseStudyContent = {
 };
 
 const caseStudies: Record<string, CaseStudyContent> = {
+  fancyshop: {
+    brief:
+      'Projekt portfolio front-end developera — kompletny sklep e-commerce zbudowany od zera. Cel: pokazać umiejętność budowania złożonych interfejsów z logiką biznesową: katalog, koszyk, checkout, wyszukiwarka.',
+    concept:
+      'Zaprojektowałem architekturę komponentów wokół React Context (koszyk, wishlist) i React Router (routing SPA). Animacje Framer Motion na przejściach między stronami i na UI mikro-interakcjach tworzą odczucie aplikacji produktowej, nie strony wizytówki. Skupiłem się na czytelnej hierarchii produktów i maksymalnym uproszczeniu ścieżki do zakupu.',
+    stackDetails: [
+      { name: 'React 18 + TypeScript',  role: 'component architecture, strict typing' },
+      { name: 'React Router v6',        role: 'SPA routing, lazy loading stron' },
+      { name: 'SCSS Modules',           role: 'custom design system, responsive grid' },
+      { name: 'Framer Motion',          role: 'page transitions, UI animations' },
+      { name: 'Context API + useReducer', role: 'koszyk, wishlist, globalny stan' },
+      { name: 'Vite',                   role: 'bundler, HMR, build optimization' },
+    ],
+    highlights: [
+      { label: 'Strony aplikacji',      value: '7+' },
+      { label: 'Funkcje e-commerce',    value: 'Koszyk / Wishlist / Checkout' },
+      { label: 'Architektura',          value: 'SPA + Context' },
+      { label: 'Animacje',              value: 'Framer Motion' },
+    ],
+  },
   barberspace: {
     brief:
       'Premium salon barberski w stylu NYC potrzebował strony, która nie tylko prezentuje usługi, ale buduje brand — editorial aesthetic zgodny z pozycjonowaniem premium.',

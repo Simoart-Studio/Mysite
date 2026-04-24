@@ -2,15 +2,9 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: #0D0D0D;
+  background: var(--color-bg);
   display: grid;
   grid-template-rows: var(--nav-height) 1fr auto;
-  overflow: hidden;
-
-  --color-text:       #F5F4EF;
-  --color-text-muted: #A3A39E;
-  --color-text-dim:   #5A5A57;
-  --color-border:     #1E1E1B;
 }
 
 /* ─── Top bar ─── */
@@ -19,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .logoMark {
@@ -26,123 +21,225 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--color-text);
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 .close {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  opacity: 0.5;
-  transition: opacity var(--dur-fast) var(--ease-out);
+  font-size: 1.1rem;
+  color: var(--color-text);
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
 
-  &:hover { opacity: 1; }
+  &:hover        { opacity: 1; }
   &:focus-visible { @include focus-ring; }
 }
 
-.closeLabel {
-  @include label;
-  color: var(--color-text-muted);
-}
-
-.closeX {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
+/* ─── Obszar drzewa ─── */
+.treeArea {
   position: relative;
-
-  span {
-    display: block;
-    height: 1px;
-    background: var(--color-text-muted);
-    position: absolute;
-    inset: 0 0;
-    margin: auto;
-
-    &:first-child { transform: rotate(45deg); }
-    &:last-child  { transform: rotate(-45deg); }
-  }
+  overflow: hidden;
 }
 
-/* ─── Nav — stage-reveal items ─── */
-.nav {
-  @include container;
+/* SVG rozciągnięte na cały obszar */
+.treeSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Pień */
+.trunk {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1px;
+  stroke-linecap: round;
+}
+
+/* Gałęzie */
+.branch {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 0.75px;
+  stroke-linecap: round;
+}
+
+/* Odnogi dekoracyjne */
+.twig {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 0.5px;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+
+/* Punkt łączenia gałęzi z pniem */
+.junctionDot {
+  fill: var(--color-text-dim);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Kropka na końcu gałęzi */
+.tipDot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ─── Nav overlay (desktop tree) ─── */
+.treeNav {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  @include respond-to('mobile')  { display: none; }
+  @include respond-to('tablet')  { display: none; }
+}
+
+.ornament {
+  position: absolute;
+  pointer-events: auto;
+  transform: translateX(-50%);
+}
+
+.hangGroup {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0;
-  padding-block: var(--s-8);
+  align-items: center;
+  transform-origin: top center;
 }
 
-.itemWrap {
-  overflow: hidden;
+.hangDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text);
+  flex-shrink: 0;
+}
+
+.hangString {
+  width: 1px;
+  height: 52px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.navLink {
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 3.5rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+  white-space: nowrap;
+
+  &:hover        { opacity: 0.35; }
+  &:focus-visible { @include focus-ring; }
+}
+
+/* ─── Mobile fallback (lista pionowa) ─── */
+.mobileNav {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: var(--s-8) var(--s-6);
+
+  @include respond-to('mobile')  { display: flex; }
+  @include respond-to('tablet')  { display: flex; }
+}
+
+.mobileItem {
   border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
 
   &:first-child { border-top: 1px solid var(--color-border); }
 }
 
-.navItem {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s-6);
-  padding-block: var(--s-5);
+.mobileClip {
+  /* sam klipper dla animacji wave */
+}
+
+.mobileLink {
+  display: block;
+  padding-block: var(--s-4) var(--s-3);
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   color: var(--color-text);
   text-decoration: none;
-  width: 100%;
-  transition: color 0.2s var(--ease-out);
 
-  &:hover { color: var(--color-text-muted); }
+  &:hover        { opacity: 0.4; }
   &:focus-visible { @include focus-ring; }
-
-  &:hover .navNum { opacity: 1; }
-}
-
-.navNum {
-  @include label;
-  color: var(--color-text-dim);
-  flex-shrink: 0;
-  padding-bottom: 0.25em;
-  opacity: 0.4;
-  transition: opacity 0.2s var(--ease-out);
-  min-width: 2.5ch;
-}
-
-.navLabel {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 400;
-  letter-spacing: var(--tracking-heading);
-  line-height: 1.05;
 }
 
 /* ─── Bottom ─── */
 .bottom {
   @include container;
-  padding-block: var(--s-5);
+  padding-block: var(--s-6) var(--s-10);
   border-top: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--s-6);
 
   @include respond-to('mobile') {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--s-3);
+    padding-bottom: var(--s-8);
   }
+}
+
+/* cube-fill button — identyczny jak reszta strony */
+.talkBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--color-text-dim);
+  padding: 7px 18px;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--color-text);
+  letter-spacing: 0.04em;
+  transition: border-color 0.3s ease;
+
+  &:hover        { border-color: var(--color-text); }
+  &:focus-visible { @include focus-ring; }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--color-text);
+    transform: translateY(100%);
+    transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  &:hover::before { transform: translateY(0); }
+
+  span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.28s ease;
+  }
+
+  &:hover span { color: var(--color-bg); }
 }
 
 .tagline {
   @include label;
   color: var(--color-text-dim);
-}
-
-.contactBtn {
-  @include label;
-  color: var(--color-text-muted);
-  transition: color var(--dur-fast) var(--ease-out);
-  @include text-link;
-
-  &:hover { color: var(--color-text); }
-  &:focus-visible { @include focus-ring; }
 }
