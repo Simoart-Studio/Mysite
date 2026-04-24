@@ -124,6 +124,7 @@ html {
   text-size-adjust: 100%;
   cursor: none; /* hidden in favour of custom cursor */
   overflow-x: hidden;
+  background-color: #0D0D0D; /* prevents white flash on iOS momentum scroll */
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;

@@ -21,7 +21,7 @@ export const works: Work[] = [
     description: 'Nowoczesny sklep e-commerce — lista produktów, koszyk, checkout, wyszukiwarka. Pełna responsywność i animacje Framer Motion.',
     stack: ['React', 'TypeScript', 'SCSS', 'Framer Motion', 'Vite', 'React Router'],
     thumbnail: '/works/fancyshop-thumb.png',
-    liveUrl: 'https://github.com/kameleon1312/Fancyshop',
+    liveUrl: 'https://my-fancyshop.vercel.app/',
     featured: false,
     caseStudy: true,
   },

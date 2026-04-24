@@ -43,6 +43,15 @@ export function Nav() {
 
           <button
             type="button"
+            className={styles.mobileContact}
+            onClick={openContact}
+            aria-label="Napisz do mnie"
+          >
+            Kontakt
+          </button>
+
+          <button
+            type="button"
             className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`}
           onClick={() => (menuOpen ? close() : openMenu())}
           aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}

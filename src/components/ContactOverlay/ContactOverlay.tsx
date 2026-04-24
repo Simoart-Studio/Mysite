@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useEffect, useState, type FormEvent } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { EASE_WAVE } from '@/lib/motion';
@@ -58,20 +59,30 @@ export function ContactOverlay() {
     }
   }, [isOpen]);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault();
     const errs = validate(name, email, message);
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setStatus('sending');
 
-    const subject = encodeURIComponent(`Zapytanie od ${name}`);
-    const body    = encodeURIComponent(
-      `Imię: ${name}\nEmail: ${email}\nRodzaj projektu: ${projectType || '—'}\n\n${message}`
-    );
-    window.open(`mailto:szymon.pochopien01@gmail.com?subject=${subject}&body=${body}`);
-
-    setTimeout(() => setStatus('sent'), 800);
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name:    name,
+          from_email:   email,
+          project_type: projectType || '—',
+          message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+      );
+      setStatus('sent');
+    } catch {
+      setStatus('idle');
+      setErrors({ message: 'Błąd wysyłki. Spróbuj ponownie lub napisz bezpośrednio.' });
+    }
   }
 
   const dur = prefersReduced ? 0 : 0.6;

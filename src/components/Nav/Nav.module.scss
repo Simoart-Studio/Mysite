@@ -43,6 +43,23 @@
   @include respond-to('mobile') { display: none; }
 }
 
+.mobileContact {
+  display: none;
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text);
+  opacity: 0.65;
+  padding: 6px 2px;
+  transition: opacity var(--dur-fast) var(--ease-out);
+
+  &:active { opacity: 1; }
+  &:focus-visible { @include focus-ring; }
+
+  @include respond-to('mobile') { display: block; }
+}
+
 .logo {
   font-size: 1rem;
   font-weight: 500;

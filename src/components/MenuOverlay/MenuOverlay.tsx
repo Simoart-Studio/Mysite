@@ -96,6 +96,20 @@ export function MenuOverlay() {
 
   const d = (t: number) => prefersReduced ? 0 : t;
 
+  /* Smooth section scroll — waits for overlay exit animation */
+  function handleNav(e: React.MouseEvent, href: string) {
+    if (!href.startsWith('/#')) return; // let Next.js handle page routes normally
+    e.preventDefault();
+    close();
+    const id = href.slice(2);
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block:    'start',
+      });
+    }, prefersReduced ? 0 : 240);
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -213,7 +227,7 @@ export function MenuOverlay() {
                     <Link
                       href={item.href}
                       className={styles.navLink}
-                      onClick={close}
+                      onClick={(e) => handleNav(e, item.href)}
                     >
                       {item.label}
                     </Link>
@@ -235,7 +249,11 @@ export function MenuOverlay() {
                     <span className={styles.mobileNum} aria-hidden="true">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <Link href={item.href} className={styles.mobileLink} onClick={close}>
+                    <Link
+                      href={item.href}
+                      className={styles.mobileLink}
+                      onClick={(e) => handleNav(e, item.href)}
+                    >
                       {item.label}
                     </Link>
                     <span className={styles.mobileArrow} aria-hidden="true">→</span>
