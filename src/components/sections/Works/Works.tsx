@@ -5,8 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { works } from '@/data/works';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { fromLeftProps, diagonalProps, revealProps } from '@/lib/motion';
+import { fromLeftProps, revealProps } from '@/lib/motion';
 import styles from './Works.module.scss';
+
+const TILE_COLS = 4;
+const TILE_ROWS = 3;
+const TILES = Array.from({ length: TILE_COLS * TILE_ROWS }, (_, i) => i);
+const E_WAVE = [0.76, 0, 0.24, 1] as const;
 
 export function Works() {
   const { ref, isInView } = useScrollReveal<HTMLElement>();
@@ -43,7 +48,10 @@ export function Works() {
               <motion.article
                 key={work.slug}
                 className={styles.card}
-                {...diagonalProps(isInView, reduced, i === 0 ? -1 : 1, 0.12 + i * 0.1)}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: i * 0.12, ease: E_WAVE }}
               >
                 <Link
                   href={href}
@@ -56,14 +64,51 @@ export function Works() {
                     <Image
                       src={work.thumbnail}
                       alt={`Projekt ${work.title}`}
-                      fill
+                      width={1900}
+                      height={1024}
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className={styles.img}
                       preload={i === 0}
                     />
+                    <span className={styles.glint} aria-hidden="true" />
+
+                    {/* mosaic tile reveal */}
+                    {!reduced && (
+                      <motion.div
+                        className={styles.tileGrid}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.3 }}
+                        aria-hidden="true"
+                      >
+                        {TILES.map((idx) => {
+                          const col = idx % TILE_COLS;
+                          const row = Math.floor(idx / TILE_COLS);
+                          return (
+                            <motion.span
+                              key={idx}
+                              className={styles.tile}
+                              variants={{
+                                hidden: { scaleY: 1 },
+                                visible: {
+                                  scaleY: 0,
+                                  transition: {
+                                    duration: 0.38,
+                                    delay: (col + row) * 0.07,
+                                    ease: E_WAVE,
+                                  },
+                                },
+                              }}
+                              style={{ transformOrigin: 'top' }}
+                            />
+                          );
+                        })}
+                      </motion.div>
+                    )}
+
                     <div className={styles.imgOverlay} aria-hidden="true">
                       <span className={styles.openLabel}>
-                        {work.caseStudy ? 'Case study' : 'Otwórz projekt'} ↗
+                        {work.caseStudy ? 'Case study →' : 'Otwórz projekt ↗'}
                       </span>
                     </div>
                   </div>

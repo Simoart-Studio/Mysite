@@ -8,7 +8,7 @@ export const works: Work[] = [
     role: 'Design & Development',
     description: 'Editorial landing page dla premium salonu barberskiego. Styl NYC, focus na konwersję rezerwacji.',
     stack: ['React', 'TypeScript', 'SCSS', 'Framer Motion', 'EmailJS'],
-    thumbnail: '/works/barberspace-thumb.webp',
+    thumbnail: '/works/barberspace-thumb.png',
     liveUrl: 'https://barber-space.vercel.app',
     featured: true,
     caseStudy: true,

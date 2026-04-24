@@ -116,10 +116,11 @@ export default async function CaseStudyPage({
             <Image
               src={work.thumbnail}
               alt={`Hero zrzut ekranu projektu ${work.title}`}
-              fill
-              sizes="100vw"
+              width={1900}
+              height={1024}
+              sizes="(max-width: 768px) 100vw, 90vw"
               className={styles.heroImg}
-              priority
+              preload
             />
           </div>
         </section>

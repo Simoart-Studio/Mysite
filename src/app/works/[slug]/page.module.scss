@@ -41,14 +41,15 @@
 }
 
 .heroImage {
-  position: relative;
-  aspect-ratio: 16 / 9;
   background: var(--color-bg-raised);
-  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .heroImg {
-  object-fit: cover;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ─── Sections ─── */

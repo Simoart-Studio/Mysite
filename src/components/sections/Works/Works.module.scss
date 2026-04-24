@@ -63,38 +63,134 @@
 
   &:focus-visible { @include focus-ring; }
 
-  &:hover .img          { transform: scale(1.04); }
-  &:hover .imgOverlay   { opacity: 1; }
-  &:hover .cardTitle    { opacity: 0.5; }
+  &:hover .img        { transform: scale(1.03); }
+  &:hover .cardTitle  { opacity: 0.5; }
+
+  &:hover .imgOverlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover .glint {
+    background-position: -120% 0;
+  }
+
+  &:hover .imgWrap::before {
+    width: 22px;
+    height: 22px;
+    border-color: var(--color-text-dim);
+    opacity: 1;
+  }
+
+  &:hover .imgWrap::after {
+    width: 22px;
+    height: 22px;
+    border-color: var(--color-text-dim);
+    opacity: 1;
+  }
 }
 
 .imgWrap {
   position: relative;
-  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--color-bg-raised);
+
+  /* corner bracket — top-left */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 14px;
+    height: 14px;
+    border-top: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: width 0.4s var(--ease-out),
+                height 0.4s var(--ease-out),
+                opacity 0.4s ease,
+                border-color 0.4s ease;
+  }
+
+  /* corner bracket — bottom-right */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 14px;
+    height: 14px;
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: width 0.4s var(--ease-out),
+                height 0.4s var(--ease-out),
+                opacity 0.4s ease,
+                border-color 0.4s ease;
+  }
 }
 
 .img {
-  object-fit: cover;
-  transition: transform 0.55s var(--ease-out);
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* mosaic tile overlay */
+.tileGrid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.tile {
+  display: block;
+  background: var(--color-bg-raised);
+}
+
+/* light-sweep glint on hover */
+.glint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.07) 50%,
+    transparent 75%
+  );
+  background-size: 250% 100%;
+  background-position: 120% 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: background-position 0.7s var(--ease-out);
 }
 
 .imgOverlay {
   position: absolute;
   inset: 0;
-  background: rgb(13 13 13 / 0.5);
+  background: rgb(13 13 13 / 0.6);
   display: flex;
   align-items: flex-end;
   padding: var(--s-5);
   opacity: 0;
-  transition: opacity 0.3s var(--ease-out);
+  transform: translateY(6px);
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  z-index: 4;
 }
 
 .openLabel {
   @include label;
   color: #F5F4EF;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 /* ─── Footer ─── */
