@@ -222,18 +222,23 @@ export function MenuOverlay() {
               ))}
             </nav>
 
-            {/* Mobile fallback */}
+            {/* Mobile nav */}
             <nav className={styles.mobileNav} aria-label="Nawigacja główna">
               {ITEMS.map((item, i) => (
                 <div key={item.href} className={styles.mobileItem}>
                   <motion.div
+                    className={styles.mobileRow}
                     initial={{ y: '110%' }}
                     animate={{ y: 0 }}
-                    transition={{ duration: d(0.75), delay: d(0.08 + i * 0.14), ease: E_WAVE }}
+                    transition={{ duration: d(0.7), delay: d(0.06 + i * 0.12), ease: E_WAVE }}
                   >
+                    <span className={styles.mobileNum} aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                     <Link href={item.href} className={styles.mobileLink} onClick={close}>
                       {item.label}
                     </Link>
+                    <span className={styles.mobileArrow} aria-hidden="true">→</span>
                   </motion.div>
                 </div>
               ))}

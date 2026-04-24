@@ -37,7 +37,9 @@ export function Nav() {
         </button>
 
         <div className={styles.right}>
-          <NavCta onClick={openContact} />
+          <div className={styles.ctaWrap}>
+            <NavCta onClick={openContact} />
+          </div>
 
           <button
             type="button"
