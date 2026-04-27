@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const SITE_URL = 'https://szymonfrontend.pl';
+export const SITE_URL = 'https://sp-flow.vercel.app';
 
 export const siteMetadata = {
   title: 'Szymon Pochopień — Frontend Developer | Premium Websites',

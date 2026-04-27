@@ -13,8 +13,8 @@ export function Cursor() {
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
 
-  const x = useSpring(rawX, { stiffness: 700, damping: 50, mass: 0.4 });
-  const y = useSpring(rawY, { stiffness: 700, damping: 50, mass: 0.4 });
+  const x = useSpring(rawX, { stiffness: 2200, damping: 80, mass: 0.1 });
+  const y = useSpring(rawY, { stiffness: 2200, damping: 80, mass: 0.1 });
 
   useEffect(() => {
     setMounted(true);
@@ -57,7 +57,7 @@ export function Cursor() {
         scale: active ? 2.5 : 1,
         opacity: visible ? 1 : 0,
       }}
-      transition={{ scale: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } }}
+      transition={{ scale: { duration: 0.12, ease: [0.22, 1, 0.36, 1] } }}
     />
   );
 }

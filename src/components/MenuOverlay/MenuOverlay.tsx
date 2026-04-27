@@ -9,20 +9,15 @@ import styles from './MenuOverlay.module.scss';
 const E_WAVE = [0.76, 0, 0.24, 1] as const;
 const E_SOFT = [0.22, 1, 0.36, 1] as const;
 
-/*
- * Koordynaty SVG w viewBox="0 0 1440 760".
- * preserveAspectRatio="none" → punkt (x,y) = CSS left:x/1440*100%, top:y/760*100%
- * Dzięki temu dotLeft i dotTop są gwarantowanym przybliżeniem punktu końcowego gałęzi.
- */
 type Item = {
   href:      string;
   label:     string;
   branch:    string;
   twig:      string | null;
   junctionY: number;
-  dotLeft:   string;  // CSS left: X% — musi odpowiadać SVG x/1440*100
-  dotTop:    string;  // CSS top: Y% — musi odpowiadać SVG y/760*100
-  swingDir:  1 | -1;  // kierunek wychylenia wahadła (+1 = prawo, -1 = lewo)
+  dotLeft:   string;
+  dotTop:    string;
+  swingDir:  1 | -1;
   tBranch:   number;
   tItem:     number;
 };
@@ -31,7 +26,6 @@ const ITEMS: Item[] = [
   {
     href:      '/#works',
     label:     'Realizacje',
-    // endpoint (216, 99) → 216/1440=15%, 99/760=13%
     branch:    'M 720,200 C 570,172 370,126 216,99',
     twig:      'M 450,152 C 375,139 305,128 248,120',
     junctionY: 200,
@@ -44,7 +38,6 @@ const ITEMS: Item[] = [
   {
     href:      '/#about',
     label:     'O mnie',
-    // endpoint (1224, 114) → 85%, 15%
     branch:    'M 720,290 C 875,262 1060,172 1224,114',
     twig:      'M 968,207 C 1048,190 1118,172 1168,159',
     junctionY: 290,
@@ -57,7 +50,6 @@ const ITEMS: Item[] = [
   {
     href:      '/#process',
     label:     'Jak pracuję',
-    // endpoint (202, 403) → 14%, 53%
     branch:    'M 720,440 C 555,430 368,416 202,403',
     twig:      null,
     junctionY: 440,
@@ -70,7 +62,6 @@ const ITEMS: Item[] = [
   {
     href:      '/#contact',
     label:     'Kontakt',
-    // endpoint (1238, 502) → 86%, 66%
     branch:    'M 720,540 C 892,530 1082,514 1238,502',
     twig:      null,
     junctionY: 540,
@@ -96,9 +87,8 @@ export function MenuOverlay() {
 
   const d = (t: number) => prefersReduced ? 0 : t;
 
-  /* Smooth section scroll — waits for overlay exit animation */
   function handleNav(e: React.MouseEvent, href: string) {
-    if (!href.startsWith('/#')) return; // let Next.js handle page routes normally
+    if (!href.startsWith('/#')) return;
     e.preventDefault();
     close();
     const id = href.slice(2);
@@ -119,10 +109,13 @@ export function MenuOverlay() {
           aria-modal="true"
           aria-label="Menu główne"
           className={styles.overlay}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: d(0.2) }}
+          initial={prefersReduced ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)', opacity: 1 }}
+          animate={prefersReduced ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)',   opacity: 1 }}
+          exit={prefersReduced   ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)',  opacity: 1 }}
+          transition={{
+            clipPath: { duration: 0.65, ease: [0.76, 0, 0.24, 1] },
+            opacity:  { duration: 0.18 },
+          }}
         >
           {/* ─── Top bar ─── */}
           <div className={styles.topBar}>
@@ -141,70 +134,76 @@ export function MenuOverlay() {
           {/* ─── Drzewo ─── */}
           <div className={styles.treeArea}>
 
-            {/* SVG — pień + gałęzie */}
             <svg
               viewBox="0 0 1440 760"
               preserveAspectRatio="none"
               className={styles.treeSvg}
               aria-hidden="true"
             >
-              {/* Pień */}
-              <motion.path
-                d={TRUNK}
-                className={styles.trunk}
-                vectorEffect="non-scaling-stroke"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: d(1.1), delay: d(0.1), ease: 'easeInOut' }}
-              />
+              <defs>
+                <filter id="tree-grain" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
 
-              {ITEMS.map((item) => (
-                <g key={item.href}>
-                  {/* punkt przyłączenia gałęzi do pnia */}
-                  <motion.circle
-                    cx={720} cy={item.junctionY} r={4}
-                    className={styles.junctionDot}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: d(0.3), delay: d(item.tBranch), ease: E_SOFT }}
-                    style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-                  />
-                  {/* gałąź główna */}
-                  <motion.path
-                    d={item.branch}
-                    className={styles.branch}
-                    vectorEffect="non-scaling-stroke"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: d(0.72), delay: d(item.tBranch), ease: E_WAVE }}
-                  />
-                  {/* odnoga */}
-                  {item.twig && (
+              <g filter="url(#tree-grain)">
+                <motion.path
+                  d={TRUNK}
+                  className={styles.trunk}
+                  vectorEffect="non-scaling-stroke"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: d(1.1), delay: d(0.45), ease: 'easeInOut' }}
+                />
+                {ITEMS.map((item) => (
+                  <g key={item.href}>
                     <motion.path
-                      d={item.twig}
-                      className={styles.twig}
+                      d={item.branch}
+                      className={styles.branch}
                       vectorEffect="non-scaling-stroke"
                       initial={{ pathLength: 0 }}
                       animate={{ pathLength: 1 }}
-                      transition={{ duration: d(0.42), delay: d(item.tBranch + 0.22), ease: E_WAVE }}
+                      transition={{ duration: d(0.72), delay: d(item.tBranch + 0.25), ease: E_WAVE }}
                     />
-                  )}
-                </g>
+                    {item.twig && (
+                      <motion.path
+                        d={item.twig}
+                        className={styles.twig}
+                        vectorEffect="non-scaling-stroke"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: d(0.42), delay: d(item.tBranch + 0.47), ease: E_WAVE }}
+                      />
+                    )}
+                  </g>
+                ))}
+              </g>
+
+              {ITEMS.map((item) => (
+                <motion.circle
+                  key={item.href}
+                  cx={720} cy={item.junctionY} r={4}
+                  className={styles.junctionDot}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: d(0.3), delay: d(item.tBranch + 0.25), ease: E_SOFT }}
+                  style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                />
               ))}
             </svg>
 
-            {/* Zawieszki — dot + linka + label, centrowane na końcu gałęzi */}
+            {/* Desktop — zawieszki na drzewie */}
             <nav className={styles.treeNav} aria-label="Nawigacja główna">
-              {ITEMS.map((item) => (
+              {ITEMS.map((item, i) => (
                 <motion.div
                   key={item.href}
                   className={styles.ornament}
                   style={{ left: item.dotLeft, top: item.dotTop }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: d(0.15), delay: d(item.tItem) }}
+                  transition={{ duration: d(0.2), delay: d(item.tItem + 0.25) }}
                 >
-                  {/* wahadło — obraca się wokół górnego punktu przyczepu */}
                   <motion.div
                     className={styles.hangGroup}
                     initial={{ rotate: prefersReduced ? 0 : item.swingDir * 18 }}
@@ -215,50 +214,47 @@ export function MenuOverlay() {
                         type:      'spring',
                         stiffness: 80,
                         damping:   12,
-                        delay:     d(item.tItem),
+                        delay:     d(item.tItem + 0.25),
                       },
                     }}
                   >
-                    {/* mały punkt przyczepu */}
-                    <span className={styles.hangDot} aria-hidden="true" />
-                    {/* linka */}
+                    <span className={styles.hangDot}    aria-hidden="true" />
                     <span className={styles.hangString} aria-hidden="true" />
-                    {/* etykieta */}
                     <Link
                       href={item.href}
                       className={styles.navLink}
                       onClick={(e) => handleNav(e, item.href)}
                     >
-                      {item.label}
+                      <span className={styles.navIndex} aria-hidden="true">0{i + 1}</span>
+                      <span className={styles.navWord}>{item.label}</span>
                     </Link>
                   </motion.div>
                 </motion.div>
               ))}
             </nav>
 
-            {/* Mobile nav */}
+            {/* Mobile — zjawa: każdy element materializuje się z nicości */}
             <nav className={styles.mobileNav} aria-label="Nawigacja główna">
               {ITEMS.map((item, i) => (
-                <div key={item.href} className={styles.mobileItem}>
-                  <motion.div
-                    className={styles.mobileRow}
-                    initial={{ y: '110%' }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: d(0.7), delay: d(0.06 + i * 0.12), ease: E_WAVE }}
+                <motion.div
+                  key={item.href}
+                  className={styles.mobileItem}
+                  initial={{ opacity: 0, filter: 'blur(14px)', y: 10 }}
+                  animate={{ opacity: 1, filter: 'blur(0px)',  y: 0  }}
+                  transition={prefersReduced ? { duration: 0 } : {
+                    duration: 1.1,
+                    delay:    0.25 + i * 0.2,
+                    ease:     E_SOFT,
+                  }}
+                >
+                  <Link
+                    href={item.href}
+                    className={styles.mobileLink}
+                    onClick={(e) => handleNav(e, item.href)}
                   >
-                    <span className={styles.mobileNum} aria-hidden="true">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <Link
-                      href={item.href}
-                      className={styles.mobileLink}
-                      onClick={(e) => handleNav(e, item.href)}
-                    >
-                      {item.label}
-                    </Link>
-                    <span className={styles.mobileArrow} aria-hidden="true">→</span>
-                  </motion.div>
-                </div>
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </div>
@@ -268,7 +264,7 @@ export function MenuOverlay() {
             className={styles.bottom}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: d(0.4), delay: d(2.4) }}
+            transition={{ duration: d(0.4), delay: d(0.75) }}
           >
             <button
               type="button"

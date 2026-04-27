@@ -5,6 +5,18 @@
   background: var(--color-bg);
   display: grid;
   grid-template-rows: var(--nav-height) 1fr auto;
+
+  /* Film grain — oddziela "flat dark" od "premium dark" */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
 }
 
 /* ─── Top bar ─── */
@@ -54,31 +66,32 @@
 /* Pień */
 .trunk {
   fill: none;
-  stroke: var(--color-border);
-  stroke-width: 1px;
+  stroke: var(--color-border-hi);
+  stroke-width: 1.5px;
   stroke-linecap: round;
 }
 
 /* Gałęzie */
 .branch {
   fill: none;
-  stroke: var(--color-border);
-  stroke-width: 0.75px;
+  stroke: var(--color-border-hi);
+  stroke-width: 1px;
   stroke-linecap: round;
+  opacity: 0.75;
 }
 
 /* Odnogi dekoracyjne */
 .twig {
   fill: none;
-  stroke: var(--color-border);
+  stroke: var(--color-border-hi);
   stroke-width: 0.5px;
   stroke-linecap: round;
-  opacity: 0.6;
+  opacity: 0.42;
 }
 
 /* Punkt łączenia gałęzi z pniem */
 .junctionDot {
-  fill: var(--color-text-dim);
+  fill: var(--color-border-hi);
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -122,92 +135,88 @@
   height: 7px;
   border-radius: 50%;
   background: var(--color-text);
+  opacity: 0.55;
   flex-shrink: 0;
 }
 
 .hangString {
-  width: 1px;
+  width: 1.5px;
   height: 52px;
-  background: var(--color-border);
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 245, 240, 0.22) 0%,
+    rgba(245, 245, 240, 0.08) 60%,
+    rgba(245, 245, 240, 0.02) 100%
+  );
   flex-shrink: 0;
 }
 
 .navLink {
-  display: block;
-  font-size: clamp(1.6rem, 3vw, 3.5rem);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  text-transform: uppercase;
-  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
   text-decoration: none;
-  transition: opacity 0.25s ease;
-  white-space: nowrap;
+  color: var(--color-text);
 
-  &:hover        { opacity: 0.35; }
-  &:focus-visible { @include focus-ring; }
+  &:hover .navWord  { letter-spacing: 0.05em; opacity: 0.4; }
+  &:hover .navIndex { opacity: 0.55; }
+  &:focus-visible   { @include focus-ring; }
 }
 
-/* ─── Mobile nav ─── */
+/* Numer porządkowy w monosapce */
+.navIndex {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  opacity: 0.28;
+  color: var(--color-text);
+  transition: opacity 0.3s ease;
+  line-height: 1;
+}
+
+/* Główne słowo nawigacji */
+.navWord {
+  display: block;
+  font-size: clamp(1.8rem, 3.2vw, 4rem);
+  font-weight: 100;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: letter-spacing 0.45s var(--ease-out), opacity 0.25s ease;
+}
+
+/* ─── Mobile nav — zjawa ─── */
 .mobileNav {
   display: none;
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding-inline: var(--s-6);
+  padding-inline: var(--s-8);
+  gap: var(--s-2);
 
   @include respond-to('mobile') { display: flex; }
   @include respond-to('tablet') { display: flex; }
 }
 
 .mobileItem {
-  overflow: hidden;
-  border-bottom: 1px solid var(--color-border);
-
-  &:first-child { border-top: 1px solid var(--color-border); }
-}
-
-.mobileRow {
-  display: flex;
-  align-items: center;
-  gap: var(--s-4);
-  padding-block: var(--s-5) var(--s-4);
-  transition: opacity var(--dur-fast) var(--ease-out);
-
-  &:active { opacity: 0.4; }
-
-  @include respond-to('tablet') {
-    &:hover { opacity: 0.4; }
-  }
-}
-
-.mobileNum {
-  font-size: var(--fs-label);
-  font-weight: 400;
-  letter-spacing: var(--tracking-label);
-  color: var(--color-text-dim);
-  width: 28px;
-  flex-shrink: 0;
-  padding-top: 3px;
+  /* kontener animacji — bez własnych styli wizualnych */
 }
 
 .mobileLink {
-  flex: 1;
-  font-size: clamp(1.8rem, 8vw, 3rem);
-  font-weight: 200;
+  display: block;
+  font-size: clamp(2.6rem, 11vw, 4.2rem);
+  font-weight: 100;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.08;
   text-transform: uppercase;
   color: var(--color-text);
   text-decoration: none;
+  transition: opacity 0.25s ease;
 
+  &:hover        { opacity: 0.3; }
   &:focus-visible { @include focus-ring; }
-}
-
-.mobileArrow {
-  font-size: var(--fs-small);
-  color: var(--color-text-dim);
-  flex-shrink: 0;
 }
 
 /* ─── Bottom ─── */
