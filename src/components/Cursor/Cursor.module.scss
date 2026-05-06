@@ -1,4 +1,4 @@
-.cursor {
+.dot {
   position: fixed;
   top: -5px;
   left: -5px;
@@ -11,8 +11,5 @@
   will-change: transform;
   mix-blend-mode: difference;
 
-  /* Hide on touch/coarse devices */
-  @media (hover: none), (pointer: coarse) {
-    display: none;
-  }
+  @media (hover: none), (pointer: coarse) { display: none; }
 }

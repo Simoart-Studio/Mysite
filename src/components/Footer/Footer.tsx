@@ -11,8 +11,7 @@ const NAV_COL = [
     { href: 'https://calendly.com/szymon-pochopien01/30min', text: 'Calendly' },
   ]},
   { label: 'Social', links: [
-    { href: 'https://linkedin.com/in/szymon-pochopien', text: 'LinkedIn' },
-    { href: 'https://github.com/szymzyd', text: 'GitHub' },
+    { href: 'https://github.com/kameleon1312', text: 'GitHub' },
   ]},
 ] as const;
 
@@ -25,7 +24,7 @@ export function Footer() {
         <div className={styles.top}>
           <div className={styles.brand}>
             <p className={styles.sig}>SP</p>
-            <p className={styles.tagline}>Z Polski dla świata.</p>
+            <p className={styles.tagline}>Wyobraźnia staje się rzeczywistością.</p>
           </div>
 
           <nav className={styles.cols} aria-label="Linki stopki">

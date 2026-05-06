@@ -9,6 +9,7 @@ const mixinsContent = fs.readFileSync(
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['nodemailer'],
   images: {
     formats: ['image/avif', 'image/webp'],
   },

@@ -7,10 +7,10 @@ import { fromLeftProps, revealProps, EASE_WAVE } from '@/lib/motion';
 import styles from './About.module.scss';
 
 const FACTS = [
-  { k: 'Stack',       v: 'React · TypeScript · Next.js · Framer Motion · SCSS' },
-  { k: 'Fokus',       v: 'Premium landing pages · Brand websites'               },
-  { k: 'Tryb pracy',  v: 'Remote · Bezpośredni kontakt'                         },
-  { k: 'Dostępność',  v: 'Q2 2026'                                              },
+  { k: 'Stack',       v: 'React · TypeScript · Next.js · Framer Motion · Node.js · SCSS' },
+  { k: 'Fokus',       v: 'Digital products · Web apps · Premium sites'                    },
+  { k: 'Tryb pracy',  v: 'Remote · Bezpośredni kontakt'                                   },
+  { k: 'Dostępność',  v: 'Q2 2026'                                                        },
 ] as const;
 
 const P1 = 'Piszę frontend od kilku lat. Zaczynałem od budowania aplikacji dla siebie, dziś buduję je dla firm, które nie chcą kompromisów między estetyką a wydajnością.';

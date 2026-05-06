@@ -71,8 +71,8 @@
   padding-block: var(--s-20);
 
   @include respond-to('mobile') {
-    padding-block: var(--s-14);
-    gap: var(--s-6);
+    padding-block: var(--s-10) var(--s-8);
+    gap: var(--s-5);
   }
 }
 
@@ -91,16 +91,12 @@
   letter-spacing: var(--tracking-hero);
   line-height: var(--lh-hero);
   color: var(--color-text);
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
-.lineWrap {
+.dustLine {
   display: block;
-  overflow: hidden;
-}
-
-.lineInner {
-  display: block;
-  transform-origin: bottom center;
 }
 
 /* ─── Lead ─── */
@@ -109,6 +105,13 @@
   color: var(--color-text-muted);
   max-width: 46ch;
   line-height: var(--lh-body);
+  overflow-wrap: break-word;
+  hyphens: none;
+
+  @include respond-to('mobile') {
+    font-size: var(--fs-body);
+    max-width: 38ch;
+  }
 }
 
 /* ─── Bottom row ─── */
@@ -117,14 +120,14 @@
   align-items: center;
   gap: var(--s-8);
   margin-top: var(--s-4);
-  padding-top: var(--s-6);
+  padding-top: var(--s-5);
   border-top: 1px solid var(--color-border);
   width: 100%;
   justify-content: center;
 
   @include respond-to('mobile') {
-    flex-direction: column;
-    gap: var(--s-4);
+    margin-top: 0;
+    gap: var(--s-3);
   }
 }
 

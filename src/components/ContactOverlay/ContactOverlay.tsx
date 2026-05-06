@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import { sendEmail } from '@/app/actions/sendEmail';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { EASE_WAVE } from '@/lib/motion';
@@ -67,17 +67,7 @@ export function ContactOverlay() {
     setStatus('sending');
 
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name:    name,
-          from_email:   email,
-          project_type: projectType || '—',
-          message,
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
-      );
+      await sendEmail({ name, email, projectType, message });
       setStatus('sent');
     } catch {
       setStatus('idle');
@@ -91,6 +81,19 @@ export function ContactOverlay() {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          key="backdrop"
+          className={styles.backdrop}
+          aria-hidden="true"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: prefersReduced ? 0 : 0.35 }}
+          onClick={close}
+        />
+      )}
+      {isOpen && (
+        <motion.div
+          key="overlay"
           id="contact-overlay"
           role="dialog"
           aria-modal="true"
@@ -175,8 +178,8 @@ export function ContactOverlay() {
                     <p className={styles.successNum} aria-hidden="true">✓</p>
                     <p className={styles.successTitle}>Wiadomość wysłana.</p>
                     <p className={styles.successBody}>
-                      Twój klient mailowy powinien się otworzyć z gotową wiadomością.
-                      Odezwę się najszybciej jak to możliwe.
+                      Wiadomość dotarła. Odezwę się najszybciej jak to możliwe —
+                      zazwyczaj tego samego dnia.
                     </p>
                     <button type="button" className={styles.successBtn} onClick={close}>
                       Zamknij okno
@@ -263,7 +266,7 @@ export function ContactOverlay() {
                       aria-busy={status === 'sending'}
                     >
                       <span className={styles.submitInner}>
-                        {status === 'sending' ? 'Otwieranie...' : 'Wyślij wiadomość'}
+                        {status === 'sending' ? 'Wysyłanie...' : 'Wyślij wiadomość'}
                       </span>
                       <span className={styles.submitBg} aria-hidden="true" />
                     </button>

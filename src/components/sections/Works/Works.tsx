@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { works } from '@/data/works';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { fromLeftProps, revealProps } from '@/lib/motion';
+import { Carousel } from '@/components/Carousel/Carousel';
 import styles from './Works.module.scss';
 
 const TILE_COLS = 4;
@@ -39,6 +40,52 @@ export function Works() {
           <h2 id="works-title" className={styles.headline}>Wybrane projekty</h2>
         </motion.header>
 
+        {/* Mobile carousel */}
+        <div className={styles.carouselWrap}>
+          <Carousel label="Projekty">
+            {works.map((work) => {
+              const href  = work.caseStudy ? `/works/${work.slug}` : (work.liveUrl ?? '#');
+              const isExt = !work.caseStudy && !!work.liveUrl;
+              return (
+                <article key={work.slug} className={styles.card}>
+                  <Link
+                    href={href}
+                    className={styles.cardLink}
+                    target={isExt ? '_blank' : undefined}
+                    rel={isExt ? 'noopener noreferrer' : undefined}
+                    aria-label={`${work.title} — ${work.role}, ${work.year}`}
+                  >
+                    <div className={styles.imgWrap}>
+                      <Image
+                        src={work.thumbnail}
+                        alt={`Projekt ${work.title}`}
+                        width={1900}
+                        height={1024}
+                        sizes="100vw"
+                        className={styles.img}
+                      />
+                    </div>
+                    <footer className={styles.cardFooter}>
+                      <div className={styles.cardMeta}>
+                        <span className={styles.cardTag}>{work.role}</span>
+                        <span className={styles.cardYear}>{work.year}</span>
+                      </div>
+                      <h3 className={styles.cardTitle}>{work.title}</h3>
+                      <p className={styles.cardDesc}>{work.description}</p>
+                      <ul className={styles.stack} aria-label="Technologie">
+                        {work.stack.map((t) => (
+                          <li key={t} className={styles.stackBadge}>{t}</li>
+                        ))}
+                      </ul>
+                    </footer>
+                  </Link>
+                </article>
+              );
+            })}
+          </Carousel>
+        </div>
+
+        {/* Desktop grid */}
         <div className={styles.grid}>
           {works.map((work, i) => {
             const href  = work.caseStudy ? `/works/${work.slug}` : (work.liveUrl ?? '#');
@@ -68,7 +115,7 @@ export function Works() {
                       height={1024}
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className={styles.img}
-                      preload={i === 0}
+                      priority={i === 0}
                     />
                     <span className={styles.glint} aria-hidden="true" />
 

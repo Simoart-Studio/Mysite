@@ -3,23 +3,24 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { fromLeftProps, fromBottomProps, fromRightProps, revealProps } from '@/lib/motion';
+import { Carousel } from '@/components/Carousel/Carousel';
 import styles from './WhatIDo.module.scss';
 
 const PRINCIPLES = [
   {
     n: '1.',
-    title: 'Najpierw cel.',
-    body: 'Zanim napiszę linię kodu, rozumiem po co strona powstaje. Konwersja, rezerwacja, brand — każda decyzja projektowa ma uzasadnienie.',
+    title: 'Cel ponad narzędzie.',
+    body: 'Zanim napiszę linię kodu, rozumiem po co produkt powstaje. Konwersja, retencja, brand — każda decyzja ma uzasadnienie biznesowe.',
   },
   {
     n: '2.',
     title: 'Jakość, nie prędkość.',
-    body: 'Czysty kod, PageSpeed 95+, pełna dostępność. Nie buduję stron, które trzeba będzie przepisać za rok.',
+    body: 'Czysty kod, PageSpeed 95+, TypeScript strict, pełna dostępność. Nie buduję rzeczy, które trzeba przepisywać za rok.',
   },
   {
     n: '3.',
-    title: 'Długoterminowe relacje.',
-    body: 'Deploy to nie koniec. Zostaję w kontakcie, reaguję na zmiany, dbam o to żeby strona pracowała miesiącami po oddaniu.',
+    title: 'Partnerstwo, nie zlecenie.',
+    body: 'Deploy to nie koniec. Zostaję w kontakcie, iteruję, dbam o to żeby produkt pracował miesiącami po premierze.',
   },
 ] as const;
 
@@ -46,6 +47,20 @@ export function WhatIDo() {
           <h2 id="principles-title" className={styles.headline}>Trzy zasady.</h2>
         </motion.header>
 
+        {/* Mobile carousel */}
+        <div className={styles.carouselWrap}>
+          <Carousel label="Jak pracuję">
+            {PRINCIPLES.map(({ n, title, body }) => (
+              <div key={n} className={styles.slideCard}>
+                <span className={styles.num} aria-hidden="true">{n}</span>
+                <h3 className={styles.cardTitle}>{title}</h3>
+                <p className={styles.cardBody}>{body}</p>
+              </div>
+            ))}
+          </Carousel>
+        </div>
+
+        {/* Desktop grid */}
         <div className={styles.grid}>
           {PRINCIPLES.map(({ n, title, body }, i) => (
             <motion.div

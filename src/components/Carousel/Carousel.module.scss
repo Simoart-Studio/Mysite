@@ -1,0 +1,49 @@
+.root {
+  width: 100%;
+}
+
+.viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.track {
+  display: flex;
+  will-change: transform;
+  cursor: grab;
+  touch-action: pan-y;
+
+  &:active { cursor: grabbing; }
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+}
+
+.dot {
+  height: 5px;
+  width: 5px;
+  border-radius: 999px;
+  background: var(--color-border-hi);
+  transition: width 0.32s cubic-bezier(0.76, 0, 0.24, 1), background 0.22s ease;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.dotActive {
+  width: 22px;
+  background: var(--color-text);
+}
