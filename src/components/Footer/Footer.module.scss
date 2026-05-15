@@ -44,8 +44,14 @@
 .tagline {
   font-size: var(--fs-body);
   color: var(--color-text-muted);
-  max-width: 18ch;
+  max-width: 28ch;
   line-height: var(--lh-body);
+}
+
+.location {
+  @include label;
+  color: var(--color-text-dim);
+  margin-top: var(--s-2);
 }
 
 .cols {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useInView, useMotionValue } from 'framer-motion';
 import { Carousel } from '@/components/Carousel/Carousel';
 import styles from './Currently.module.scss';
@@ -52,13 +53,9 @@ function AnimatedWords({
       {words.map((word, wi) => (
         <motion.span
           key={wi}
+          className={styles.word}
           variants={wordVariants}
           transition={{ duration: 0.38, delay: wi * delay, ease: EASE }}
-          style={{
-            display: 'inline-block',
-            whiteSpace: 'nowrap',
-            marginRight: wi < words.length - 1 ? '0.28em' : 0,
-          }}
         >
           {word}
         </motion.span>
@@ -73,6 +70,9 @@ export function Currently() {
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [over, setOver]         = useState(false);
+  const [mounted, setMounted]   = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const cursorX = useMotionValue(-300);
   const cursorY = useMotionValue(-300);
@@ -85,44 +85,54 @@ export function Currently() {
     [cursorX, cursorY],
   );
 
+  const cursor = (
+    <motion.div
+      className={styles.openCursor}
+      style={{ x: cursorX, y: cursorY }}
+      animate={{ opacity: over ? 1 : 0 }}
+      transition={{ duration: 0.18 }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className={styles.openCursorPing}
+        animate={{ scale: [1, 1.75], opacity: [1, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+      />
+      <div className={styles.openCursorRing}>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={activeId ? 'close' : 'open'}
+            className={styles.openCursorLabel}
+            initial={{ opacity: 0, scale: 0.75 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.75 }}
+            transition={{ duration: 0.16 }}
+          >
+            {activeId ? '✕' : 'OPEN'}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+
   return (
     <section
       className={styles.section}
       ref={ref}
-      aria-label="Aktualnie"
+      aria-labelledby="currently-title"
       data-hide-cursor
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOver(true)}
       onMouseLeave={() => setOver(false)}
     >
-      {/* Pulsing OPEN cursor */}
-      <motion.div
-        className={styles.openCursor}
-        style={{ x: cursorX, y: cursorY }}
-        animate={{ opacity: over ? 1 : 0 }}
-        transition={{ duration: 0.18 }}
-        aria-hidden="true"
-      >
-        <motion.div
-          className={styles.openCursorPing}
-          animate={{ scale: [1, 1.75], opacity: [1, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
-        />
-        <div className={styles.openCursorRing}>
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={activeId ? 'close' : 'open'}
-              className={styles.openCursorLabel}
-              initial={{ opacity: 0, scale: 0.75 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.75 }}
-              transition={{ duration: 0.16 }}
-            >
-              {activeId ? '✕' : 'OPEN'}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-      </motion.div>
+      {mounted && createPortal(cursor, document.body)}
+
+      <header className={styles.header}>
+        <p className={styles.headerLabel}>Specjalizacje</p>
+        <h2 id="currently-title" className={styles.headerHeadline}>
+          Co robię najlepiej
+        </h2>
+      </header>
 
       {/* Desktop 3-col grid */}
       <div className={styles.inner}>

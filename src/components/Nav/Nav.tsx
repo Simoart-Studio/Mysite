@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { NavCta } from '@/components/NavCta/NavCta';
 import styles from './Nav.module.scss';
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const lastY = useRef(0);
   const { overlay, openMenu, openContact, close } = useOverlay();
   const prefersReduced = useReducedMotion();
 
@@ -15,17 +17,38 @@ export function Nav() {
   const [contactHovered, setContactHovered] = useState(false);
   const CONTACT_LABEL = 'Kontakt';
 
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 80);
+      if (y > 200) {
+        setNavHidden(y > lastY.current);
+      } else {
+        setNavHidden(false);
+      }
+      lastY.current = y;
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-    <header
+    <motion.header
       className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${menuOpen ? styles.menuActive : ''}`}
       role="banner"
+      animate={{ y: navHidden && !menuOpen ? '-100%' : '0%' }}
+      transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
     >
+      {!prefersReduced && (
+        <motion.div
+          className={styles.progressBar}
+          style={{ scaleX, transformOrigin: 'left' }}
+        />
+      )}
+
       <div className={styles.inner}>
         <button
           type="button"
@@ -82,9 +105,9 @@ export function Nav() {
           <button
             type="button"
             className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`}
-          onClick={() => (menuOpen ? close() : openMenu())}
-          aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-          aria-expanded={menuOpen}
+            onClick={() => (menuOpen ? close() : openMenu())}
+            aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
+            aria-expanded={menuOpen}
             aria-controls="menu-overlay"
           >
             <span />
@@ -92,6 +115,6 @@ export function Nav() {
           </button>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

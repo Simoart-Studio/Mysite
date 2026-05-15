@@ -7,9 +7,13 @@ export interface SendEmailPayload {
   email:       string;
   projectType: string;
   message:     string;
+  honeypot?:   string;
 }
 
 export async function sendEmail(data: SendEmailPayload): Promise<{ ok: boolean }> {
+  // Honeypot — bots fill hidden fields, humans don't
+  if (data.honeypot) return { ok: true };
+
   const transporter = nodemailer.createTransport({
     host:   'smtp.gmail.com',
     port:   587,

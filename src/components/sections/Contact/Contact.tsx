@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { fromLeftProps, revealProps, fadeProps, EASE_WAVE } from '@/lib/motion';
 import styles from './Contact.module.scss';
@@ -26,6 +27,57 @@ function SocialIcon({ type }: { type: 'linkedin' | 'github' }) {
   );
 }
 
+interface RippleState { x: number; y: number; id: number; }
+
+function WaveLink({
+  href,
+  target,
+  rel,
+  children,
+  reduced,
+}: {
+  href: string;
+  target?: string;
+  rel?: string;
+  children: React.ReactNode;
+  reduced: boolean | null;
+}) {
+  const [ripple, setRipple] = useState<RippleState | null>(null);
+
+  function handleEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (reduced) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    setRipple({ x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() });
+  }
+
+  return (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      className={styles.ctaLink}
+      onMouseEnter={handleEnter}
+    >
+      <span className={styles.ctaText}>{children}</span>
+      <AnimatePresence>
+        {ripple && (
+          <motion.span
+            key={ripple.id}
+            className={styles.ripple}
+            style={{ left: ripple.x, top: ripple.y }}
+            initial={{ scale: 0, opacity: 0.5 }}
+            animate={{ scale: 5,  opacity: 0 }}
+            exit={{}}
+            transition={{ duration: 0.65, ease: 'easeOut' }}
+            onAnimationComplete={() => setRipple(null)}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+    </a>
+  );
+}
+
 export function Contact() {
   const { ref, isInView } = useScrollReveal<HTMLElement>();
   const reduced = useReducedMotion();
@@ -39,7 +91,6 @@ export function Contact() {
     >
       <div className={styles.inner}>
 
-        {/* label: from left */}
         <motion.div
           className={styles.top}
           {...fromLeftProps(isInView, reduced, 0)}
@@ -47,7 +98,6 @@ export function Contact() {
           <p className={styles.label}>Kontakt</p>
         </motion.div>
 
-        {/* headline: stage reveal per line */}
         <h2
           id="contact-title"
           className={styles.headline}
@@ -71,7 +121,6 @@ export function Contact() {
           ))}
         </h2>
 
-        {/* sub: fade up */}
         <motion.p
           className={styles.sub}
           {...revealProps(isInView, reduced, 0.36)}
@@ -80,25 +129,23 @@ export function Contact() {
           Odpowiadam tego samego dnia.
         </motion.p>
 
-        {/* links: stagger up */}
         <motion.div className={styles.links} {...revealProps(isInView, reduced, 0.46)}>
-          <a
+          <WaveLink
             href="https://calendly.com/szymon-pochopien01/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.ctaLink}
+            reduced={reduced}
           >
             Umów rozmowę&nbsp;→
-          </a>
-          <a
+          </WaveLink>
+          <WaveLink
             href="mailto:szymon.pochopien01@gmail.com"
-            className={styles.ctaLink}
+            reduced={reduced}
           >
             szymon.pochopien01@gmail.com&nbsp;→
-          </a>
+          </WaveLink>
         </motion.div>
 
-        {/* social: fade */}
         <motion.div
           className={styles.social}
           {...fadeProps(isInView, reduced, 0.62)}

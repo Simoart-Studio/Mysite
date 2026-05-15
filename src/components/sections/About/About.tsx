@@ -4,13 +4,14 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { useTypewriter } from '@/hooks/useTypewriter';
 import { fromLeftProps, revealProps, EASE_WAVE } from '@/lib/motion';
+import { AVAILABILITY } from '@/data/config';
 import styles from './About.module.scss';
 
 const FACTS = [
   { k: 'Stack',       v: 'React · TypeScript · Next.js · Framer Motion · Node.js · SCSS' },
   { k: 'Fokus',       v: 'Digital products · Web apps · Premium sites'                    },
   { k: 'Tryb pracy',  v: 'Remote · Bezpośredni kontakt'                                   },
-  { k: 'Dostępność',  v: 'Q2 2026'                                                        },
+  { k: 'Dostępność',  v: AVAILABILITY                                                      },
 ] as const;
 
 const P1 = 'Piszę frontend od kilku lat. Zaczynałem od budowania aplikacji dla siebie, dziś buduję je dla firm, które nie chcą kompromisów między estetyką a wydajnością.';
@@ -26,7 +27,7 @@ export function About() {
   return (
     <section
       id="about"
-      className={`${styles.section} section-offwhite`}
+      className={styles.section}
       ref={ref}
       aria-labelledby="about-title"
     >

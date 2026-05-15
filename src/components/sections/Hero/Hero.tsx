@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-
+import { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { AVAILABILITY } from '@/data/config';
 import styles from './Hero.module.scss';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -55,7 +55,7 @@ function DustLine({
               ease: EASE,
             }}
           >
-            {char === ' ' ? ' ' : char}
+            {char === ' ' ? ' ' : char}
           </motion.span>
         );
       })}
@@ -64,18 +64,24 @@ function DustLine({
 }
 
 export function Hero() {
-  const reduced  = useReducedMotion();
+  const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const glowY     = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['0%', '-28%']);
+  const glowScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1]       : [1, 1.18]);
+
   return (
-    <section className={styles.hero} aria-labelledby="hero-h1">
+    <section ref={heroRef} className={styles.hero} aria-labelledby="hero-h1">
       <motion.div
         className={styles.glow}
         aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.6, ease: 'easeOut' }}
+        style={{ y: glowY, scale: glowScale }}
       />
 
       <div className={styles.inner}>
@@ -117,7 +123,7 @@ export function Hero() {
           <span className={styles.status}>
             <span className={styles.dot} aria-hidden="true" />
             <span className="sr-only">Status: </span>
-            Dostępny Q2&nbsp;2026
+            Dostępny {AVAILABILITY}
           </span>
         </motion.div>
       </div>

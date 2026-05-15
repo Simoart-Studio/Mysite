@@ -42,6 +42,35 @@
   color: var(--color-text);
 }
 
+/* ─── Filters ─── */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  @include label;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out);
+
+  &:hover { color: var(--color-text-muted); border-color: var(--color-border-hi); }
+  &:focus-visible { @include focus-ring; }
+}
+
+.filterBtnActive {
+  color: var(--color-text);
+  border-color: var(--color-text-dim);
+  background: rgba(255,255,255,0.04);
+}
+
 /* ─── Grid ─── */
 .grid {
   display: grid;
@@ -71,8 +100,8 @@
 
   &:focus-visible { @include focus-ring; }
 
-  &:hover .img        { transform: scale(1.03); }
   &:hover .cardTitle  { opacity: 0.5; }
+  &:hover .img        { transform: scale(1.03); }
 
   &:hover .imgOverlay {
     opacity: 1;
@@ -140,6 +169,17 @@
                 opacity 0.4s ease,
                 border-color 0.4s ease;
   }
+}
+
+.parallaxClip {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.parallaxInner {
+  scale: 1.16;
+  will-change: transform;
 }
 
 .img {

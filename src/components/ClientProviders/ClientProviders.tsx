@@ -5,6 +5,7 @@ import { OverlayProvider } from '@/context/OverlayContext';
 import { Cursor } from '@/components/Cursor/Cursor';
 import { MenuOverlay } from '@/components/MenuOverlay/MenuOverlay';
 import { ContactOverlay } from '@/components/ContactOverlay/ContactOverlay';
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
 
 export function ClientProviders({ children }: { children: ReactNode }) {
   return (
@@ -12,7 +13,9 @@ export function ClientProviders({ children }: { children: ReactNode }) {
       {children}
       <Cursor />
       <MenuOverlay />
-      <ContactOverlay />
+      <ErrorBoundary>
+        <ContactOverlay />
+      </ErrorBoundary>
     </OverlayProvider>
   );
 }

@@ -5,6 +5,7 @@ import { sendEmail } from '@/app/actions/sendEmail';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { EASE_WAVE } from '@/lib/motion';
+import { AVAILABILITY } from '@/data/config';
 import { CustomSelect } from './CustomSelect';
 import styles from './ContactOverlay.module.scss';
 
@@ -38,6 +39,7 @@ export function ContactOverlay() {
   const [email,       setEmail]       = useState('');
   const [projectType, setProjectType] = useState('');
   const [message,     setMessage]     = useState('');
+  const [honeypot,    setHoneypot]    = useState('');
   const [errors,      setErrors]      = useState<Errors>({});
   const [status,      setStatus]      = useState<Status>('idle');
 
@@ -53,7 +55,7 @@ export function ContactOverlay() {
     if (!isOpen) {
       const id = setTimeout(() => {
         setName(''); setEmail(''); setProjectType('');
-        setMessage(''); setErrors({}); setStatus('idle');
+        setMessage(''); setHoneypot(''); setErrors({}); setStatus('idle');
       }, 500);
       return () => clearTimeout(id);
     }
@@ -67,7 +69,7 @@ export function ContactOverlay() {
     setStatus('sending');
 
     try {
-      await sendEmail({ name, email, projectType, message });
+      await sendEmail({ name, email, projectType, message, honeypot });
       setStatus('sent');
     } catch {
       setStatus('idle');
@@ -151,7 +153,7 @@ export function ContactOverlay() {
                   <p className={styles.infoLabel}>Dostępność</p>
                   <p className={styles.infoValue}>
                     <span className={styles.dot} aria-hidden="true" />
-                    Dostępny Q2&nbsp;2026
+                    Dostępny {AVAILABILITY}
                   </p>
                 </div>
                 <div className={styles.infoGroup}>
@@ -197,6 +199,20 @@ export function ContactOverlay() {
                     transition={{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : 0.2, ease: EASE_WAVE }}
                   >
                     <p className={styles.formHeading}>Napisz do mnie.</p>
+
+                    {/* Honeypot — hidden from humans, filled by bots */}
+                    <div className={styles.honeypot} aria-hidden="true">
+                      <label htmlFor="cf-website">Website</label>
+                      <input
+                        id="cf-website"
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                      />
+                    </div>
 
                     <div className={styles.row}>
                       <div className={styles.field}>

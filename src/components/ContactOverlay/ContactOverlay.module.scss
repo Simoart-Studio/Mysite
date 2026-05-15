@@ -201,6 +201,16 @@
   max-width: 600px;
 }
 
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  tab-index: -1;
+}
+
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;

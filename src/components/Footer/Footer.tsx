@@ -1,3 +1,4 @@
+import { GITHUB_URL, LINKEDIN_URL, EMAIL, CALENDLY_URL } from '@/data/config';
 import styles from './Footer.module.scss';
 
 const NAV_COL = [
@@ -7,11 +8,12 @@ const NAV_COL = [
     { href: '#contact', text: 'Kontakt'    },
   ]},
   { label: 'Kontakt', links: [
-    { href: 'mailto:szymon.pochopien01@gmail.com', text: 'Email' },
-    { href: 'https://calendly.com/szymon-pochopien01/30min', text: 'Calendly' },
+    { href: `mailto:${EMAIL}`, text: 'Email'    },
+    { href: CALENDLY_URL,      text: 'Calendly' },
   ]},
   { label: 'Social', links: [
-    { href: 'https://github.com/kameleon1312', text: 'GitHub' },
+    { href: GITHUB_URL,   text: 'GitHub'   },
+    { href: LINKEDIN_URL, text: 'LinkedIn' },
   ]},
 ] as const;
 
@@ -24,7 +26,10 @@ export function Footer() {
         <div className={styles.top}>
           <div className={styles.brand}>
             <p className={styles.sig}>SP</p>
-            <p className={styles.tagline}>Wyobraźnia staje się rzeczywistością.</p>
+            <p className={styles.tagline}>
+              Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
+            </p>
+            <p className={styles.location}>Polska · Remote</p>
           </div>
 
           <nav className={styles.cols} aria-label="Linki stopki">

@@ -15,11 +15,19 @@ export default function NotFound() {
           Tej strony nie ma.
         </h1>
         <p className={styles.body}>
-          Sprawdź adres lub wróć na stronę główną.
+          Sprawdź adres lub przejdź do jednej z poniższych sekcji.
         </p>
-        <Link href="/" className={styles.cta}>
-          ← Strona główna
-        </Link>
+        <nav className={styles.links} aria-label="Pomocne linki">
+          <Link href="/" className={styles.cta}>
+            ← Strona główna
+          </Link>
+          <Link href="/#works" className={styles.ctaSecondary}>
+            Realizacje
+          </Link>
+          <Link href="/#contact" className={styles.ctaSecondary}>
+            Kontakt
+          </Link>
+        </nav>
       </div>
     </main>
   );

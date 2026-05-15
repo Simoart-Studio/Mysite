@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+.viewportWrap {
+  position: relative;
+}
+
 .viewport {
   overflow: hidden;
   width: 100%;
@@ -23,27 +27,73 @@
   -webkit-user-drag: none;
 }
 
+/* ─── Swipe hint ─── */
+.hint {
+  position: absolute;
+  right: var(--s-4);
+  bottom: var(--s-4);
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hintArrow {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.hintChevron {
+  font-size: 0.7rem;
+  color: var(--color-text-dim);
+  animation: hintBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(4px); }
+}
+
+/* ─── Dots ─── */
 .dots {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-1);
   margin-top: var(--s-6);
 }
 
 .dot {
-  height: 5px;
-  width: 5px;
-  border-radius: 999px;
-  background: var(--color-border-hi);
-  transition: width 0.32s cubic-bezier(0.76, 0, 0.24, 1), background 0.22s ease;
-  flex-shrink: 0;
+  /* 44×44 touch target with small visual pill */
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: none;
+  background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 5px;
+    width: 5px;
+    border-radius: 999px;
+    background: var(--color-border-hi);
+    transition:
+      width 0.32s cubic-bezier(0.76, 0, 0.24, 1),
+      background 0.22s ease;
+  }
 }
 
-.dotActive {
+.dotActive::after {
   width: 22px;
   background: var(--color-text);
 }

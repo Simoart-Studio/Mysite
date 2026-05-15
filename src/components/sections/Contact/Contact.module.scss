@@ -71,8 +71,27 @@
   font-size: var(--fs-lead);
   color: var(--color-text);
   width: fit-content;
+  position: relative;
+  overflow: hidden;
+  padding: var(--s-1) 0;
 
   &:focus-visible { @include focus-ring; }
+}
+
+.ctaText {
+  position: relative;
+  z-index: 1;
+}
+
+.ripple {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-text);
+  translate: -50% -50%;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .social {
