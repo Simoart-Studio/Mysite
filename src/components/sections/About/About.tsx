@@ -8,14 +8,14 @@ import { AVAILABILITY } from '@/data/config';
 import styles from './About.module.scss';
 
 const FACTS = [
-  { k: 'Stack',       v: 'React · TypeScript · Next.js · Framer Motion · Node.js · SCSS' },
-  { k: 'Fokus',       v: 'Digital products · Web apps · Premium sites'                    },
-  { k: 'Tryb pracy',  v: 'Remote · Bezpośredni kontakt'                                   },
-  { k: 'Dostępność',  v: AVAILABILITY                                                      },
+  { k: 'Specjalizacja', v: 'Strony sprzedażowe · Sklepy internetowe · Aplikacje webowe' },
+  { k: 'Dla kogo',      v: 'Małe firmy · Startupy · Personal brand'                     },
+  { k: 'Tryb pracy',    v: 'Zdalnie · Bezpośredni kontakt'                               },
+  { k: 'Dostępność',    v: AVAILABILITY                                                   },
 ] as const;
 
-const P1 = 'Piszę frontend od kilku lat. Zaczynałem od budowania aplikacji dla siebie, dziś buduję je dla firm, które nie chcą kompromisów między estetyką a wydajnością.';
-const P2 = 'Najbardziej interesują mnie strony, które muszą pracować — rezerwacje, konwersje, brand. Nie interfejsy do oglądania.';
+const P1 = 'Tworzę strony i aplikacje od kilku lat. Zaczynałem od własnych projektów — dziś pomagam firmom zdobywać klientów przez internet, bo wiem że dobra strona to narzędzie sprzedaży, nie tylko wizytówka.';
+const P2 = 'Interesują mnie strony, które muszą pracować — zbierać rezerwacje, generować zapytania, budować markę. Nie takie, które się tylko ogląda.';
 
 export function About() {
   const { ref, isInView } = useScrollReveal<HTMLElement>();

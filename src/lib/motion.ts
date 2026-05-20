@@ -5,9 +5,9 @@ import type { Transition, TargetAndTransition } from 'framer-motion';
 export const EASE       = [0.22, 1, 0.36, 1]   as [number, number, number, number];
 export const EASE_WAVE  = [0.76, 0, 0.24, 1]   as [number, number, number, number];
 
-export const TRANSITION_BASE: Transition = { duration: 0.95, ease: EASE };
-export const TRANSITION_FAST: Transition = { duration: 0.5,  ease: EASE };
-export const TRANSITION_WAVE: Transition = { duration: 1.0,  ease: EASE_WAVE };
+const TRANSITION_BASE: Transition = { duration: 0.95, ease: EASE };
+const TRANSITION_FAST: Transition = { duration: 0.5,  ease: EASE };
+const TRANSITION_WAVE: Transition = { duration: 1.0,  ease: EASE_WAVE };
 
 type RevealProps = {
   initial:    TargetAndTransition | boolean;
@@ -45,17 +45,9 @@ export const fromRightProps = (
   v: boolean, r: boolean | null, delay = 0
 ) => make(v, r, { x: 70 }, delay, TRANSITION_WAVE);
 
-export const fromTopProps = (
-  v: boolean, r: boolean | null, delay = 0
-) => make(v, r, { y: -60 }, delay, TRANSITION_WAVE);
-
 export const fromBottomProps = (
   v: boolean, r: boolean | null, delay = 0
 ) => make(v, r, { y: 70 }, delay, TRANSITION_WAVE);
-
-export const diagonalProps = (
-  v: boolean, r: boolean | null, xDir: 1 | -1, delay = 0
-) => make(v, r, { x: xDir * 55, y: 55 }, delay, TRANSITION_WAVE);
 
 export function fadeProps(
   isInView:       boolean,

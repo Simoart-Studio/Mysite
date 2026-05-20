@@ -157,7 +157,7 @@ export function Works() {
   return (
     <section
       id="works"
-      className={styles.section}
+      className={`${styles.section} section-light`}
       ref={ref}
       aria-labelledby="works-title"
     >

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { AVAILABILITY } from '@/data/config';
 import styles from './Hero.module.scss';
 
@@ -66,24 +66,16 @@ function DustLine({
 export function Hero() {
   const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const glowY     = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['0%', '-28%']);
-  const glowScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1]       : [1, 1.18]);
+  useEffect(() => {
+    const onScroll = () => { if (window.scrollY > 60) setScrolled(true); };
+    window.addEventListener('scroll', onScroll, { passive: true, once: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <section ref={heroRef} className={styles.hero} aria-labelledby="hero-h1">
-      <motion.div
-        className={styles.glow}
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.6, ease: 'easeOut' }}
-        style={{ y: glowY, scale: glowScale }}
-      />
-
+    <section className={styles.hero} aria-labelledby="hero-h1">
       <div className={styles.inner}>
         <motion.p
           className={styles.label}
@@ -126,6 +118,18 @@ export function Hero() {
             Dostępny {AVAILABILITY}
           </span>
         </motion.div>
+
+        {!reduced && (
+          <motion.div
+            className={styles.scrollHint}
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: scrolled ? 0 : 1 }}
+            transition={{ duration: 0.6, delay: scrolled ? 0 : 2.2, ease: EASE }}
+          >
+            <span className={styles.scrollHintLine} />
+          </motion.div>
+        )}
       </div>
     </section>
   );

@@ -3,14 +3,14 @@
    ───────────────────────────────────── */
 :root {
   /* Palette — dark default */
-  --color-bg:           #0D0D0D;
-  --color-bg-raised:    #111110;
-  --color-text:         #F5F5F0;
-  --color-text-muted:   #8A8A85;
-  --color-text-dim:     #3D3D3A;
-  --color-border:       #1E1E1B;
-  --color-border-hi:    #2E2E2B;
-  --color-accent:       #E8E0D0;
+  --color-bg:           #080808;
+  --color-bg-raised:    #111111;
+  --color-text:         #F2EDE6;
+  --color-text-muted:   #9A9590;
+  --color-text-dim:     #3D3A35;
+  --color-border:       #1F1D1A;
+  --color-border-hi:    #2D2B27;
+  --color-accent:       #C9B99A;
 
   /* Typography */
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont,
@@ -18,7 +18,7 @@
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono",
                Menlo, monospace;
 
-  --fs-hero:    clamp(3.25rem, 7.5vw, 6rem);
+  --fs-hero:    clamp(3.5rem, 10vw, 8rem);
   --fs-h1:      clamp(2rem, 4vw, 3rem);
   --fs-h2:      clamp(1.75rem, 2.5vw, 2.5rem);
   --fs-h3:      1.375rem;
@@ -68,17 +68,17 @@
    Section theme overrides
    ───────────────────────────────────── */
 .section-light {
-  --color-bg:        #FFFFFF;
-  --color-bg-raised: #F7F7F4;
-  --color-text:      #0D0D0D;
-  --color-text-muted:#6B6B68;
-  --color-text-dim:  #9E9E99;
-  --color-border:    #E5E5E0;
-  --color-border-hi: #CACAC5;
-  --color-accent:    #0D0D0D;
+  --color-bg:        #F2EDE6;
+  --color-bg-raised: #EDE7DF;
+  --color-text:      #0C0B09;
+  --color-text-muted:#6B6660;
+  --color-text-dim:  #A8A39A;
+  --color-border:    #D8D2CB;
+  --color-border-hi: #C4BDB6;
+  --color-accent:    #0C0B09;
 
-  background-color: #FFFFFF;
-  color: #0D0D0D;
+  background-color: #F2EDE6;
+  color: #0C0B09;
 }
 
 .section-offwhite {
@@ -103,10 +103,6 @@
   50%       { opacity: 0.35; transform: scale(1.6); }
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
 
 /* ─────────────────────────────────────
    Reset
@@ -122,17 +118,11 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  cursor: none; /* hidden in favour of custom cursor */
   overflow-x: hidden;
-  background-color: #0D0D0D; /* prevents white flash on iOS momentum scroll */
+  background-color: #080808; /* prevents white flash on iOS momentum scroll */
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
-  }
-
-  /* restore default cursor on touch / coarse pointer devices */
-  @media (hover: none), (pointer: coarse) {
-    cursor: auto;
   }
 }
 
@@ -177,7 +167,7 @@ ul, ol {
 }
 
 button {
-  cursor: none;
+  cursor: pointer;
   border: none;
   background: none;
   color: inherit;

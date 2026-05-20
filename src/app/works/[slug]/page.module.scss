@@ -44,15 +44,57 @@
   background: var(--color-bg-raised);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
+  padding-inline: var(--gutter);
+
+  @include respond-to('mobile') { padding-inline: var(--s-4); }
 }
 
 .heroImg {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 2px;
 }
 
-/* ─── Sections ─── */
+/* ─── Shared label ─── */
+.sectionLabel {
+  @include label;
+  color: var(--color-text-dim);
+  padding-top: 3px;
+}
+
+/* ─── Wyzwanie ─── */
+.challenge {
+  padding-block: var(--s-24);
+  border-top: 1px solid var(--color-border);
+
+  @include respond-to('mobile') { padding-block: var(--s-16); }
+}
+
+.challengeInner {
+  @include container;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--s-12);
+  align-items: start;
+
+  @include respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+}
+
+.challengeText {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  color: var(--color-text);
+  line-height: 1.5;
+  max-width: 55ch;
+  font-weight: 400;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* ─── Generic section (Rozwiązanie + Stack) ─── */
 .section {
   padding-block: var(--s-16);
   border-top: 1px solid var(--color-border);
@@ -71,19 +113,16 @@
   }
 }
 
-.sectionLabel {
-  @include label;
-  color: var(--color-text-dim);
-  padding-top: 3px;
-}
-
 .sectionText {
   font-size: var(--fs-lead);
   color: var(--color-text-muted);
   line-height: var(--lh-body);
   max-width: 65ch;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
+/* ─── Stack ─── */
 .stackList {
   display: flex;
   flex-direction: column;
@@ -108,22 +147,52 @@
   color: var(--color-text-dim);
 }
 
-/* ─── Highlights ─── */
-.highlightsSection {
-  padding-block: var(--s-16);
+/* ─── Efekt ─── */
+.efekt {
   border-top: 1px solid var(--color-border);
   background: var(--color-bg-raised);
+  padding-block: var(--s-16);
 }
 
-.highlightsInner {
+.efektInner {
   @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-12);
+}
+
+.efektHeader {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--s-12);
+  align-items: start;
+
+  @include respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+}
+
+.efektText {
+  font-size: var(--fs-lead);
+  color: var(--color-text-muted);
+  line-height: var(--lh-body);
+  max-width: 65ch;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+.highlightsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--s-8);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--s-12);
 
   @include respond-to('mobile') {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--s-6);
+    padding-top: var(--s-8);
   }
 }
 

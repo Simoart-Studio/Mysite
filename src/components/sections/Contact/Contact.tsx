@@ -85,7 +85,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className={styles.section}
+      className={`${styles.section} section-light`}
       ref={ref}
       aria-labelledby="contact-title"
     >

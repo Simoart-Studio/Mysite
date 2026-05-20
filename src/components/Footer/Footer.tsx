@@ -1,4 +1,4 @@
-import { GITHUB_URL, LINKEDIN_URL, EMAIL, CALENDLY_URL } from '@/data/config';
+import { GITHUB_URL, EMAIL, CALENDLY_URL } from '@/data/config';
 import styles from './Footer.module.scss';
 
 const NAV_COL = [
@@ -13,7 +13,6 @@ const NAV_COL = [
   ]},
   { label: 'Social', links: [
     { href: GITHUB_URL,   text: 'GitHub'   },
-    { href: LINKEDIN_URL, text: 'LinkedIn' },
   ]},
 ] as const;
 

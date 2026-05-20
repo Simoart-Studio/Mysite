@@ -10,7 +10,7 @@ export function buildPersonSchema() {
     email: 'szymon.pochopien01@gmail.com',
     sameAs: [
       'https://linkedin.com/in/szymon-pochopien',
-      'https://github.com/szymzyd',
+      'https://github.com/kameleon1312',
     ],
     knowsAbout: ['React', 'Next.js', 'TypeScript', 'Frontend Development'],
   };

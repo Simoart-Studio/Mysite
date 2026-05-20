@@ -21,10 +21,6 @@
 @mixin text-link {
   position: relative;
   text-decoration: none;
-  cursor: none;
-
-  @media (hover: none), (pointer: coarse) { cursor: pointer; }
-
   &::after {
     content: '';
     position: absolute;

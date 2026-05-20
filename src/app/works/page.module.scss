@@ -1,0 +1,128 @@
+.page {
+  min-height: 100svh;
+  padding-top: var(--nav-height);
+}
+
+/* ─── Hero header ─── */
+.hero {
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--s-16) var(--s-12);
+
+  @include respond-to('mobile') { padding-block: var(--s-12) var(--s-8); }
+}
+
+.heroInner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.back {
+  @include text-link;
+  @include label;
+  color: var(--color-text-dim);
+  width: fit-content;
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &:hover { color: var(--color-text-muted); }
+  &:focus-visible { @include focus-ring; }
+}
+
+.label {
+  @include label;
+  margin-top: var(--s-4);
+}
+
+.h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: var(--tracking-hero);
+  line-height: var(--lh-hero);
+  color: var(--color-text);
+}
+
+/* ─── List ─── */
+.listWrap {
+  @include container;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.link {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-8);
+  padding-block: var(--s-10);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.45s var(--ease-out);
+
+  &:hover { padding-left: var(--s-4); }
+  &:focus-visible { @include focus-ring; }
+
+  @include respond-to('mobile') { padding-block: var(--s-8); gap: var(--s-4); }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.num {
+  @include label;
+  color: var(--color-text-dim);
+  margin-bottom: var(--s-1);
+}
+
+.title {
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text);
+  line-height: var(--lh-heading);
+  transition: opacity var(--dur-base) var(--ease-out);
+
+  .link:hover & { opacity: 0.4; }
+}
+
+.meta {
+  @include label;
+  color: var(--color-text-dim);
+  margin-top: var(--s-1);
+}
+
+.desc {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  line-height: var(--lh-body);
+  max-width: 52ch;
+  margin-top: var(--s-2);
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+  padding-top: 0.15em;
+  transition: transform 0.35s var(--ease-out), color 0.35s var(--ease-out);
+
+  .link:hover & {
+    transform: translateX(6px);
+    color: var(--color-text);
+  }
+
+  @include respond-to('mobile') { display: none; }
+}

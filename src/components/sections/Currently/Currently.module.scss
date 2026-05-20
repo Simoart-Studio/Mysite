@@ -2,7 +2,6 @@
   padding-block: var(--s-10);
   border-top: 1px solid var(--color-border);
   background: var(--color-bg);
-  cursor: none;
 }
 
 .header {
@@ -42,6 +41,8 @@
   position: relative;
   transition: background 0.5s ease;
   cursor: none;
+
+  @media (hover: none), (pointer: coarse) { cursor: pointer; }
 
   &:last-child { border-right: none; }
 

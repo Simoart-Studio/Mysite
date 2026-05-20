@@ -120,10 +120,7 @@ export function Currently() {
       className={styles.section}
       ref={ref}
       aria-labelledby="currently-title"
-      data-hide-cursor
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setOver(true)}
-      onMouseLeave={() => setOver(false)}
     >
       {mounted && createPortal(cursor, document.body)}
 
@@ -143,6 +140,8 @@ export function Currently() {
               key={id}
               className={`${styles.item} ${isOpen ? styles.isOpen : ''}`}
               onClick={() => setActiveId(isOpen ? null : id)}
+              onMouseEnter={() => setOver(true)}
+              onMouseLeave={() => setOver(false)}
             >
               <motion.div
                 className={styles.content}

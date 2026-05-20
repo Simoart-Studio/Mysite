@@ -1,8 +1,9 @@
 export type WorkType = 'landing' | 'app' | 'ecommerce' | 'other';
 
 export type CaseStudyContent = {
-  brief: string;
-  concept: string;
+  challenge: string;
+  solution:  string;
+  result:    string;
   stackDetails: { name: string; role: string }[];
   highlights: { label: string; value: string }[];
 };
