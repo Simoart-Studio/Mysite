@@ -5,8 +5,11 @@
   "scripts": {
     "predev": "node scripts/predev.js",
     "dev": "next dev",
+    "projects": "node scripts/fetch-projects.mjs",
+    "prebuild": "node scripts/fetch-projects.mjs --if-ci",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@types/nodemailer": "^8.0.0",

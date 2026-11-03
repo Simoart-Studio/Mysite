@@ -1,0 +1,165 @@
+{
+  "$comment": "Ręczne nadpisania. Mają pierwszeństwo przed danymi z GitHuba (projects.json). Kolejność w 'order' = kolejność kart od wierzchu talii. Puste pole lub jego brak = 'Do uzupełnienia' na stronie. 'hidden': true ukrywa projekt.",
+  "user": "kameleon1312",
+  "order": [
+    "TravelPoint",
+    "Fancyshop",
+    "Pawflo",
+    "BarberSpace",
+    "ai-language-teacher",
+    "Taskiner",
+    "Buds---2D-freaky-game",
+    "SL"
+  ],
+  "projects": {
+    "TravelPoint": {
+      "slug": "travelpoint",
+      "name": "TravelPoint",
+      "status": "W rozwoju",
+      "labels": ["projekt własny", "demo"],
+      "demoUrl": "https://travelpointdemo-web.vercel.app",
+      "embed": true,
+      "stack": ["TypeScript"]
+    },
+    "Fancyshop": {
+      "slug": "fancyshop",
+      "name": "FancyShop",
+      "status": "Wdrożony",
+      "labels": ["projekt własny", "demo"],
+      "tagline": "Sklep, w którym da się przejść całą ścieżkę zakupu: od katalogu do zamówienia.",
+      "stack": ["React 19", "TypeScript", "Zustand", "Framer Motion"],
+      "stackFull": ["React 19", "TypeScript", "React Router 7", "Zustand (persist)", "Framer Motion", "SCSS", "Vite", "Lenis"],
+      "forWho": "Projekt portfolio. Pokazuje, jak może działać sklep małej marki, zanim powstanie wersja produkcyjna.",
+      "problem": "Chciałem zbudować sklep, który działa jak prawdziwa platforma sprzedażowa. Nie wizytówkę, tylko pełną ścieżkę: katalog, wyszukiwarka, koszyk i zamówienie.",
+      "solution": "Katalog z kategoriami i sortowaniem, karta produktu, lista ulubionych, ostatnio oglądane, koszyk z edycją ilości i trzyetapowy checkout: dostawa, płatność, potwierdzenie. Przejścia między podstronami działają bez przeładowania.",
+      "scope": "Projekt interfejsu, front-end, architektura stanu (koszyk, ulubione, motyw).",
+      "effect": "Działające demo z 7 widokami: start, katalog, produkt, ulubione, koszyk, checkout i strona 404. Koszyk i ulubione zostają po odświeżeniu strony.",
+      "challenge": {
+        "title": "Dane z obcego API",
+        "body": "Produkty przychodzą z Fake Store API w jego własnym formacie. Napisałem warstwę, która normalizuje odpowiedź do jednego typu Product i przerywa zbędne zapytania (AbortSignal). Komponenty nie wiedzą, skąd pochodzą dane."
+      },
+      "limitations": [
+        "Płatność jest symulowana. Formularz niczego nie obciąża.",
+        "Produkty pochodzą z publicznego Fake Store API (dane testowe)."
+      ],
+      "thumbnail": { "src": "/projects/fancyshop/cover.webp", "width": 1600, "height": 861 },
+      "screenshots": [
+        { "src": "/projects/fancyshop/cover.webp", "width": 1600, "height": 861, "device": "desktop", "alt": "FancyShop — strona główna, widok desktop" },
+        { "src": "/projects/fancyshop/desktop.webp", "width": 1280, "height": 800, "device": "desktop", "alt": "FancyShop — sekcja hero, widok desktop" },
+        { "src": "/projects/fancyshop/mobile.webp", "width": 390, "height": 844, "device": "mobile", "alt": "FancyShop — strona główna na telefonie" }
+      ],
+      "embed": true
+    },
+    "Pawflo": {
+      "slug": "pawflo",
+      "name": "Pawflo",
+      "status": "Wdrożony",
+      "labels": ["projekt własny"],
+      "demoUrl": "https://pawflo.vercel.app",
+      "embed": true,
+      "stack": ["TypeScript"]
+    },
+    "BarberSpace": {
+      "slug": "barberspace",
+      "name": "BarberSpace",
+      "status": "Wdrożony",
+      "labels": ["projekt własny", "demo"],
+      "tagline": "Landing salonu barberskiego, w którym każda sekcja prowadzi do rezerwacji.",
+      "stack": ["React 19", "TypeScript", "SCSS Modules", "EmailJS"],
+      "stackFull": ["React 19", "TypeScript", "SCSS Modules (własne tokeny)", "Vite", "EmailJS", "Lenis", "vite-imagetools"],
+      "forWho": "Projekt koncepcyjny dla salonu premium. Pokazuje, jak lokalna usługa może zbierać rezerwacje online.",
+      "problem": "Salon premium potrzebuje strony, która oddaje charakter miejsca i zamienia wizytę na stronie w rezerwację. Strona ma wyglądać jak zaprojektowana przez człowieka, a nie wygenerowana.",
+      "solution": "Styl editorial: ciepłe tło jak papier, głęboka czerwień jako akcent, mocna typografia. Sekcje usług, procesu, cennika, galerii, opinii, zespołu i FAQ. Każde CTA otwiera panel rezerwacji.",
+      "scope": "Projekt graficzny, front-end, SEO techniczne, optymalizacja obrazów.",
+      "effect": "Obrazy zmniejszone z 9,5 MB do ok. 1 MB (WebP, vite-imagetools). Pełne SEO: Open Graph, JSON-LD HairSalon, sitemap.",
+      "challenge": {
+        "title": "Dostępny panel rezerwacji",
+        "body": "Panel wysuwa się z boku, więc musi trzymać fokus i blokować przewijanie tła. Zrobiłem pułapkę fokusu, blokadę scrolla i stany wysyłki (wysyłanie, sukces, błąd). Logika formularza siedzi w osobnym hooku, a animacje JS wyłącza prefers-reduced-motion."
+      },
+      "limitations": [
+        "Projekt koncepcyjny: salon, zespół i opinie są przykładowe.",
+        "Rezerwacja trafia e-mailem przez EmailJS. Nie ma kalendarza wolnych terminów."
+      ],
+      "thumbnail": { "src": "/projects/barberspace/cover.webp", "width": 1600, "height": 867 },
+      "screenshots": [
+        { "src": "/projects/barberspace/cover.webp", "width": 1600, "height": 867, "device": "desktop", "alt": "BarberSpace — strona główna, widok desktop" },
+        { "src": "/projects/barberspace/desktop.webp", "width": 1280, "height": 800, "device": "desktop", "alt": "BarberSpace — hero z przyciskiem rezerwacji" },
+        { "src": "/projects/barberspace/mobile.webp", "width": 390, "height": 844, "device": "mobile", "alt": "BarberSpace — widok na telefonie" }
+      ],
+      "embed": true
+    },
+    "ai-language-teacher": {
+      "slug": "lingua",
+      "name": "LINGUA",
+      "status": "Wdrożony",
+      "labels": ["projekt własny"],
+      "tagline": "Nauka angielskiego i hiszpańskiego: rozmowa z nauczycielem AI i fiszki, które same się układają.",
+      "stack": ["Next.js 16", "TypeScript", "Tailwind CSS 4", "Groq AI"],
+      "stackFull": ["Next.js 16", "React 19", "TypeScript 5", "Tailwind CSS 4", "Framer Motion", "Groq SDK (llama-3.3-70b)", "Web Speech API", "PWA"],
+      "forWho": "Dla polskojęzycznych uczniów na poziomach od A0 do C2.",
+      "problem": "Rozmowa w obcym języku i powtarzanie słówek to zwykle dwie osobne aplikacje. Słowa z rozmowy giną, zanim trafią do powtórek.",
+      "solution": "Konwersacje z nauczycielem AI dopasowanym do poziomu. Słówka z rozmów trafiają automatycznie do fiszek z powtórkami SM-2. Do tego tryb głosowy, statystyki, passa i XP. Interfejs po polsku, aplikacja instaluje się jako PWA.",
+      "scope": "Projekt interfejsu, front-end, integracja z modelem językowym, logika powtórek.",
+      "effect": "Działająca aplikacja PWA z czterema modułami: rozmowa, fiszki, statystyki i ustawienia.",
+      "challenge": {
+        "title": "Od rozmowy do powtórki",
+        "body": "Słowa z rozmowy z AI zapisują się jako fiszki, a terminy powtórek wylicza algorytm SM-2. Uczeń nie musi niczego przepisywać."
+      },
+      "limitations": [
+        "Postępy są zapisywane w przeglądarce (LocalStorage). Nie ma konta ani synchronizacji między urządzeniami.",
+        "Tryb głosowy zależy od obsługi Web Speech API w przeglądarce."
+      ],
+      "thumbnail": { "src": "/projects/lingua/thumb.webp", "width": 640, "height": 400 },
+      "screenshots": [
+        { "src": "/projects/lingua/desktop.webp", "width": 1280, "height": 800, "device": "desktop", "alt": "LINGUA — panel główny, widok desktop" },
+        { "src": "/projects/lingua/mobile.webp", "width": 390, "height": 844, "device": "mobile", "alt": "LINGUA — panel główny na telefonie" }
+      ],
+      "embed": true
+    },
+    "Taskiner": {
+      "slug": "taskiner",
+      "name": "Taskiner",
+      "status": "Wdrożony",
+      "labels": ["projekt własny"],
+      "tagline": "Menedżer zadań, który podpowiada, co zrobić najpierw, i działa offline.",
+      "stack": ["React 19", "TypeScript", "Zustand", "PWA"],
+      "stackFull": ["React 19", "TypeScript", "Zustand", "SCSS", "Framer Motion", "Vite", "Service Worker", "Vercel"],
+      "forWho": "Dla osób, które planują dzień na telefonie i chcą widzieć priorytety, a nie tylko listę.",
+      "problem": "Lista zadań szybko rośnie i trudno ocenić, co jest pilne, a co ważne. Nawyk planowania łatwo porzucić.",
+      "solution": "Macierz Eisenhowera sama klasyfikuje zadania. Do tego terminy ze statusem, zadania cykliczne, podzadania, przeciąganie i swipe, passa dni, poranny rytuał i niedzielne podsumowanie tygodnia. Powiadomienia przypominają o terminach.",
+      "scope": "Projekt interfejsu, front-end, PWA, powiadomienia.",
+      "effect": "Aplikacja instaluje się na telefonie i komputerze, działa offline i aktualizuje się sama.",
+      "challenge": {
+        "title": "Offline-first",
+        "body": "Stan żyje w Zustand z zapisem w LocalStorage, a service worker trzyma aplikację w cache. Po utracie sieci pojawia się baner i aplikacja dalej działa. Nowa wersja instaluje się automatycznie."
+      },
+      "limitations": [
+        "Dane są tylko w przeglądarce. Nie ma synchronizacji między urządzeniami (jest eksport i import JSON)."
+      ],
+      "thumbnail": { "src": "/projects/taskiner/thumb.webp", "width": 640, "height": 400 },
+      "screenshots": [
+        { "src": "/projects/taskiner/desktop.webp", "width": 1280, "height": 800, "device": "desktop", "alt": "Taskiner — lista zadań, widok desktop" },
+        { "src": "/projects/taskiner/mobile.webp", "width": 390, "height": 844, "device": "mobile", "alt": "Taskiner — lista zadań na telefonie" }
+      ],
+      "embed": true
+    },
+    "Buds---2D-freaky-game": {
+      "slug": "buds",
+      "name": "Buds",
+      "status": "W rozwoju",
+      "labels": ["projekt własny", "prototyp"],
+      "demoUrl": "https://buds-game.vercel.app",
+      "embed": true,
+      "stack": ["TypeScript", "Gra 2D"]
+    },
+    "SL": {
+      "slug": "sl",
+      "name": "SL",
+      "status": "Wdrożony",
+      "labels": ["projekt własny"],
+      "demoUrl": "https://sweetlove-sand.vercel.app",
+      "embed": true,
+      "stack": ["TypeScript"]
+    }
+  }
+}

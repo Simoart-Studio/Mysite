@@ -1,0 +1,237 @@
+{
+  "$comment": "Plik generowany przez scripts/fetch-projects.mjs. Nie edytuj ręcznie — użyj projects.overrides.json.",
+  "generatedAt": "2026-11-03T11:08:27.095Z",
+  "user": "kameleon1312",
+  "repos": [
+    {
+      "name": "TravelPoint",
+      "fullName": "kameleon1312/TravelPoint",
+      "available": true,
+      "private": true,
+      "description": null,
+      "topics": [],
+      "homepage": "https://travelpointdemo-web.vercel.app",
+      "url": "https://github.com/kameleon1312/TravelPoint",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-31T02:07:09Z",
+      "pushedAt": "2026-10-19T19:37:42Z",
+      "lastCommitAt": "2026-10-19T19:37:42Z",
+      "languages": [],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "Fancyshop",
+      "fullName": "kameleon1312/Fancyshop",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://fancyshop-iota.vercel.app",
+      "url": "https://github.com/kameleon1312/Fancyshop",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2025-12-06T19:47:21Z",
+      "pushedAt": "2026-05-25T12:55:58Z",
+      "lastCommitAt": "2026-05-25T12:55:58Z",
+      "languages": [],
+      "readme": {
+        "summary": "FancyShop to nowoczesny sklep e-commerce stworzony jako projekt portfolio front-end developera.",
+        "features": [
+          "Lista produktów z dynamicznymi danymi",
+          "Dodawanie produktów do koszyka",
+          "Liczenie ceny całkowitej",
+          "Pełna responsywność (mobile / tablet / desktop)",
+          "Nowoczesny, minimalistyczny design",
+          "Szybkie renderowanie i clean code"
+        ],
+        "stack": [
+          "React",
+          "JavaScript (ES6+)",
+          "SCSS / CSS Modules",
+          "Vite",
+          "React Router"
+        ]
+      }
+    },
+    {
+      "name": "Pawflo",
+      "fullName": "kameleon1312/Pawflo",
+      "available": true,
+      "private": true,
+      "description": null,
+      "topics": [],
+      "homepage": "https://pawflo.vercel.app",
+      "url": "https://github.com/kameleon1312/Pawflo",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-07T11:17:55Z",
+      "pushedAt": "2026-05-09T18:20:14Z",
+      "lastCommitAt": "2026-05-09T18:20:14Z",
+      "languages": [],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "BarberSpace",
+      "fullName": "kameleon1312/BarberSpace",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://barber-space.vercel.app",
+      "url": "https://github.com/kameleon1312/BarberSpace",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-01-14T23:21:48Z",
+      "pushedAt": "2026-04-24T11:07:15Z",
+      "lastCommitAt": "2026-04-24T11:07:15Z",
+      "languages": [],
+      "readme": {
+        "summary": "BarberSpace to landing page dla premium salonu barberskiego, zbudowany w stylu editorial — ciepłe tło jak papier, głęboka czerwień jako akcent, Barlow Condensed w roli kroju display. Inspiracja: NYC barbershop culture przez pryzmat magazynu Dazed.",
+        "features": [
+          "Hero — oversized display type, statystyki z animowanym licznikiem, zdjęcie 3:4",
+          "Services — numerowana lista + live preview z crossfade'em zdjęcia",
+          "Process — 4-krokowy grid z separatorami",
+          "Pricing — 4 karty, featured wariant, klik otwiera booking",
+          "Gallery — editorial portrait grid, hover overlay",
+          "Testimonials — blockquote cards, Playfair Display",
+          "Team — ciemna sekcja, monogram avatary",
+          "FAQ — accordion animowany przez grid-template-rows (zero JS height)",
+          "Slide-in panel z focus trapem i scroll lockiem",
+          "Stany: sending / success / error"
+        ],
+        "stack": [
+          "React 19 + TypeScript",
+          "SCSS Modules",
+          "Vite",
+          "EmailJS",
+          "Lenis"
+        ]
+      }
+    },
+    {
+      "name": "ai-language-teacher",
+      "fullName": "kameleon1312/ai-language-teacher",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://teach-on.vercel.app",
+      "url": "https://github.com/kameleon1312/ai-language-teacher",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-02-15T13:57:10Z",
+      "pushedAt": "2026-04-16T17:34:42Z",
+      "lastCommitAt": "2026-04-16T17:34:42Z",
+      "languages": [],
+      "readme": {
+        "summary": "Twoje prywatne atelier językowe. Aplikacja do nauki angielskiego i hiszpańskiego z pomocą AI — konwersacje, fiszki z powtarzaniem rozłożonym w czasie (algorytm SM-2) i śledzenie postępów.",
+        "features": [
+          "Konwersacje z AI — nauczyciel oparty na Groq (llama-3.3-70b), dopasowany do poziomu A0–C2",
+          "Fiszki — system spaced repetition (SM-2), automatyczne dodawanie słówek z rozmów",
+          "Asystent głosowy — mówienie i słuchanie przez Web Speech API",
+          "Statystyki — postępy, passa, osiągnięcia, XP",
+          "PWA — działa offline, instalowalna na urządzeniu",
+          "Polski interfejs — zaprojektowane dla polskojęzycznych uczniów"
+        ],
+        "stack": [
+          "Next.js 16 · React 19 · TypeScript 5",
+          "Tailwind CSS v4 · Framer Motion",
+          "Groq SDK (llama-3.3-70b-versatile)",
+          "LocalStorage (bez backendu)"
+        ]
+      }
+    },
+    {
+      "name": "Taskiner",
+      "fullName": "kameleon1312/Taskiner",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://taskiner.vercel.app",
+      "url": "https://github.com/kameleon1312/Taskiner",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-04-09T13:04:24Z",
+      "pushedAt": "2026-04-09T13:04:56Z",
+      "lastCommitAt": "2026-04-09T13:04:56Z",
+      "languages": [],
+      "readme": {
+        "summary": "Taskiner is a modern task management PWA built with React + Vite, designed for clarity, elegance, and real productivity. It combines glassmorphism visuals, smooth micro-animations, and smart features like the Eisenhower Matrix, streak tracking, and push notifications to create a workspace that feels premium.",
+        "features": [
+          "Add, edit, and delete tasks with full detail sheet (notes, subtasks, deadline, priority, recurring)",
+          "Deadlines with status indicators: Upcoming · Today · Overdue",
+          "Filter by: All / Active / Completed / Category",
+          "Drag-to-reorder tasks, swipe to complete or delete",
+          "Recurring tasks (daily / weekly / monthly)",
+          "⊞ Eisenhower Matrix — auto-classify tasks by urgency and importance",
+          "Weekly Review — Sunday evening summary with heatmap & KPIs",
+          "Streak tracking with danger notification at 20:00",
+          "Milestones & celebration screen",
+          "Morning Ritual — daily focus prompt"
+        ],
+        "stack": [
+          "React 19 + TypeScript",
+          "Sass (SCSS)",
+          "Zustand",
+          "LocalStorage API",
+          "Vite",
+          "Service Worker + Manifest",
+          "Framer Motion",
+          "Vercel"
+        ]
+      }
+    },
+    {
+      "name": "Buds---2D-freaky-game",
+      "fullName": "kameleon1312/Buds---2D-freaky-game",
+      "available": true,
+      "private": true,
+      "description": null,
+      "topics": [],
+      "homepage": "https://buds-game.vercel.app",
+      "url": "https://github.com/kameleon1312/Buds---2D-freaky-game",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-10-13T08:53:37Z",
+      "pushedAt": "2026-11-01T18:16:28Z",
+      "lastCommitAt": "2026-11-01T18:16:28Z",
+      "languages": [],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "SL",
+      "fullName": "kameleon1312/SL",
+      "available": true,
+      "private": true,
+      "description": null,
+      "topics": [],
+      "homepage": "https://sweetlove-sand.vercel.app",
+      "url": "https://github.com/kameleon1312/SL",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-02-14T12:03:16Z",
+      "pushedAt": "2026-02-14T22:36:00Z",
+      "lastCommitAt": "2026-02-14T22:36:00Z",
+      "languages": [],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    }
+  ]
+}
