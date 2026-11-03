@@ -59,7 +59,6 @@ npm run projects -- --strict     # zakończ z błędem, jeśli pobranie się nie
 
 ## Do uzupełnienia przed publikacją
 
-- `src/data/config.ts` → `PHONE` (pusty = telefon się nie wyświetla).
 - `src/app/polityka-prywatnosci/page.tsx` → adres/NIP, okres przechowywania danych, data aktualizacji
   (oznaczone na stronie). Tekst polityki to szkic do weryfikacji.
 - `src/data/testimonials.ts` → prawdziwe opinie klientów (pusta lista = sekcja ukryta).

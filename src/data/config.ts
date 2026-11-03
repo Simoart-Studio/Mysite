@@ -4,8 +4,8 @@ export const AVAILABILITY  = 'Q2 2026';
 export const GITHUB_URL    = 'https://github.com/kameleon1312';
 export const LINKEDIN_URL  = 'https://linkedin.com/in/szymon-pochopien';
 export const EMAIL         = 'szymon.pochopien01@gmail.com';
-/** Numer telefonu w formacie +48 000 000 000. Pusty = nie pokazujemy. DO UZUPEŁNIENIA. */
-export const PHONE         = '';
+/** Numer telefonu (format +48 000 000 000). Pusty = nie pokazujemy. */
+export const PHONE         = '+48 793 950 330';
 export const CALENDLY_URL  = 'https://calendly.com/szymon-pochopien01/30min';
 
 /** Limit załącznika w formularzu kontaktowym. */
