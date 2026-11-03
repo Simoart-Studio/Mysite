@@ -8,7 +8,6 @@ import { BuildPicker }  from '@/components/sections/BuildPicker/BuildPicker';
 import { Process }      from '@/components/sections/Process/Process';
 import { About }        from '@/components/sections/About/About';
 import { WhatIDo }      from '@/components/sections/WhatIDo/WhatIDo';
-import { Currently }    from '@/components/sections/Currently/Currently';
 import { Testimonials } from '@/components/sections/Testimonials/Testimonials';
 import { Contact }      from '@/components/sections/Contact/Contact';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
@@ -37,10 +36,9 @@ export default function HomePage() {
         <Hero deck={heroDeck} />
         <Works />
         <BuildPicker />
+        <WhatIDo />
         <Process />
         <About />
-        <WhatIDo />
-        <Currently />
         <Testimonials />
         <Contact />
       </main>

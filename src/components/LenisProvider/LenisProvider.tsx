@@ -15,7 +15,8 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       duration:     1.25,
       easing:       ease,
       smoothWheel:  true,
-      anchors:      true,
+      // Kotwice z odstępem pod nawigacją (inaczej nagłówek sekcji chowa się pod nią)
+      anchors:      { offset: -88 },
     });
     registerLenis(lenis);
 

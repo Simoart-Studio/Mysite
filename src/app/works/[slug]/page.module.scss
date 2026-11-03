@@ -35,17 +35,17 @@
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  border-radius: 999px;
-  background: var(--color-text);
-  color: var(--color-bg);
+  border-radius: var(--r-pill);
+  background: var(--sage-soft);
+  color: #46553A;
 }
 
 .tag {
   padding: 3px 8px;
   font-size: 0.6875rem;
-  border: 1px solid var(--color-border-hi);
-  border-radius: 999px;
-  color: var(--color-text-muted);
+  border-radius: var(--r-pill);
+  background: var(--sand-200);
+  color: var(--cocoa);
 }
 
 .title {
@@ -64,10 +64,9 @@
   display: inline-block;
   padding: 2px 8px;
   font-size: var(--fs-small);
-  color: #7a4300;
-  background: #fff1d6;
-  border: 1px dashed #d79a3a;
-  border-radius: 4px;
+  color: var(--clay-ink);
+  background: var(--clay-soft);
+  border-radius: var(--r-pill);
 }
 
 .gallery {
@@ -82,9 +81,9 @@
 
 .shotDesktop, .shotMobile {
   display: block;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--r-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 
   &:focus-visible { @include focus-ring; }
 }
@@ -111,24 +110,14 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s-4);
-  padding-block: var(--s-8);
-  border-block: 1px solid var(--color-border);
-  font-size: var(--fs-lead);
+  padding: var(--s-8);
+  border-radius: var(--r-xl);
+  background: var(--clay-soft);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
 }
 
-.ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  padding: 12px 22px;
-  background: var(--color-text);
-  color: var(--color-bg);
-  font-size: var(--fs-small);
-  border: 1px solid var(--color-text);
-
-  &:hover { background: transparent; color: var(--color-text); }
-  &:focus-visible { @include focus-ring; }
-}
+.ctaBtn { @include btn-primary; font-family: var(--font-sans); }
 
 .pager {
   display: grid;
@@ -141,11 +130,13 @@
   flex-direction: column;
   gap: 4px;
   padding: var(--s-6);
-  border: 1px solid var(--color-border-hi);
-  font-size: 1.125rem;
-  transition: border-color var(--dur-fast) var(--ease-out);
+  border-radius: var(--r-lg);
+  background: var(--sand-50);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out);
 
-  &:hover { border-color: var(--color-text); }
+  &:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
   &:focus-visible { @include focus-ring; }
 }
 

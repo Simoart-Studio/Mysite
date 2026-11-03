@@ -37,13 +37,13 @@ export function CaseStudyBody({
   return (
     <div className={styles.body}>
       <div className={styles.block}>
-        <H className={styles.label}>Co to jest i dla kogo</H>
+        <H className={styles.label}>Dla kogo</H>
         <p className={styles.lead}>
           <Text value={project.forWho} />
         </p>
         {!project.problem && project.readmeSummary && (
           <p className={styles.note}>
-            Z README repozytorium: „{project.readmeSummary}”
+            Z README: „{project.readmeSummary}”
           </p>
         )}
       </div>
@@ -59,7 +59,7 @@ export function CaseStudyBody({
       </ol>
 
       <div className={styles.block}>
-        <H className={styles.label}>Najciekawsze wyzwanie</H>
+        <H className={styles.label}>Wyzwanie</H>
         {project.challenge ? (
           <>
             <p className={styles.challengeTitle}>{project.challenge.title}</p>
@@ -108,7 +108,7 @@ export function CaseStudyBody({
       {showLinks && <ProjectLinks project={project} />}
 
       {updated && (
-        <p className={styles.meta}>Ostatnia zmiana w repozytorium: {updated}</p>
+        <p className={styles.meta}>Aktualizacja: {updated}</p>
       )}
     </div>
   );

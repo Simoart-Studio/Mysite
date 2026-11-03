@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import { GeistMono } from 'geist/font/mono';
+import { Inter, Fraunces } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { baseMetadata, baseViewport } from '@/lib/metadata';
@@ -16,6 +15,16 @@ const inter = Inter({
   preload: true,
 });
 
+// Nagłówki: bez wstępnego ładowania (nie konkuruje z pierwszym renderem),
+// dopasowany font zastępczy ogranicza przesunięcie przy podmianie.
+const fraunces = Fraunces({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  preload: false,
+  adjustFontFallback: true,
+});
+
 export const metadata: Metadata = baseMetadata;
 export const viewport: Viewport = baseViewport;
 
@@ -27,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="pl"
-      className={`${inter.variable} ${GeistMono.variable}`}
+      className={`${inter.variable} ${fraunces.variable}`}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >

@@ -4,23 +4,23 @@ import styles from './Process.module.scss';
 const STEPS = [
   {
     title: 'Ustalamy kierunek',
-    mine:  'Pytam o cel, klientów i budżet. Proponuję zakres, termin i wycenę.',
-    yours: 'Opowiadasz o firmie i problemie. Akceptujesz zakres albo go zmieniamy.',
+    mine:  'Zakres, termin i wycena.',
+    yours: 'Cel, klienci, budżet.',
   },
   {
     title: 'Projektuję',
-    mine:  'Układ strony i wygląd kluczowych widoków. Pokazuję wersję do komentarzy.',
-    yours: 'Przekazujesz treści i zdjęcia. Zgłaszasz uwagi do projektu.',
+    mine:  'Układ i wygląd do komentarzy.',
+    yours: 'Treści, zdjęcia, uwagi.',
   },
   {
     title: 'Wdrażam',
-    mine:  'Kod, testy na telefonach i komputerach, SEO techniczne, publikacja.',
-    yours: 'Sprawdzasz wersję testową i dajesz zielone światło.',
+    mine:  'Kod, testy, SEO, publikacja.',
+    yours: 'Akceptacja wersji testowej.',
   },
   {
     title: 'Dbam o rozwój',
-    mine:  'Poprawki po starcie, aktualizacje i kolejne funkcje według ustaleń.',
-    yours: 'Mówisz, co działa, a co nie. Decydujesz o kolejnych krokach.',
+    mine:  'Poprawki, aktualizacje, nowe funkcje.',
+    yours: 'Decyzje o kolejnych krokach.',
   },
 ] as const;
 
@@ -30,10 +30,8 @@ export function Process() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <p className={styles.label}>Proces współpracy</p>
-          <h2 id="process-title" className={styles.headline}>Cztery kroki. Jasny podział.</h2>
-          <p className={styles.intro}>
-            Zakres akceptujesz przed startem prac. Na każdym etapie wiesz, co robię ja, a czego potrzebuję od Ciebie.
-          </p>
+          <h2 id="process-title" className={styles.headline}>Cztery kroki</h2>
+          <p className={styles.intro}>Zakres akceptujesz przed startem prac.</p>
         </header>
 
         <ol className={styles.steps}>
@@ -50,11 +48,11 @@ export function Process() {
               </div>
               <dl className={styles.split}>
                 <div className={styles.side}>
-                  <dt>Po mojej stronie</dt>
+                  <dt>Ja</dt>
                   <dd>{s.mine}</dd>
                 </div>
                 <div className={styles.side}>
-                  <dt>Po Twojej stronie</dt>
+                  <dt>Ty</dt>
                   <dd>{s.yours}</dd>
                 </div>
               </dl>
@@ -63,8 +61,7 @@ export function Process() {
         </ol>
 
         <div className={styles.footer} data-reveal>
-          <p>Nie wiesz, od czego zacząć? Zacznij od rozmowy. Pierwsza jest bez zobowiązań.</p>
-          <ContactTrigger className={styles.cta}>Napisz do mnie →</ContactTrigger>
+          <ContactTrigger className={styles.cta}>Porozmawiajmy →</ContactTrigger>
         </div>
       </div>
     </section>

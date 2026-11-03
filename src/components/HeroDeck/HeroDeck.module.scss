@@ -13,7 +13,7 @@
   perspective: 900px;
   transform-style: preserve-3d;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 18px;
 
   &:focus-visible { @include focus-ring; outline-offset: 12px; }
 
@@ -24,9 +24,9 @@
   position: absolute;
   inset: 0;
   display: block;
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.75);
+  box-shadow: 0 22px 40px -20px rgb(46 36 32 / 0.55);
   will-change: transform;
 }
 
@@ -36,16 +36,17 @@
   justify-content: space-between;
   height: 100%;
   padding: 14px;
-  color: #0c0b09;
+  color: var(--sand-50);
   background:
-    repeating-linear-gradient(45deg, transparent 0 10px, rgb(12 11 9 / 0.05) 10px 11px),
-    #f2ede6;
-  border: 1px solid #d8d2cb;
-  border-radius: 12px;
+    radial-gradient(120% 90% at 0% 0%, #C98263 0%, transparent 60%),
+    radial-gradient(100% 80% at 100% 100%, #8F4E37 0%, transparent 65%),
+    var(--clay);
+  border-radius: 18px;
 }
 
 .backTitle {
-  font-size: 1.35rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
   line-height: 1.05;
   letter-spacing: -0.03em;
 
@@ -53,18 +54,17 @@
 }
 
 .backSub {
-  font-size: 0.6875rem;
-  color: #4d4943;
+  font-size: 0.75rem;
+  opacity: 0.85;
 }
 
 .front {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #fbf8f3;
-  border: 1px solid #d8d2cb;
-  border-radius: 12px;
-  padding: 6px;
+  background: var(--sand-50);
+  border-radius: 18px;
+  padding: 7px;
   gap: 6px;
 }
 
@@ -73,35 +73,13 @@
   height: 58%;
   object-fit: cover;
   object-position: top;
-  border-radius: 7px;
+  border-radius: 12px;
 }
 
 .name {
   padding: 0 4px;
-  font-size: 0.8125rem;
-  color: #0c0b09;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--espresso);
 }
 
-.hint {
-  margin-top: var(--s-10);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-}
-
-.hintDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #c9b99a;
-  animation: hint 1.8s ease-in-out infinite;
-
-  @include reduced-motion { animation: none; }
-}
-
-@keyframes hint {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.8); opacity: 0.4; }
-}

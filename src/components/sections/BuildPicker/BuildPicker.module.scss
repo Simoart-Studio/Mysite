@@ -14,7 +14,9 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
+  align-items: center;
+  gap: var(--s-3);
+  text-align: center;
 }
 
 .label { @include label; }
@@ -58,23 +60,26 @@
 .tile {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   padding: var(--s-4) var(--s-6);
-  border: 1px solid var(--color-border-hi);
+  border-radius: var(--r-lg);
+  background: var(--sand-50);
+  border: 1.5px solid transparent;
   cursor: pointer;
   transition:
-    border-color var(--dur-fast) var(--ease-out),
     background var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-base) var(--ease-spring),
+    box-shadow var(--dur-base) var(--ease-out);
 
   &:hover {
-    border-color: var(--color-text-muted);
     transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
   }
 
   .radio:checked + & {
-    border-color: var(--color-text);
-    background: var(--color-bg-raised);
+    background: var(--clay-soft);
+    border-color: var(--clay);
   }
 
   .radio:focus-visible + & { @include focus-ring; }
@@ -83,21 +88,36 @@
 }
 
 .tileProblem {
-  font-size: 1.0625rem;
-  color: var(--color-text);
-  line-height: 1.4;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--espresso);
+  line-height: 1.35;
 }
 
 .tileTitle {
-  @include label;
+  font-size: var(--fs-small);
   color: var(--color-text-muted);
 
-  .radio:checked + .tile & { color: var(--color-text); }
+  .radio:checked + .tile & { color: var(--clay-ink); font-weight: 500; }
 }
 
 .panels {
   position: sticky;
   top: calc(var(--nav-height) + var(--s-6));
+
+  @media (max-width: 1023px) { display: none; }
+}
+
+/* Panel pod kafelkiem — tylko telefon/tablet */
+.panelInline {
+  margin-top: var(--s-2);
+  box-shadow: var(--shadow-sm);
+
+  @media (min-width: 1024px) { display: none !important; }
+
+  .radio:checked ~ & { display: flex; }
+
+  :global(html:not(.js)) .radio:checked ~ & { display: flex; }
 }
 
 .panel {
@@ -105,8 +125,9 @@
   flex-direction: column;
   gap: var(--s-6);
   padding: var(--s-8);
-  border: 1px solid var(--color-border-hi);
-  background: var(--color-bg-raised);
+  border-radius: var(--r-xl);
+  background: var(--sand-50);
+  box-shadow: var(--shadow-md);
   animation: panelIn 0.45s var(--ease-out);
 
   @include respond-to('mobile') { padding: var(--s-6); }
@@ -131,9 +152,10 @@
 .panelEyebrow { @include label; color: var(--color-text-muted); }
 
 .panelOffer {
-  font-size: var(--fs-lead);
-  color: var(--color-text);
-  line-height: var(--lh-body);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  color: var(--espresso);
 }
 
 .gets {
@@ -147,10 +169,14 @@
     position: relative;
 
     &::before {
-      content: '✓';
+      content: '';
       position: absolute;
-      left: 0;
-      color: var(--color-accent);
+      left: 4px;
+      top: 0.55em;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--clay);
     }
   }
 }
@@ -168,17 +194,6 @@
 }
 
 .cta {
+  @include btn-primary;
   align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  padding: 12px 22px;
-  background: var(--color-text);
-  color: var(--color-bg);
-  font-size: var(--fs-small);
-  border: 1px solid var(--color-text);
-  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
-
-  &:hover { background: transparent; color: var(--color-text); }
-  &:focus-visible { @include focus-ring; }
 }

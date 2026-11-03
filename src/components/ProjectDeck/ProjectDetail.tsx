@@ -11,6 +11,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import type { Project, ProjectImage } from '@/types/project';
 import { TODO } from '@/lib/projects';
 import { lockScroll } from '@/lib/scrollLock';
+import { ArrowLeft, ArrowRight, Play, X } from 'lucide-react';
 import { CaseStudyBody, ProjectLinks } from './CaseStudyBody';
 import styles from './ProjectDetail.module.scss';
 
@@ -123,18 +124,18 @@ export function ProjectDetail({
                 <span className={styles.status}>{project.status}</span>
                 {project.labels.map((l) => <span key={l} className={styles.tag}>{l}</span>)}
                 <span className={styles.count}>
-                  {String(index + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}
+                  {index + 1}/{n}
                 </span>
               </div>
               <div className={styles.headActions}>
-                <button type="button" className={styles.navBtn} onClick={() => go(-1)}>
-                  <span aria-hidden="true">←</span> Poprzedni<span className="sr-only"> projekt</span>
+                <button type="button" className={styles.navBtn} onClick={() => go(-1)} aria-label="Poprzedni projekt" title="Poprzedni">
+                  <ArrowLeft size={18} aria-hidden="true" />
                 </button>
-                <button type="button" className={styles.navBtn} onClick={() => go(1)}>
-                  Następny<span className="sr-only"> projekt</span> <span aria-hidden="true">→</span>
+                <button type="button" className={styles.navBtn} onClick={() => go(1)} aria-label="Następny projekt" title="Następny">
+                  <ArrowRight size={18} aria-hidden="true" />
                 </button>
-                <button type="button" className={styles.closeBtn} onClick={requestClose}>
-                  Zamknij<span aria-hidden="true"> ✕</span>
+                <button type="button" className={styles.closeBtn} onClick={requestClose} aria-label="Zamknij" title="Zamknij">
+                  <X size={18} aria-hidden="true" />
                 </button>
               </div>
             </header>
@@ -186,7 +187,7 @@ export function ProjectDetail({
                     project={project}
                     extra={
                       <Link href={`/works/${project.slug}`} className={styles.moreLink}>
-                        Pełne studium przypadku →
+                        Pełny opis →
                       </Link>
                     }
                   />
@@ -219,24 +220,23 @@ export function ProjectDetail({
                             sizes={s.device === 'mobile' ? '200px' : '(max-width: 768px) 90vw, 560px'}
                             className={styles.shotImg}
                           />
-                          <span className={styles.shotDevice}>{s.device === 'mobile' ? 'Telefon' : 'Desktop'}</span>
+                          <span className={styles.shotDevice}>{s.device === 'mobile' ? 'Telefon' : 'Komputer'}</span>
                         </button>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <div className={styles.placeholder}>
-                    <p><span className={styles.todo}>Zrzuty ekranu: {TODO.toLowerCase()}</span></p>
-                    <p>Tego projektu nie da się jeszcze pokazać na zrzutach.{project.demoUrl ? ' Możesz uruchomić podgląd na żywo poniżej.' : ''}</p>
+                    <span className={styles.todo}>Zrzuty ekranu: {TODO.toLowerCase()}</span>
                   </div>
                 )}
 
                 {project.demoUrl && project.embed && (
                   <div className={styles.preview}>
                     <div className={styles.previewHead}>
-                      <p className={styles.previewLabel}>Podgląd na żywo</p>
+                      <p className={styles.previewLabel}>Na żywo</p>
                       <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className={styles.previewExt}>
-                        Otwórz w nowej karcie ↗
+                        {new URL(project.demoUrl).host} ↗
                       </a>
                     </div>
                     {preview ? (
@@ -250,9 +250,13 @@ export function ProjectDetail({
                       />
                     ) : (
                       <div className={styles.previewIdle}>
-                        <p>Podgląd ładuje zewnętrzną stronę ({new URL(project.demoUrl).host}). Uruchamiam go dopiero na Twoje żądanie.</p>
-                        <button type="button" className={styles.previewBtn} onClick={() => setPreview(true)}>
-                          ▶ Uruchom podgląd
+                        <button
+                          type="button"
+                          className={styles.previewBtn}
+                          onClick={() => setPreview(true)}
+                          aria-label={`Uruchom podgląd na żywo: ${project.name}`}
+                        >
+                          <Play size={26} aria-hidden="true" />
                         </button>
                       </div>
                     )}
@@ -339,18 +343,18 @@ function Lightbox({
       </figure>
       <div className={styles.lbControls}>
         {many && (
-          <button type="button" className={styles.lbBtn} onClick={() => onIndex((index - 1 + shots.length) % shots.length)}>
-            ← Poprzedni<span className="sr-only"> zrzut</span>
+          <button type="button" className={styles.lbBtn} onClick={() => onIndex((index - 1 + shots.length) % shots.length)} aria-label="Poprzedni zrzut">
+            <ArrowLeft size={20} aria-hidden="true" />
           </button>
         )}
-        {many && (
-          <button type="button" className={styles.lbBtn} onClick={() => onIndex((index + 1) % shots.length)}>
-            Następny<span className="sr-only"> zrzut</span> →
-          </button>
-        )}
-        <button ref={closeRef} type="button" className={styles.lbBtn} onClick={onClose}>
-          Zamknij<span className="sr-only"> powiększenie</span> ✕
+        <button ref={closeRef} type="button" className={styles.lbBtn} onClick={onClose} aria-label="Zamknij powiększenie">
+          <X size={20} aria-hidden="true" />
         </button>
+        {many && (
+          <button type="button" className={styles.lbBtn} onClick={() => onIndex((index + 1) % shots.length)} aria-label="Następny zrzut">
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
+        )}
       </div>
     </motion.div>
   );

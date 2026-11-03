@@ -15,7 +15,7 @@ export function ProjectGrid({ projects, id }: { projects: Project[]; id?: string
         <li key={p.slug} className={styles.gridItem}>
           <article className={styles.gridCard} aria-labelledby={`grid-${p.slug}`}>
             <h3 id={`grid-${p.slug}`} className="sr-only">{p.name}</h3>
-            <CardFront project={p} index={i} total={projects.length} hint={null} />
+            <CardFront project={p} index={i} total={projects.length} />
             <details className={styles.gridDetails}>
               <summary>Opis projektu</summary>
               <div className={styles.gridDetailsBody}>

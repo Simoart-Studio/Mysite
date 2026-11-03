@@ -7,9 +7,9 @@ import { useOverlay } from '@/context/OverlayContext';
 import { EASE_WAVE } from '@/lib/motion';
 import Link from 'next/link';
 import {
-  AVAILABILITY, BRAND, EMAIL, PHONE, ATTACHMENT_MAX_MB, ATTACHMENT_ACCEPT, phoneHref,
+  EMAIL, PHONE, ATTACHMENT_MAX_MB, ATTACHMENT_ACCEPT, phoneHref,
 } from '@/data/config';
-import { CustomSelect } from './CustomSelect';
+import { Paperclip, X } from 'lucide-react';
 import styles from './ContactOverlay.module.scss';
 
 type Status = 'idle' | 'sending' | 'sent';
@@ -119,7 +119,7 @@ export function ContactOverlay() {
     }
   }
 
-  const dur = prefersReduced ? 0 : 0.6;
+  const dur = prefersReduced ? 0 : 0.5;
 
   return (
     <AnimatePresence>
@@ -131,7 +131,7 @@ export function ContactOverlay() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: prefersReduced ? 0 : 0.35 }}
+          transition={{ duration: prefersReduced ? 0 : 0.3 }}
           onClick={close}
         />
       )}
@@ -141,16 +141,17 @@ export function ContactOverlay() {
           id="contact-overlay"
           role="dialog"
           aria-modal="true"
-          aria-label="Formularz kontaktowy"
+          aria-labelledby="cf-title"
           className={styles.overlay}
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ duration: dur, ease: EASE_WAVE }}
         >
-          {/* Top bar */}
           <div className={styles.topBar}>
-            <span className={styles.logoMark} aria-hidden="true">{BRAND}</span>
+            <p id="cf-title" className={styles.formHeading}>
+              {status === 'sent' ? 'Dziękuję!' : 'Opowiedz o projekcie'}
+            </p>
             <button
               ref={closeRef}
               type="button"
@@ -158,96 +159,40 @@ export function ContactOverlay() {
               onClick={close}
               aria-label="Zamknij formularz"
             >
-              <span className={styles.closeLabel}>Zamknij</span>
-              <span className={styles.closeX} aria-hidden="true">
-                <span /><span />
-              </span>
+              <X size={20} aria-hidden="true" />
             </button>
           </div>
 
-          {/* Body */}
-          <div className={styles.body}>
-
-            {/* Left — info */}
-            <motion.aside
-              className={styles.info}
-              initial={{ opacity: 0, x: prefersReduced ? 0 : -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: prefersReduced ? 0 : 0.55, delay: prefersReduced ? 0 : 0.25, ease: EASE_WAVE }}
-              aria-label="Dane kontaktowe"
-            >
-              <div className={styles.infoHeading}>
-                <p className={styles.infoEyebrow}>Kontakt</p>
-                <p className={styles.infoTagline}>
-                  Dobry projekt<br />zaczyna się<br />od rozmowy.
-                </p>
-              </div>
-
-              <div className={styles.infoGroups}>
-                <div className={styles.infoGroup}>
-                  <p className={styles.infoLabel}>Email</p>
-                  <a href={`mailto:${EMAIL}`} className={styles.infoLink}>
-                    {EMAIL.split('@')[0]}<br />@{EMAIL.split('@')[1]}
-                  </a>
-                </div>
-                {PHONE && (
-                  <div className={styles.infoGroup}>
-                    <p className={styles.infoLabel}>Telefon</p>
-                    <a href={phoneHref(PHONE)} className={styles.infoLink}>{PHONE}</a>
-                  </div>
-                )}
-                <div className={styles.infoGroup}>
-                  <p className={styles.infoLabel}>Dostępność</p>
-                  <p className={styles.infoValue}>
-                    <span className={styles.dot} aria-hidden="true" />
-                    Dostępny {AVAILABILITY}
-                  </p>
-                </div>
-                <div className={styles.infoGroup}>
-                  <p className={styles.infoLabel}>Odpowiedź</p>
-                  <p className={styles.infoValue}>do 24 godzin</p>
-                </div>
-              </div>
-            </motion.aside>
-
-            {/* Right — form */}
-            <div className={styles.formWrap}>
-              <AnimatePresence mode="wait" initial={false}>
-                {status === 'sent' ? (
-                  <motion.div
-                    key="success"
-                    className={styles.success}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.45, ease: EASE_WAVE }}
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <p className={styles.successNum} aria-hidden="true">✓</p>
-                    <p className={styles.successTitle}>Wiadomość wysłana.</p>
-                    <p className={styles.successBody}>
-                      Wiadomość dotarła. Odezwę się najszybciej jak to możliwe —
-                      zazwyczaj tego samego dnia.
-                    </p>
-                    <button type="button" className={styles.successBtn} onClick={close}>
-                      Zamknij okno
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    className={styles.form}
-                    onSubmit={handleSubmit}
-                    noValidate
-                    initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : 0.2, ease: EASE_WAVE }}
-                  >
-                    <p className={styles.formHeading}>Opowiedz o swoim problemie.</p>
-
+          {/* data-lenis-prevent: przewijanie kółkiem wewnątrz formularza (Lenis go nie przechwytuje) */}
+          <div className={styles.formWrap} data-lenis-prevent>
+            <AnimatePresence mode="wait" initial={false}>
+              {status === 'sent' ? (
+                <motion.div
+                  key="success"
+                  className={styles.success}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, ease: EASE_WAVE }}
+                  role="status"
+                  aria-live="polite"
+                >
+                  <p className={styles.successBody}>Wiadomość dotarła. Odpowiem do 24 godzin.</p>
+                  <button type="button" className={styles.successBtn} onClick={close}>
+                    Zamknij
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  className={styles.form}
+                  onSubmit={handleSubmit}
+                  noValidate
+                  initial={{ opacity: 0, y: prefersReduced ? 0 : 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: prefersReduced ? 0 : 0.4, delay: prefersReduced ? 0 : 0.15, ease: EASE_WAVE }}
+                >
                     {/* Honeypot — ukryte przed ludźmi, wypełniane przez boty */}
                     <div className={styles.honeypot} aria-hidden="true">
                       <label htmlFor="cf-website">Website</label>
@@ -296,36 +241,26 @@ export function ContactOverlay() {
                       </div>
                     </div>
 
-                    <div className={styles.row}>
-                      <div className={styles.field}>
-                        <label htmlFor="cf-goal" className={styles.fieldLabel}>
-                          Cel <span className={styles.optional}>(opcjonalnie)</span>
-                        </label>
-                        <CustomSelect
-                          id="cf-goal"
-                          value={goal}
-                          onChange={setGoal}
-                          options={GOALS}
-                          placeholder="Co chcesz zbudować?"
-                        />
-                      </div>
-                      <div className={styles.field}>
-                        <label htmlFor="cf-budget" className={styles.fieldLabel}>
-                          Budżet <span className={styles.optional}>(opcjonalnie)</span>
-                        </label>
-                        <CustomSelect
-                          id="cf-budget"
-                          value={budget}
-                          onChange={setBudget}
-                          options={BUDGETS}
-                          placeholder="Orientacyjnie"
-                        />
-                      </div>
-                    </div>
+                    <ChipGroup
+                      name="goal"
+                      legend="Co chcesz zbudować?"
+                      options={GOALS}
+                      value={goal}
+                      onChange={setGoal}
+                    />
+
+                    <ChipGroup
+                      name="budget"
+                      legend="Budżet"
+                      optional
+                      options={BUDGETS}
+                      value={budget}
+                      onChange={setBudget}
+                    />
 
                     <div className={styles.field}>
                       <label htmlFor="cf-site" className={styles.fieldLabel}>
-                        Adres obecnej strony <span className={styles.optional}>(jeśli masz)</span>
+                        Obecna strona <span className={styles.optional}>opcjonalnie</span>
                       </label>
                       <input
                         id="cf-site"
@@ -341,7 +276,7 @@ export function ContactOverlay() {
 
                     <div className={styles.field}>
                       <label htmlFor="cf-message" className={styles.fieldLabel}>
-                        Jaki problem chcesz rozwiązać?
+                        Wiadomość
                       </label>
                       <textarea
                         id="cf-message"
@@ -349,7 +284,7 @@ export function ContactOverlay() {
                         aria-invalid={!!errors.message}
                         aria-describedby={errors.message ? 'cf-message-err' : undefined}
                         className={`${styles.input} ${styles.textarea} ${errors.message ? styles.inputError : ''}`}
-                        placeholder="Np. klienci dzwonią z pytaniami, które powinna wyjaśniać strona. Chcę zbierać rezerwacje online."
+                        placeholder="Jaki problem chcesz rozwiązać?"
                         value={message}
                         onChange={(e) => { setMessage(e.target.value); clearErr('message'); }}
                       />
@@ -358,18 +293,23 @@ export function ContactOverlay() {
 
                     <div className={styles.field}>
                       <label htmlFor="cf-attachment" className={styles.fieldLabel}>
-                        Załącznik <span className={styles.optional}>(opcjonalnie, PDF/PNG/JPG/DOCX, max {ATTACHMENT_MAX_MB} MB)</span>
+                        Załącznik <span className={styles.optional}>PDF, JPG, PNG, DOCX · do {ATTACHMENT_MAX_MB} MB</span>
                       </label>
-                      <input
-                        ref={fileRef}
-                        id="cf-attachment"
-                        type="file"
-                        accept={ATTACHMENT_ACCEPT}
-                        aria-invalid={!!errors.attachment}
-                        aria-describedby={errors.attachment ? 'cf-attachment-err' : undefined}
-                        className={styles.file}
-                        onChange={(e) => { setFile(e.target.files?.[0] ?? null); clearErr('attachment'); }}
-                      />
+                      <div className={styles.fileRow}>
+                        <input
+                          ref={fileRef}
+                          id="cf-attachment"
+                          type="file"
+                          accept={ATTACHMENT_ACCEPT}
+                          aria-invalid={!!errors.attachment}
+                          aria-describedby={errors.attachment ? 'cf-attachment-err' : undefined}
+                          className={styles.fileInput}
+                          onChange={(e) => { setFile(e.target.files?.[0] ?? null); clearErr('attachment'); }}
+                        />
+                        <label htmlFor="cf-attachment" className={styles.fileBtn} aria-hidden="true">
+                          <Paperclip size={16} aria-hidden="true" /> Dodaj plik
+                        </label>
+                      </div>
                       {file && !errors.attachment && (
                         <span className={styles.fileInfo}>
                           {file.name} · {(file.size / 1024 / 1024).toFixed(1)} MB{' '}
@@ -396,11 +336,10 @@ export function ContactOverlay() {
                           onChange={(e) => { setConsent(e.target.checked); clearErr('consent'); }}
                         />
                         <span>
-                          Zgadzam się na przetwarzanie moich danych w celu odpowiedzi na zapytanie.
-                          Szczegóły w{' '}
+                          Zgadzam się na przetwarzanie danych w celu odpowiedzi.{' '}
                           <Link href="/polityka-prywatnosci" target="_blank" className={styles.consentLink}>
-                            polityce prywatności
-                          </Link>.
+                            Polityka prywatności
+                          </Link>
                         </span>
                       </label>
                       {errors.consent && <span id="cf-consent-err" className={styles.error} role="alert">{errors.consent}</span>}
@@ -421,38 +360,57 @@ export function ContactOverlay() {
                     </button>
 
                     <div className={styles.after}>
-                      <div className={styles.afterBlock}>
-                        <p className={styles.afterTitle}>Co wydarzy się dalej?</p>
-                        <ol className={styles.afterSteps}>
-                          <li>Czytam wiadomość i odpowiadam do 24 godzin.</li>
-                          <li>Jeśli trzeba, umawiamy krótką rozmowę.</li>
-                          <li>Dostajesz propozycję zakresu i wycenę. Akceptujesz ją przed startem prac.</li>
-                        </ol>
-                      </div>
-                      <div className={styles.afterBlock}>
-                        <p className={styles.afterTitle}>Wolisz bezpośrednio?</p>
-                        <p className={styles.afterDirect}>
-                          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-                          {PHONE && <> · <a href={phoneHref(PHONE)}>{PHONE}</a></>}
-                        </p>
-                      </div>
+                      <ol className={styles.afterSteps} aria-label="Co dalej">
+                        <li>Odpowiadam do 24 godzin</li>
+                        <li>Krótka rozmowa</li>
+                        <li>Zakres i wycena do akceptacji</li>
+                      </ol>
+                      <p className={styles.afterDirect}>
+                        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                        {PHONE && <a href={phoneHref(PHONE)}>{PHONE}</a>}
+                      </p>
                     </div>
                   </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-
-          </div>
-
-          {/* Footer */}
-          <div className={styles.footer}>
-            <span className={styles.footerText}>
-              © {new Date().getFullYear()} {BRAND}
-            </span>
-            <span className={styles.footerText}>Z Polski dla świata.</span>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/** Wybór jednej opcji jako zaokrąglone „chipy” (natywne radio — działa klawiaturą, nic się nie rozwija). */
+function ChipGroup({
+  name, legend, options, value, onChange, optional = false,
+}: {
+  name: string;
+  legend: string;
+  options: readonly string[];
+  value: string;
+  onChange: (v: string) => void;
+  optional?: boolean;
+}) {
+  return (
+    <fieldset className={styles.chipGroup}>
+      <legend className={styles.fieldLabel}>
+        {legend} {optional && <span className={styles.optional}>opcjonalnie</span>}
+      </legend>
+      <div className={styles.chips}>
+        {options.map((o) => (
+          <label key={o} className={styles.chip}>
+            <input
+              type="radio"
+              name={name}
+              value={o}
+              checked={value === o}
+              onChange={() => onChange(o)}
+              onClick={() => { if (value === o) onChange(''); }}
+            />
+            <span>{o}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }

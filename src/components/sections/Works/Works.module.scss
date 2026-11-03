@@ -17,13 +17,15 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
+  align-items: center;
+  gap: var(--s-3);
+  text-align: center;
 }
 
 .headerRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--s-3);
 }
 
 .label {
@@ -32,6 +34,9 @@
 
 .count {
   @include label;
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  background: var(--sand-50);
 }
 
 .headline {
@@ -58,14 +63,11 @@
 /* ─── Footer link ─── */
 .footer {
   display: flex;
-  justify-content: flex-end;
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--color-border);
+  justify-content: center;
 }
 
 .footerLink {
-  @include label;
-  @include text-link;
+  @include btn-secondary;
   transition: color var(--dur-fast) var(--ease-out);
 
   &:hover { color: var(--color-text); }

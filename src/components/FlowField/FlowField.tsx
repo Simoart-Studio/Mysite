@@ -186,7 +186,7 @@ export function FlowField() {
         if (ring.a <= 0) { rings.splice(i, 1); continue; }
         ctx!.beginPath();
         ctx!.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
-        ctx!.strokeStyle = `rgba(255,248,230,${ring.a.toFixed(3)})`;
+        ctx!.strokeStyle = `rgba(181,101,74,${(ring.a * 0.9).toFixed(3)})`;
         ctx!.lineWidth   = 0.7;
         ctx!.stroke();
       }
@@ -243,8 +243,8 @@ export function FlowField() {
         if (streakLen > 1) {
           const y1   = sy + sDir * streakLen;
           const grad = ctx!.createLinearGradient(sx, sy, sx, y1);
-          grad.addColorStop(0, `rgba(255,250,232,${alpha.toFixed(3)})`);
-          grad.addColorStop(1, 'rgba(255,250,232,0)');
+          grad.addColorStop(0, `rgba(142,74,51,${(alpha * 0.6).toFixed(3)})`);
+          grad.addColorStop(1, 'rgba(142,74,51,0)');
           ctx!.beginPath();
           ctx!.moveTo(sx, sy);
           ctx!.lineTo(sx, y1);
@@ -256,7 +256,7 @@ export function FlowField() {
         /* core */
         ctx!.beginPath();
         ctx!.arc(sx, sy, s.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(255,250,232,${alpha.toFixed(3)})`;
+        ctx!.fillStyle = `rgba(142,74,51,${(alpha * 0.55).toFixed(3)})`;
         ctx!.fill();
 
         /* halo */
@@ -264,7 +264,7 @@ export function FlowField() {
           const haloA = alpha * 0.10 + boost * 0.06;
           ctx!.beginPath();
           ctx!.arc(sx, sy, s.r * (2.4 + boost * 2.2), 0, Math.PI * 2);
-          ctx!.fillStyle = `rgba(255,242,210,${haloA.toFixed(3)})`;
+          ctx!.fillStyle = `rgba(194,145,79,${(haloA * 0.9).toFixed(3)})`;
           ctx!.fill();
         }
       }
@@ -317,7 +317,7 @@ export function FlowField() {
         height:        '100vh',
         pointerEvents: 'none',
         zIndex:        1,
-        mixBlendMode:  'screen',
+        mixBlendMode:  'multiply',
       }}
       aria-hidden="true"
     />

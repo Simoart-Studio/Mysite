@@ -1,5 +1,5 @@
 .section {
-  padding-block: var(--s-32);
+  padding-block: var(--s-24);
 
   @include respond-to('mobile') { padding-block: var(--s-16); }
 }
@@ -7,208 +7,112 @@
 .inner {
   @include container;
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 260px 1fr;
   gap: var(--s-16);
-  align-items: start;
+  align-items: center;
+  max-width: 1000px;
 
-  @include respond-to('mobile')  { grid-template-columns: 1fr; gap: var(--s-8); }
-  @include respond-to('tablet')  { grid-template-columns: 1fr; gap: var(--s-8); }
-}
-
-
-.label {
-  @include label;
-  position: sticky;
-  top: calc(var(--nav-height) + var(--s-4));
-
-  @include respond-to('mobile') { position: static; }
-}
-
-.col2 {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-10);
-
-  @include respond-to('mobile') { gap: var(--s-8); }
-}
-
-.headline {
-  font-size: var(--fs-h1);
-  font-weight: 400;
-  letter-spacing: var(--tracking-heading);
-  line-height: var(--lh-heading);
-  color: var(--color-text);
-  display: flex;
-  flex-direction: column;
-}
-
-.lineWrap {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.15em;
-  margin-bottom: -0.15em;
-}
-
-.lineInner {
-  display: block;
-  transform-origin: bottom left;
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  max-width: 58ch;
-
-  p {
-    font-size: var(--fs-lead);
-    color: var(--color-text-muted);
-    line-height: var(--lh-body);
-    overflow-wrap: break-word;
-    hyphens: none;
-  }
-}
-
-.cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background: var(--color-text-muted);
-  vertical-align: text-bottom;
-  margin-left: 2px;
-  animation: blink 0.7s step-end infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-/* ─── Facts ─── */
-.facts {
-  border-top: 1px solid var(--color-border);
-}
-
-.fact {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: var(--s-6);
-  align-items: baseline;
-  padding-block: var(--s-4);
-  border-bottom: 1px solid var(--color-border);
-
-  @include respond-to('mobile') {
-    grid-template-columns: 1fr;
-    gap: var(--s-1);
-  }
-}
-
-.factKey {
-  @include label;
-  color: var(--color-text-dim);
-}
-
-.factVal {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-  line-height: var(--lh-body);
-  overflow-wrap: break-word;
-  hyphens: none;
-}
-
-/* ─── Portret / monogram ─── */
-.col1 {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-6);
-
-  @include respond-to('mobile') { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+  @include respond-to('mobile') { grid-template-columns: 1fr; gap: var(--s-8); justify-items: center; }
+  @include respond-to('tablet') { grid-template-columns: 200px 1fr; gap: var(--s-10); }
 }
 
 .portrait {
-  width: 180px;
+  width: 100%;
 
-  @include respond-to('mobile') { width: 132px; }
+  @include respond-to('mobile') { width: 160px; }
 }
 
 .portraitImg {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 46% 54% 42% 58% / 55% 44% 56% 45%;
 }
 
 .monogram {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  aspect-ratio: 3 / 4;
-  padding: 14px;
-  border-radius: 12px;
-  color: #f2ede6;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  aspect-ratio: 1;
+  color: var(--sand-50);
+  border-radius: 46% 54% 42% 58% / 55% 44% 56% 45%;
   background:
-    radial-gradient(120% 80% at 20% 0%, rgb(201 185 154 / 0.2), transparent 60%),
-    repeating-linear-gradient(45deg, transparent 0 12px, rgb(242 237 230 / 0.04) 12px 13px),
-    #0c0b09;
-  border: 1px solid var(--color-border-hi);
-  transform: rotate(-3deg);
-  box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.8);
-  transition: transform var(--dur-base) var(--ease-out);
+    radial-gradient(120% 90% at 0% 0%, #C98263 0%, transparent 60%),
+    radial-gradient(100% 80% at 100% 100%, #8F4E37 0%, transparent 65%),
+    var(--clay);
+  box-shadow: var(--shadow-md);
+  transition: border-radius 1.2s var(--ease-out), transform var(--dur-slow) var(--ease-spring);
 
-  &:hover { transform: rotate(0deg) translateY(-4px); }
+  &:hover {
+    border-radius: 55% 45% 58% 42% / 44% 56% 45% 55%;
+    transform: rotate(-3deg);
+  }
 
-  @include reduced-motion { transform: none; &:hover { transform: none; } }
-}
-
-.monoTop {
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #c9b99a;
+  @include reduced-motion { transition: none; &:hover { transform: none; } }
 }
 
 .monoLetters {
-  font-size: 3.5rem;
-  letter-spacing: -0.06em;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  letter-spacing: -0.05em;
   line-height: 1;
-
-  @include respond-to('mobile') { font-size: 2.6rem; }
 }
 
 .monoName {
-  font-size: 0.75rem;
-  color: #d8d2cb;
+  font-size: 0.8125rem;
+  opacity: 0.9;
 }
 
-/* ─── Typewriter bez skoku układu ─── */
-.typePara {
-  display: grid;
-
-  > .ghost, > .typed { grid-area: 1 / 1; }
-}
-
-.ghost {
-  visibility: hidden;
-
-  :global(html:not(.js)) & { visibility: visible; }
-}
-
-.typed {
-  :global(html:not(.js)) & { display: none; }
-}
-
-/* ─── Bezpośredni kontakt ─── */
-.direct {
+.text {
   display: flex;
   flex-direction: column;
-  gap: var(--s-3);
+  gap: var(--s-6);
+
+  @include respond-to('mobile') { text-align: center; align-items: center; }
 }
 
-.directLabel { @include label; }
+.label { @include label; }
 
-.directList {
+.headline {
+  font-size: var(--fs-h1);
+  color: var(--color-text);
+  max-width: 18ch;
+}
+
+.body {
+  font-size: var(--fs-lead);
+  color: var(--color-text-muted);
+  max-width: 52ch;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+
+  @include respond-to('mobile') { justify-content: center; }
+}
+
+.fact {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  background: var(--sand-50);
+  font-size: var(--fs-small);
+}
+
+.factKey { color: var(--clay-ink); font-weight: 500; }
+.factVal { color: var(--color-text-muted); }
+
+.direct {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2) var(--s-6);
+
+  @include respond-to('mobile') { justify-content: center; }
 }
 
 .directLink {

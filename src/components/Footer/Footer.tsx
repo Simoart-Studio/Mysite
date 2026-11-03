@@ -24,13 +24,13 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={styles.footer} role="contentinfo">
+    <footer className={`${styles.footer} section-dark`} role="contentinfo">
       <div className={styles.inner}>
         <div className={styles.top}>
           <div className={styles.brand}>
             <p className={styles.sig}>{BRAND}</p>
             <p className={styles.tagline}>
-              Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
+              Strony i aplikacje, które zarabiają.
             </p>
             <p className={styles.location}>Polska · Remote</p>
           </div>

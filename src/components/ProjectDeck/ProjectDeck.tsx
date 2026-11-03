@@ -6,6 +6,7 @@ import {
 } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
+import { ArrowRight, LayoutGrid, Layers, RotateCcw, Undo2 } from 'lucide-react';
 import type { Project } from '@/types/project';
 import { CardBack, CardFront } from './CardFaces';
 import styles from './ProjectDeck.module.scss';
@@ -153,7 +154,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
   }
 
   const stackX = wide && revealed > 0 ? '-54%' : '0%';
-  const current = revealed > 0 ? projects[revealed - 1]! : null;
 
   return (
     <div
@@ -183,9 +183,15 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
             animate={{ x: stackX, opacity: revealed >= n ? 1 : 0 }}
             transition={{ duration: reduced ? 0 : 0.5, ease: EASE }}
           >
-            <span>To wszystkie projekty.</span>
-            <button type="button" className={styles.slotBtn} onClick={reset} tabIndex={revealed >= n ? 0 : -1}>
-              Przetasuj od nowa
+            <span>To już wszystkie.</span>
+            <button
+              type="button"
+              className={styles.slotBtn}
+              onClick={reset}
+              tabIndex={revealed >= n ? 0 : -1}
+              aria-label="Przetasuj od nowa"
+            >
+              <RotateCcw size={18} aria-hidden="true" />
             </button>
           </motion.div>
 
@@ -276,7 +282,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                         ? `Moje projekty. Odsłoń kartę ${i + 1} z ${n}`
                         : `${p.name}${p.tagline ? `: ${p.tagline}` : ''} — otwórz szczegóły projektu`}
                     </span>
-                    <span aria-hidden="true">{inner}</span>
+                    <span aria-hidden="true" className={isStackTop ? styles.invite : styles.innerWrap}>{inner}</span>
                   </motion.button>
                 ) : (
                   <span className={styles.cardBtn} inert>{inner}</span>
@@ -288,44 +294,56 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
       )}
 
       <div className={styles.controls} data-deck-controls>
-        <p className={styles.progress} aria-hidden="true">
-          Odkryte <strong>{revealed}</strong> / {n}
-          {current && <span className={styles.progressName}> · {current.name}</span>}
-        </p>
-        {current && !listMode && (
-          <p className={styles.touchHint} aria-hidden="true">
-            Przesuń kartę w lewo, aby odsłonić następną, w prawo, aby cofnąć.
-          </p>
-        )}
-        <div className={styles.controlBtns}>
-          <button type="button" className={styles.ctrl} onClick={undo} disabled={revealed === 0 || listMode}>
-            ← Cofnij kartę
-          </button>
-          <button type="button" className={`${styles.ctrl} ${styles.ctrlPrimary}`} onClick={reveal} disabled={revealed >= n || listMode}>
-            Odsłoń następną →
-          </button>
-          {current && !listMode && (
-            <button
-              type="button"
-              className={styles.ctrl}
-              onClick={() => open(revealed - 1)}
-              aria-haspopup="dialog"
-            >
-              Otwórz kartę
-            </button>
-          )}
-          <button type="button" className={styles.ctrl} onClick={reset} disabled={revealed === 0 || listMode}>
-            ↺ Przetasuj
-          </button>
-          <button
-            type="button"
-            className={`${styles.ctrl} ${styles.ctrlGhost}`}
-            onClick={() => setListMode((v) => !v)}
-            aria-pressed={listMode}
-          >
-            {listMode ? 'Wróć do talii' : 'Widok listy'}
-          </button>
+        <button
+          type="button"
+          className={styles.ctrl}
+          onClick={undo}
+          disabled={revealed === 0 || listMode}
+          aria-label="Cofnij kartę"
+          title="Cofnij"
+        >
+          <Undo2 size={18} aria-hidden="true" />
+        </button>
+
+        <div className={styles.progress} aria-hidden="true">
+          {projects.map((p, i) => (
+            <span key={p.slug} className={i < revealed ? `${styles.pip} ${styles.pipOn}` : styles.pip} />
+          ))}
         </div>
+
+        <button
+          type="button"
+          className={`${styles.ctrl} ${styles.ctrlPrimary}`}
+          onClick={reveal}
+          disabled={revealed >= n || listMode}
+          aria-label="Odsłoń następną kartę"
+          title="Następna"
+        >
+          <ArrowRight size={20} aria-hidden="true" />
+        </button>
+
+        <span className={styles.ctrlSep} aria-hidden="true" />
+
+        <button
+          type="button"
+          className={styles.ctrl}
+          onClick={reset}
+          disabled={revealed === 0 || listMode}
+          aria-label="Przetasuj od nowa"
+          title="Przetasuj"
+        >
+          <RotateCcw size={18} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className={styles.ctrl}
+          onClick={() => setListMode((v) => !v)}
+          aria-pressed={listMode}
+          aria-label={listMode ? 'Wróć do talii' : 'Widok listy'}
+          title={listMode ? 'Talia' : 'Lista'}
+        >
+          {listMode ? <Layers size={18} aria-hidden="true" /> : <LayoutGrid size={18} aria-hidden="true" />}
+        </button>
       </div>
 
       {openIdx !== null && (

@@ -20,11 +20,7 @@ export function Works() {
               {projects.length.toString().padStart(2, '0')}
             </span>
           </div>
-          <h2 id="works-title" className={styles.headline}>Moje projekty</h2>
-          <p className={styles.intro}>
-            Każda karta to jeden projekt. Odsłaniaj je po kolei, a kartę otwórz, żeby zobaczyć
-            problem, rozwiązanie i zrzuty ekranu. Na wierzchu są najświeższe.
-          </p>
+          <h2 id="works-title" className={styles.headline}>Projekty</h2>
         </header>
 
         <div className={styles.deckArea}>
@@ -44,7 +40,7 @@ export function Works() {
             rel="noopener noreferrer"
             className={styles.footerLink}
           >
-            Kod moich projektów na GitHubie ↗
+            GitHub ↗
           </a>
         </div>
       </div>

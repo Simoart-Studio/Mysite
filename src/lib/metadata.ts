@@ -22,8 +22,8 @@ export const siteMetadata = {
 };
 
 export const baseViewport: Viewport = {
-  themeColor: '#080808',
-  colorScheme: 'dark',
+  themeColor: '#F5EEE5',
+  colorScheme: 'light',
   width: 'device-width',
   initialScale: 1,
 };

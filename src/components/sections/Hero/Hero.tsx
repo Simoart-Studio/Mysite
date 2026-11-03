@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { AVAILABILITY } from '@/data/config';
 import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import { HeroDeck } from '@/components/HeroDeck/HeroDeck';
 import type { Project } from '@/types/project';
@@ -87,8 +86,7 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
       <div className={styles.inner}>
         {/* Wejścia w CSS: startują przed hydratacją, więc nie opóźniają LCP */}
         <p className={`${styles.label} ${styles.enter}`} style={{ animationDelay: '0.1s' }}>
-          <span className="sr-only">Rola: </span>
-          Digital Developer&ensp;·&ensp;Self Made
+          SimoArt studio
         </p>
 
         <h1 id="hero-h1" className={`${styles.h1} ${styles.h1Enter}`}>
@@ -102,7 +100,7 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
         </h1>
 
         <p className={`${styles.lead} ${styles.enter}`} style={{ animationDelay: '0.25s' }}>
-          Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
+          Strony i aplikacje, które zarabiają — nie tylko wyglądają.
         </p>
 
         {deck.length >= 3 && (
@@ -110,14 +108,6 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
             <HeroDeck cards={deck} />
           </div>
         )}
-
-        <div className={`${styles.bottom} ${styles.enter}`} style={{ animationDelay: '0.5s' }}>
-          <span className={styles.status}>
-            <span className={styles.dot} aria-hidden="true" />
-            <span className="sr-only">Status: </span>
-            Dostępny {AVAILABILITY}
-          </span>
-        </div>
 
         {!reducedDom && (
           <motion.div

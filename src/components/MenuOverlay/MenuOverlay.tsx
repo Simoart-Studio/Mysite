@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
+import { scrollToTarget } from '@/lib/scrollLock';
 import styles from './MenuOverlay.module.scss';
 
 const E_WAVE = [0.76, 0, 0.24, 1] as const;
@@ -89,15 +90,13 @@ export function MenuOverlay() {
 
   function handleNav(e: React.MouseEvent, href: string) {
     if (!href.startsWith('/#')) return;
+    const id = href.slice(2);
+    // Na podstronie sekcji nie ma — zwykła nawigacja na stronę główną
+    if (!document.getElementById(id)) return;
     e.preventDefault();
     close();
-    const id = href.slice(2);
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: prefersReduced ? 'auto' : 'smooth',
-        block:    'start',
-      });
-    }, prefersReduced ? 0 : 240);
+    // Po zamknięciu menu (odblokowanie przewijania) — przewiń z odstępem pod nawigacją
+    setTimeout(() => scrollToTarget(id, !!prefersReduced), prefersReduced ? 0 : 260);
   }
 
   return (

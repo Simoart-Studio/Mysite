@@ -42,12 +42,10 @@ export function CardFront({
   project,
   index,
   total,
-  hint = 'Kliknij, aby otworzyć',
 }: {
   project: Project;
   index: number;
   total: number;
-  hint?: string | null;
 }) {
   return (
     <span className={styles.front}>
@@ -64,17 +62,16 @@ export function CardFront({
         </span>
         <span className={styles.name}>{project.name}</span>
         <span className={project.tagline ? styles.tagline : `${styles.tagline} ${styles.taglineTodo}`}>
-          {project.tagline ?? `Opis problemu: ${TODO.toLowerCase()}`}
-        </span>
-        <span className={styles.chips}>
-          {project.stack.map((t) => (
-            <span key={t} className={styles.chip}>{t}</span>
-          ))}
+          {project.tagline ?? `Opis: ${TODO.toLowerCase()}`}
         </span>
         <span className={styles.frontFoot}>
-          {hint && <span className={styles.hint}>{hint}</span>}
+          <span className={styles.chips}>
+            {project.stack.slice(0, 3).map((t) => (
+              <span key={t} className={styles.chip}>{t}</span>
+            ))}
+          </span>
           <span className={styles.counter}>
-            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+            {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
           </span>
         </span>
       </span>
@@ -82,22 +79,21 @@ export function CardFront({
   );
 }
 
-/** Rewers: karta tytułowa talii. */
+/** Rewers: karta tytułowa talii — bez instrukcji, sama zachęca kształtem i ruchem. */
 export function CardBack({ remaining, total }: { remaining: number; total: number }) {
   return (
     <span className={styles.back}>
+      <svg className={styles.backArt} viewBox="0 0 300 420" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <path d="M228,46C268,74,292,128,284,180C276,232,236,282,184,300C132,318,68,304,38,262C8,220,12,150,44,104C76,58,188,18,228,46Z" fill="rgb(255 255 255 / 0.10)" />
+        <path d="M250,262C284,290,300,340,280,378C260,416,204,436,158,428C112,420,76,384,78,342C80,300,120,252,164,240C208,228,216,234,250,262Z" fill="rgb(255 255 255 / 0.08)" />
+      </svg>
       <span className={styles.backTop}>
-        <span>SimoArt studio</span>
-        <span>{String(total - remaining + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
+        <span>SimoArt</span>
+        <span>{String(total - remaining + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>
       </span>
-      <span className={styles.backTitle}>
-        Moje projekty.
-        <em>Odsłoń kartę.</em>
-      </span>
-      <span className={styles.backHint}>
-        <span className={styles.backHintIcon} aria-hidden="true">↗</span>
-        Kliknij, aby odsłonić
-        <span className={styles.backHintSwipe}> · lub przesuń w bok</span>
+      <span className={styles.backTitle}>Projekty</span>
+      <span className={styles.backMark} aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </span>
     </span>
   );

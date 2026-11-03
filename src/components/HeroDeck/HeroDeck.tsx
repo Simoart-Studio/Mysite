@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import type { Project } from '@/types/project';
+import { scrollToTarget } from '@/lib/scrollLock';
 import styles from './HeroDeck.module.scss';
 
 type Mini = Pick<Project, 'slug' | 'name' | 'thumbnail'>;
@@ -22,7 +23,6 @@ const FAN = [
 export function HeroDeck({ cards }: { cards: Mini[] }) {
   const reduced = !!useReducedMotion();
   const [spread, setSpread] = useState(false);
-  const [fine, setFine] = useState(true);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -30,7 +30,6 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
   const ry = useSpring(useTransform(mx, [-1, 1], [-14, 14]), { stiffness: 120, damping: 18 });
 
   useEffect(() => {
-    setFine(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
     if (reduced) return;
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
@@ -42,7 +41,7 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
   }, [mx, my, reduced]);
 
   function goToWorks() {
-    document.getElementById('works')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    scrollToTarget('works', reduced);
   }
 
   const shown = cards.slice(0, 3);
@@ -59,7 +58,7 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
         onBlur={() => setSpread(false)}
         onClick={(e) => { e.preventDefault(); goToWorks(); }}
       >
-        <span className="sr-only">Moje projekty — przejdź do talii projektów</span>
+        <span className="sr-only">Projekty — przejdź do talii</span>
         {shown.map((c, i) => {
           const f = FAN[i]!;
           const k = spread ? 1.35 : 1;
@@ -75,8 +74,8 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
             >
               {i === 1 ? (
                 <span className={styles.back}>
-                  <span className={styles.backTitle}>Moje<br />projekty.</span>
-                  <span className={styles.backSub}>Odsłoń kartę →</span>
+                  <span className={styles.backTitle}>Projekty</span>
+                  <span className={styles.backSub} aria-hidden="true">↗</span>
                 </span>
               ) : (
                 <span className={styles.front}>
@@ -98,10 +97,6 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
           );
         })}
       </motion.a>
-      <p className={styles.hint}>
-        <span className={styles.hintDot} aria-hidden="true" />
-        {fine ? 'Porusz kursorem, najedź na talię i kliknij' : 'Dotknij talii, aby zobaczyć projekty'}
-      </p>
     </div>
   );
 }
