@@ -1,5 +1,6 @@
 .section {
   padding-block: var(--s-32);
+  overflow-x: clip;
 
   @include respond-to('mobile') { padding-block: var(--s-16); }
 }
@@ -31,8 +32,6 @@
 
 .count {
   @include label;
-  color: var(--color-text-dim);
-  opacity: 0.5;
 }
 
 .headline {
@@ -42,266 +41,18 @@
   color: var(--color-text);
 }
 
-/* ─── Filters ─── */
-.filters {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  flex-wrap: wrap;
-}
-
-.filterBtn {
-  @include label;
-  padding: 6px 14px;
-  border: 1px solid var(--color-border);
-  background: transparent;
-  color: var(--color-text-dim);
-  cursor: pointer;
-  transition: color var(--dur-fast) var(--ease-out),
-              border-color var(--dur-fast) var(--ease-out),
-              background var(--dur-fast) var(--ease-out);
-
-  &:hover { color: var(--color-text-muted); border-color: var(--color-border-hi); }
-  &:focus-visible { @include focus-ring; }
-}
-
-.filterBtnActive {
-  color: var(--color-text);
-  border-color: var(--color-text-dim);
-  background: var(--color-bg-raised);
-}
-
-/* ─── Grid ─── */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--s-10);
-
-  @include respond-to('mobile') { display: none; }
-}
-
-/* ─── Card ─── */
-.card {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ─── Mobile Carousel ─── */
-.carouselWrap {
-  display: none;
-
-  @include respond-to('mobile') { display: block; }
-}
-
-.cardLink {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-
-  &:focus-visible { @include focus-ring; }
-
-  &:hover .cardTitle  { opacity: 0.5; }
-  &:hover .img        { transform: scale(1.03); }
-
-  &:hover .imgOverlay {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  &:hover .glint {
-    background-position: -120% 0;
-  }
-
-  &:hover .imgWrap::before {
-    width: 22px;
-    height: 22px;
-    border-color: var(--color-text-dim);
-    opacity: 1;
-  }
-
-  &:hover .imgWrap::after {
-    width: 22px;
-    height: 22px;
-    border-color: var(--color-text-dim);
-    opacity: 1;
-  }
-}
-
-.imgWrap {
-  position: relative;
-  overflow: hidden;
-  background: var(--color-bg-raised);
-
-  /* corner bracket — top-left */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 14px;
-    height: 14px;
-    border-top: 1px solid var(--color-border);
-    border-left: 1px solid var(--color-border);
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0.5;
-    transition: width 0.4s var(--ease-out),
-                height 0.4s var(--ease-out),
-                opacity 0.4s ease,
-                border-color 0.4s ease;
-  }
-
-  /* corner bracket — bottom-right */
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 14px;
-    height: 14px;
-    border-bottom: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0.5;
-    transition: width 0.4s var(--ease-out),
-                height 0.4s var(--ease-out),
-                opacity 0.4s ease,
-                border-color 0.4s ease;
-  }
-}
-
-.parallaxClip {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.parallaxInner {
-  scale: 1.16;
-  will-change: transform;
-}
-
-.img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: transform 0.6s var(--ease-out);
-}
-
-/* mosaic tile overlay */
-.tileGrid {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  z-index: 3;
-  pointer-events: none;
-}
-
-.tile {
-  display: block;
-  background: var(--color-bg-raised);
-}
-
-/* light-sweep glint on hover */
-.glint {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 25%,
-    rgba(255, 255, 255, 0.07) 50%,
-    transparent 75%
-  );
-  background-size: 250% 100%;
-  background-position: 120% 0;
-  z-index: 2;
-  pointer-events: none;
-  transition: background-position 0.7s var(--ease-out);
-}
-
-.imgOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgb(13 13 13 / 0.6);
-  display: flex;
-  align-items: flex-end;
-  padding: var(--s-5);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
-  z-index: 4;
-}
-
-.openLabel {
-  @include label;
-  color: #F5F4EF;
-  letter-spacing: 0.1em;
-}
-
-/* ─── Footer ─── */
-.cardFooter {
-  padding-top: var(--s-5);
-  border-top: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
-}
-
-.cardMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-4);
-}
-
-.cardTag {
-  @include label;
-  color: var(--color-text-dim);
-}
-
-.cardYear {
-  @include label;
-  color: var(--color-text-dim);
-}
-
-.cardTitle {
-  font-size: var(--fs-h3);
-  font-weight: 400;
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-text);
-  transition: opacity var(--dur-fast) var(--ease-out);
-  overflow-wrap: break-word;
-  hyphens: none;
-}
-
-.cardDesc {
-  font-size: var(--fs-small);
+.intro {
+  max-width: 56ch;
   color: var(--color-text-muted);
-  line-height: var(--lh-body);
-  overflow-wrap: break-word;
-  hyphens: none;
 }
 
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin-top: var(--s-1);
+.deckArea {
+  position: relative;
 }
 
-.stackBadge {
-  @include label;
-  font-size: 0.6rem;
-  color: var(--color-text-dim);
-  border: 1px solid var(--color-border);
-  padding: 3px 8px;
-  letter-spacing: 0.1em;
+// Siatka bez JS: widoczna tylko, gdy skrypt nie ustawił klasy .js na <html>
+.noJs {
+  :global(html.js) & { display: none; }
 }
 
 /* ─── Footer link ─── */
@@ -315,7 +66,6 @@
 .footerLink {
   @include label;
   @include text-link;
-  color: var(--color-text-dim);
   transition: color var(--dur-fast) var(--ease-out);
 
   &:hover { color: var(--color-text); }

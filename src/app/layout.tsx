@@ -31,6 +31,12 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <head>
+        {/* Oznacza, że JS działa — bez niego pokazujemy statyczną siatkę projektów */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <noscript>
+          {/* Framer Motion renderuje stan początkowy (opacity: 0). Bez JS pokazujemy treść. */}
+          <style>{'[style*="opacity:0"]{opacity:1!important;transform:none!important}'}</style>
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: schemaString }}
