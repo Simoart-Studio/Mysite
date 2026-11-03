@@ -122,31 +122,38 @@
 
 .dots {
   display: flex;
-  gap: 10px;
+  gap: 2px;
 
   :global(html:not(.js)) & { display: none; }
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   padding: 0;
-  border-radius: 50%;
-  background: var(--color-border-hi);
-  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), width var(--dur-base) var(--ease-out);
+  border-radius: var(--r-pill);
+  transition: width var(--dur-base) var(--ease-out);
 
-  &[aria-current='true'] {
-    width: 28px;
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
     border-radius: var(--r-pill);
-    background: var(--green);
+    background: var(--color-border-hi);
+    transition: width var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
   }
 
-  &:hover { transform: scale(1.15); }
-  &:focus-visible { @include focus-ring; }
+  &[aria-current='true'] {
+    width: 36px;
 
-  // Większy obszar dotyku
-  position: relative;
-  &::after { content: ''; position: absolute; inset: -10px; }
+    &::before { width: 28px; background: var(--green); }
+  }
+
+  &:hover::before { background: var(--green); }
+  &:focus-visible { @include focus-ring; }
 }
 
 .static {

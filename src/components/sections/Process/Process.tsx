@@ -52,7 +52,7 @@ const STEPS: Step[] = [
 
 function Panel({ step, id, labelledBy, hidden }: { step: Step; id: string; labelledBy: string; hidden: boolean }) {
   return (
-    <div className={styles.panel} role="tabpanel" id={id} aria-labelledby={labelledBy} hidden={hidden}>
+    <div className={styles.panel} role="region" id={id} aria-labelledby={labelledBy} hidden={hidden}>
       <p className={styles.panelLabel}>Efekt etapu</p>
       <p className={styles.effect}>{step.effect}</p>
       <ul className={styles.chips}>
@@ -108,7 +108,7 @@ export function Process() {
         </header>
 
         <div className={styles.grid} data-reveal>
-          <div className={styles.list} role="tablist" aria-orientation="vertical" aria-label="Etapy współpracy">
+          <div className={styles.list}>
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               const on = i === active;
@@ -117,11 +117,9 @@ export function Process() {
                   <button
                     ref={(el) => { tabs.current[i] = el; }}
                     type="button"
-                    role="tab"
                     id={`${uid}-tab-${i}`}
-                    aria-selected={on}
-                    aria-controls={`${uid}-panel-${i}`}
-                    tabIndex={on ? 0 : -1}
+                    aria-expanded={on}
+                    aria-controls={`${uid}-ipanel-${i} ${uid}-panel-${i}`}
                     className={`${styles.step} ${on ? styles.stepOn : ''}`}
                     onClick={() => setActive(i)}
                     onKeyDown={(e) => onKey(e, i)}
