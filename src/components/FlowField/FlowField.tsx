@@ -62,22 +62,45 @@ export function FlowField() {
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     resize();
-    window.addEventListener('resize', resize);
+    // Zmiana rozmiaru czyści płótno — przerysuj klatkę
+    const onResize = () => { resize(); wake(); };
+    window.addEventListener('resize', onResize);
 
     function onMove(e: MouseEvent) {
       mouseXRef.current = e.clientX;
       mouseYRef.current = e.clientY;
+      wake();
     }
     function onClick(e: MouseEvent) {
       burstRef.current = { x: e.clientX, y: e.clientY };
+      wake();
     }
     function onLeave() {
       mouseXRef.current = -999;
       mouseYRef.current = -999;
+      wake();
     }
+    // Palec działa jak kursor: odpycha i rozświetla gwiazdki pod sobą
+    function onTouch(e: TouchEvent) {
+      const t0 = e.touches[0];
+      if (!t0) return;
+      mouseXRef.current = t0.clientX;
+      mouseYRef.current = t0.clientY;
+      wake();
+    }
+    function onTouchEnd() {
+      mouseXRef.current = -999;
+      mouseYRef.current = -999;
+      wake();
+    }
+    function onScroll() { wake(); }
     window.addEventListener('mousemove',   onMove);
     window.addEventListener('click',       onClick);
     document.addEventListener('mouseleave', onLeave);
+    window.addEventListener('touchstart',  onTouch,    { passive: true });
+    window.addEventListener('touchmove',   onTouch,    { passive: true });
+    window.addEventListener('touchend',    onTouchEnd, { passive: true });
+    window.addEventListener('scroll',      onScroll,   { passive: true });
 
     const count = W < 768 ? 90 : STAR_COUNT;
 
@@ -101,15 +124,26 @@ export function FlowField() {
 
     const stars = makeStars();
     const rings: Ring[] = [];
-    let t   = 0;
+    // Czas zamrożony: bez dryfu i migotania w spoczynku. Ruch tylko w reakcji na kursor, palec i przewijanie.
+    const t = 0;
     let raf = 0;
 
     let running = false;
+    let ready = false;
+    let lastInput = 0;
+
+    /** Uruchamia pętlę animacji; sama się zatrzyma, gdy gwiazdki się uspokoją. */
+    function wake() {
+      lastInput = performance.now();
+      if (!ready || running || document.hidden) return;
+      running = true;
+      raf = requestAnimationFrame(draw);
+    }
 
     function draw() {
       if (!running) return;
       raf = requestAnimationFrame(draw);
-      t  += 0.016;
+      let energy = 0;
 
       ctx!.clearRect(0, 0, W, H);
 
@@ -188,6 +222,7 @@ export function FlowField() {
         s.vy *= DAMPING;
         s.ox += s.vx;
         s.oy += s.vy;
+        energy += Math.abs(s.vx) + Math.abs(s.vy);
 
         const sx = bx + s.ox;
         const sy = by + s.oy;
@@ -233,10 +268,19 @@ export function FlowField() {
           ctx!.fill();
         }
       }
+
+      // Spokój: brak fal, ruchu gwiazdek i świeżego wejścia → zatrzymaj pętlę (ostatnia klatka zostaje)
+      const idleFor = performance.now() - lastInput;
+      // średnia prędkość < 0.01 px/klatkę — ruch niezauważalny
+      if (!rings.length && energy < stars.length * 0.01 && absVel < 1 && idleFor > 400) {
+        running = false;
+        cancelAnimationFrame(raf);
+      }
     }
 
     // Start dopiero, gdy przeglądarka jest bezczynna — nie konkuruje z pierwszym renderem (LCP/TBT)
-    const start = () => { if (running || document.hidden) return; running = true; draw(); };
+    // Pierwsza klatka (statyczne gwiazdki), potem animacja tylko na żądanie
+    const start = () => { ready = true; wake(); };
     const stop  = () => { running = false; cancelAnimationFrame(raf); };
     const onVisibility = () => (document.hidden ? stop() : start());
     document.addEventListener('visibilitychange', onVisibility);
@@ -250,9 +294,13 @@ export function FlowField() {
       if (hasIdle) window.cancelIdleCallback(idle as number);
       else globalThis.clearTimeout(idle);
       document.removeEventListener('visibilitychange', onVisibility);
-      window.removeEventListener('resize',    resize);
+      window.removeEventListener('resize',    onResize);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('click',     onClick);
+      window.removeEventListener('touchstart', onTouch);
+      window.removeEventListener('touchmove',  onTouch);
+      window.removeEventListener('touchend',   onTouchEnd);
+      window.removeEventListener('scroll',     onScroll);
       document.removeEventListener('mouseleave', onLeave);
     };
   }, [reduced]);
