@@ -119,7 +119,7 @@ export function MenuOverlay() {
         >
           {/* ─── Top bar ─── */}
           <div className={styles.topBar}>
-            <span className={styles.logoMark} aria-hidden="true">SP</span>
+            <span className={styles.logoMark} aria-hidden="true">SimoArt</span>
             <button
               ref={closeRef}
               type="button"

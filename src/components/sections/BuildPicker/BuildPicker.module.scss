@@ -1,0 +1,184 @@
+.section {
+  padding-block: var(--s-32);
+
+  @include respond-to('mobile') { padding-block: var(--s-16); }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-12);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.label { @include label; }
+
+.headline {
+  font-size: var(--fs-h2);
+  color: var(--color-text);
+}
+
+.intro {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.picker {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--s-8);
+  align-items: start;
+
+  @include respond-to('mobile') { grid-template-columns: 1fr; }
+  @include respond-to('tablet') { grid-template-columns: 1fr; }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  border: 0;
+  min-width: 0;
+}
+
+.option { position: relative; }
+
+.radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-4) var(--s-6);
+  border: 1px solid var(--color-border-hi);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    border-color: var(--color-text-muted);
+    transform: translateX(4px);
+  }
+
+  .radio:checked + & {
+    border-color: var(--color-text);
+    background: var(--color-bg-raised);
+  }
+
+  .radio:focus-visible + & { @include focus-ring; }
+
+  @include reduced-motion { &:hover { transform: none; } }
+}
+
+.tileProblem {
+  font-size: 1.0625rem;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.tileTitle {
+  @include label;
+  color: var(--color-text-muted);
+
+  .radio:checked + .tile & { color: var(--color-text); }
+}
+
+.panels {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--s-6));
+}
+
+.panel {
+  display: none;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding: var(--s-8);
+  border: 1px solid var(--color-border-hi);
+  background: var(--color-bg-raised);
+  animation: panelIn 0.45s var(--ease-out);
+
+  @include respond-to('mobile') { padding: var(--s-6); }
+  @include reduced-motion { animation: none; }
+}
+
+// Pokaż panel zaznaczonego kafelka (bez JS — czysty CSS)
+@each $id in strona, sklep, webapp, mobile, mvp {
+  .picker:has(:global(#build-#{$id}):checked) .panel[data-for='#{$id}'] { display: flex; }
+}
+
+// Przeglądarki bez :has() — pokaż pierwszy panel
+@supports not selector(:has(*)) {
+  .panel[data-for='strona'] { display: flex; }
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panelEyebrow { @include label; color: var(--color-text-muted); }
+
+.panelOffer {
+  font-size: var(--fs-lead);
+  color: var(--color-text);
+  line-height: var(--lh-body);
+}
+
+.gets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  color: var(--color-text-muted);
+
+  li {
+    padding-left: var(--s-6);
+    position: relative;
+
+    &::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+    }
+  }
+}
+
+.related {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.relatedLink {
+  @include text-link;
+  color: var(--color-text);
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-size: var(--fs-small);
+  border: 1px solid var(--color-text);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+
+  &:hover { background: transparent; color: var(--color-text); }
+  &:focus-visible { @include focus-ring; }
+}

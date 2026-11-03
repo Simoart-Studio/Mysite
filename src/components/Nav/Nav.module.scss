@@ -128,7 +128,10 @@
 
 .logo {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
   opacity: 0.9;
   transition: opacity var(--dur-fast) var(--ease-out);
 
@@ -163,3 +166,6 @@
   span:first-child { transform: translateY(3.5px) rotate(45deg); }
   span:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
 }
+
+.logoMain { font-weight: 500; }
+.logoSub  { font-size: 0.8125rem; color: var(--color-text-muted); }

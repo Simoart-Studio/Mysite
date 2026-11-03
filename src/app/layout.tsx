@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { GeistMono } from 'geist/font/mono';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { baseMetadata } from '@/lib/metadata';
-import { buildPersonSchema } from '@/lib/schema';
+import { baseMetadata, baseViewport } from '@/lib/metadata';
+import { buildPersonSchema, jsonLd } from '@/lib/schema';
 import { ClientProviders } from '@/components/ClientProviders/ClientProviders';
 import '@/styles/globals.scss';
 
@@ -17,8 +17,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = baseMetadata;
+export const viewport: Viewport = baseViewport;
 
-const schemaString = JSON.stringify(buildPersonSchema());
+const schemaString = jsonLd(buildPersonSchema());
 
 export default function RootLayout({
   children,

@@ -155,3 +155,10 @@
   0%, 100% { opacity: 1;   }
   50%       { opacity: 0.3; }
 }
+
+/* ─── Mini-talia ─── */
+.deck {
+  margin-block: var(--s-4) var(--s-2);
+
+  @include respond-to('mobile') { margin-block: var(--s-2) 0; }
+}

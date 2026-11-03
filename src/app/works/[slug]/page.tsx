@@ -2,17 +2,20 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { works } from '@/data/works';
+import { projects, getProject, TODO } from '@/lib/projects';
+import { pageMetadata } from '@/lib/metadata';
+import { buildProjectSchema, jsonLd } from '@/lib/schema';
 import { Nav } from '@/components/Nav/Nav';
 import { Footer } from '@/components/Footer/Footer';
 import { NoiseOverlay } from '@/components/NoiseOverlay/NoiseOverlay';
-import { SmokeReveal } from '@/components/SmokeReveal/SmokeReveal';
+import { CaseStudyBody } from '@/components/ProjectDeck/CaseStudyBody';
+import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import styles from './page.module.scss';
 
-export async function generateStaticParams() {
-  return works
-    .filter((w) => w.caseStudy)
-    .map((w) => ({ slug: w.slug }));
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -21,13 +24,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const work = works.find((w) => w.slug === slug);
-  if (!work) return {};
-
-  return {
-    title: `${work.title} — Case Study`,
-    description: work.description,
-  };
+  const p = getProject(slug);
+  if (!p) return {};
+  return pageMetadata({
+    title: `${p.name} — studium przypadku`,
+    description: p.tagline
+      ? `${p.tagline} Problem, rozwiązanie, zakres prac i technologie projektu ${p.name}.`
+      : `Projekt ${p.name}: status ${p.status.toLowerCase()}, technologie ${p.stack.join(', ')}. Opis w przygotowaniu.`,
+    path: `/works/${p.slug}`,
+  });
 }
 
 export default async function CaseStudyPage({
@@ -36,124 +41,80 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const work = works.find((w) => w.slug === slug && w.caseStudy);
-  if (!work) notFound();
+  const p = getProject(slug);
+  if (!p) notFound();
 
-  const content = work.caseStudyContent;
-  if (!content) notFound();
+  const idx = projects.indexOf(p);
+  const prev = projects[(idx - 1 + projects.length) % projects.length]!;
+  const next = projects[(idx + 1) % projects.length]!;
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(buildProjectSchema(p)) }}
+      />
       <NoiseOverlay />
       <Nav />
-      <main id="main-content" className={styles.page}>
-
-        {/* Hero */}
-        <section className={styles.hero} aria-labelledby="cs-title">
-          <SmokeReveal>
-            <div className={styles.heroInner}>
-              <Link href="/" className={styles.back} aria-label="Wróć do wszystkich projektów">
-                ← Wszystkie projekty
-              </Link>
-              <h1 id="cs-title" className={styles.title}>{work.title}</h1>
-              <p className={styles.meta}>
-                {work.year}
-                <span aria-hidden="true"> · </span>
-                {work.role}
-              </p>
-            </div>
-          </SmokeReveal>
-          <div className={styles.heroImage}>
-            <SmokeReveal delay={0.15}>
-              <Image
-                src={work.thumbnail}
-                alt={`Hero zrzut ekranu projektu ${work.title}`}
-                width={1900}
-                height={1024}
-                sizes="(max-width: 768px) 100vw, 90vw"
-                className={styles.heroImg}
-                priority
-              />
-            </SmokeReveal>
+      <main id="main-content" className={`${styles.page} section-light`}>
+        <header className={styles.hero}>
+          <nav aria-label="Okruszki" className={styles.crumbs}>
+            <Link href="/#works">← Wszystkie projekty</Link>
+          </nav>
+          <div className={styles.metaRow}>
+            <span className={styles.status}>{p.status}</span>
+            {p.labels.map((l) => <span key={l} className={styles.tag}>{l}</span>)}
           </div>
-        </section>
+          <h1 className={styles.title}>{p.name}</h1>
+          <p className={styles.tagline}>{p.tagline ?? <span className={styles.todo}>Opis problemu: {TODO.toLowerCase()}</span>}</p>
+        </header>
 
-        {/* Wyzwanie */}
-        <section className={styles.challenge} aria-label="Wyzwanie">
-          <SmokeReveal>
-            <div className={styles.challengeInner}>
-              <p className={styles.sectionLabel}>Wyzwanie</p>
-              <p className={styles.challengeText}>{content.challenge}</p>
-            </div>
-          </SmokeReveal>
-        </section>
-
-        {/* Rozwiązanie */}
-        <section className={styles.section} aria-label="Rozwiązanie">
-          <SmokeReveal>
-            <div className={styles.sectionInner}>
-              <p className={styles.sectionLabel}>Rozwiązanie</p>
-              <p className={styles.sectionText}>{content.solution}</p>
-            </div>
-          </SmokeReveal>
-        </section>
-
-        {/* Efekt */}
-        <section className={styles.efekt} aria-label="Efekt">
-          <SmokeReveal>
-            <div className={styles.efektInner}>
-              <div className={styles.efektHeader}>
-                <p className={styles.sectionLabel}>Efekt</p>
-                <p className={styles.efektText}>{content.result}</p>
-              </div>
-              <div className={styles.highlightsGrid}>
-                {content.highlights.map(({ label, value }) => (
-                  <div key={label} className={styles.highlight}>
-                    <span className={styles.highlightValue}>{value}</span>
-                    <span className={styles.highlightLabel}>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </SmokeReveal>
-        </section>
-
-        {/* Stack */}
-        <section className={styles.section} aria-label="Stack techniczny">
-          <SmokeReveal>
-            <div className={styles.sectionInner}>
-              <p className={styles.sectionLabel}>Stack</p>
-              <ul className={styles.stackList}>
-                {content.stackDetails.map(({ name, role }) => (
-                  <li key={name} className={styles.stackItem}>
-                    <span className={styles.stackName}>{name}</span>
-                    <span className={styles.stackRole}>— {role}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </SmokeReveal>
-        </section>
-
-        {/* Live CTA */}
-        {work.liveUrl && (
-          <section className={styles.liveCta} aria-label="Link do projektu">
-            <SmokeReveal>
-              <div className={styles.liveCtaInner}>
-                <a
-                  href={work.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.liveCtaBtn}
-                  aria-label={`Otwórz ${work.title} na żywo (otwiera się w nowej karcie)`}
-                >
-                  Zobacz na żywo →
-                </a>
-              </div>
-            </SmokeReveal>
+        {p.screenshots.length > 0 ? (
+          <section className={styles.gallery} aria-label="Zrzuty ekranu">
+            {p.screenshots.map((s, i) => (
+              <a
+                key={s.src}
+                href={s.src}
+                className={s.device === 'mobile' ? styles.shotMobile : styles.shotDesktop}
+                target="_blank"
+                rel="noopener"
+              >
+                <Image
+                  src={s.src}
+                  alt={s.alt ?? `${p.name} — zrzut ${i + 1}`}
+                  width={s.width}
+                  height={s.height}
+                  sizes={s.device === 'mobile' ? '(max-width: 768px) 50vw, 300px' : '(max-width: 768px) 100vw, 900px'}
+                  priority={i === 0}
+                  className={styles.shotImg}
+                />
+                <span className="sr-only"> (otwórz w pełnym rozmiarze)</span>
+              </a>
+            ))}
           </section>
+        ) : (
+          <p className={styles.noShots}><span className={styles.todo}>Zrzuty ekranu: {TODO.toLowerCase()}</span></p>
         )}
 
+        <article className={styles.body}>
+          <CaseStudyBody project={p} heading="h2" />
+        </article>
+
+        <aside className={styles.cta}>
+          <p>Masz podobny problem do rozwiązania?</p>
+          <ContactTrigger className={styles.ctaBtn}>Porozmawiajmy →</ContactTrigger>
+        </aside>
+
+        <nav className={styles.pager} aria-label="Inne projekty">
+          <Link href={`/works/${prev.slug}`} className={styles.pagerLink}>
+            <span className={styles.pagerLabel}>Poprzedni projekt</span>
+            ← {prev.name}
+          </Link>
+          <Link href={`/works/${next.slug}`} className={`${styles.pagerLink} ${styles.pagerNext}`}>
+            <span className={styles.pagerLabel}>Następny projekt</span>
+            {next.name} →
+          </Link>
+        </nav>
       </main>
       <Footer />
     </>

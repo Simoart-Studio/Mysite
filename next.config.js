@@ -10,6 +10,12 @@ const mixinsContent = fs.readFileSync(
 const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ['nodemailer'],
+  experimental: {
+    serverActions: {
+      // Załącznik w formularzu (max 4 MB) + pola tekstowe
+      bodySizeLimit: '4.5mb',
+    },
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
   },

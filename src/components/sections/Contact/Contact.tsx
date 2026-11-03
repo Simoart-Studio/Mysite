@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { fromLeftProps, revealProps, fadeProps, EASE_WAVE } from '@/lib/motion';
+import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
+import { EMAIL, PHONE, CALENDLY_URL, GITHUB_URL, LINKEDIN_URL, phoneHref } from '@/data/config';
 import styles from './Contact.module.scss';
 
 function SocialIcon({ type }: { type: 'linkedin' | 'github' }) {
@@ -125,25 +127,40 @@ export function Contact() {
           className={styles.sub}
           {...revealProps(isInView, reduced, 0.36)}
         >
-          20 minut przez Calendly. Bez zobowiązań.
-          Odpowiadam tego samego dnia.
+          Opisz problem w formularzu albo umów rozmowę przez Calendly.
+          Bez zobowiązań. Odpowiadam do 24 godzin.
         </motion.p>
 
         <motion.div className={styles.links} {...revealProps(isInView, reduced, 0.46)}>
+          <ContactTrigger className={styles.ctaLink}>
+            <span className={styles.ctaText}>Wypełnij formularz&nbsp;→</span>
+          </ContactTrigger>
           <WaveLink
-            href="https://calendly.com/szymon-pochopien01/30min"
+            href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
             reduced={reduced}
           >
-            Umów rozmowę&nbsp;→
+            Umów rozmowę&nbsp;↗
           </WaveLink>
-          <WaveLink
-            href="mailto:szymon.pochopien01@gmail.com"
-            reduced={reduced}
-          >
-            szymon.pochopien01@gmail.com&nbsp;→
-          </WaveLink>
+        </motion.div>
+
+        <motion.div className={styles.next} {...revealProps(isInView, reduced, 0.54)}>
+          <div className={styles.nextBlock}>
+            <p className={styles.nextTitle}>Co wydarzy się dalej?</p>
+            <ol className={styles.nextSteps}>
+              <li>Czytam wiadomość i odpowiadam do 24 godzin.</li>
+              <li>Jeśli trzeba, umawiamy krótką rozmowę.</li>
+              <li>Dostajesz propozycję zakresu i wycenę. Akceptujesz ją przed startem prac.</li>
+            </ol>
+          </div>
+          <div className={styles.nextBlock}>
+            <p className={styles.nextTitle}>Wolisz bezpośrednio?</p>
+            <p className={styles.nextDirect}>
+              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+              {PHONE && <><br /><a href={phoneHref(PHONE)}>{PHONE}</a></>}
+            </p>
+          </div>
         </motion.div>
 
         <motion.div
@@ -151,21 +168,21 @@ export function Contact() {
           {...fadeProps(isInView, reduced, 0.62)}
         >
           <a
-            href="https://linkedin.com/in/szymon-pochopien"
+            href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
-            aria-label="LinkedIn Szymon Pochopień"
+            aria-label="LinkedIn — Szymon Pochopień"
           >
             <SocialIcon type="linkedin" />
             LinkedIn
           </a>
           <a
-            href="https://github.com/szymzyd"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
-            aria-label="GitHub szymzyd"
+            aria-label="GitHub kameleon1312"
           >
             <SocialIcon type="github" />
             GitHub

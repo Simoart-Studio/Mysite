@@ -1,39 +1,49 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { BRAND, OWNER } from '@/data/config';
 
 export const SITE_URL = 'https://sp-flow.vercel.app';
 
 export const siteMetadata = {
-  title: 'Szymon Pochopień — Frontend Developer | Premium Websites',
+  title: `${BRAND} — strony i aplikacje, które pracują dla Twojej firmy`,
   description:
-    'Projektuję i buduję premium strony internetowe dla firm w Next.js i React. Portfolio, selected works, kontakt.',
+    'Projektuję i buduję strony firmowe, sklepy internetowe i aplikacje webowe (PWA) w React i Next.js. Zobacz projekty, proces współpracy i napisz do mnie.',
   url: SITE_URL,
-  author: 'Szymon Pochopień',
+  author: OWNER,
   keywords: [
-    'frontend developer',
-    'React',
-    'Next.js',
-    'web design',
-    'portfolio',
     'strony internetowe',
-    'Polska',
+    'sklep internetowy',
+    'aplikacja webowa',
+    'PWA',
+    'Next.js',
+    'React',
+    'projektowanie stron',
+    BRAND,
   ],
+};
+
+export const baseViewport: Viewport = {
+  themeColor: '#080808',
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: siteMetadata.title,
-    template: '%s | Szymon Pochopień',
+    template: `%s | ${BRAND}`,
   },
   description: siteMetadata.description,
   keywords: siteMetadata.keywords,
   authors: [{ name: siteMetadata.author }],
   creator: siteMetadata.author,
+  applicationName: BRAND,
   openGraph: {
     type: 'website',
     locale: 'pl_PL',
     url: SITE_URL,
-    siteName: 'Szymon Pochopień Portfolio',
+    siteName: BRAND,
     title: siteMetadata.title,
     description: siteMetadata.description,
   },
@@ -53,6 +63,36 @@ export const baseMetadata: Metadata = {
     },
   },
   alternates: {
-    canonical: SITE_URL,
+    canonical: '/',
   },
 };
+
+/** Metadane podstrony: własny title, description, canonical, OG i Twitter. */
+export function pageMetadata({
+  title,
+  description,
+  path,
+}: {
+  title: string;
+  description: string;
+  path: string;
+}): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: 'article',
+      locale: 'pl_PL',
+      url: path,
+      siteName: BRAND,
+      title: `${title} | ${BRAND}`,
+      description,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | ${BRAND}`,
+      description,
+    },
+  };
+}

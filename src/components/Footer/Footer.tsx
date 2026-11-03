@@ -1,15 +1,19 @@
-import { GITHUB_URL, EMAIL, CALENDLY_URL } from '@/data/config';
+import { GITHUB_URL, EMAIL, CALENDLY_URL, BRAND, OWNER, PHONE, phoneHref } from '@/data/config';
 import styles from './Footer.module.scss';
 
 const NAV_COL = [
   { label: 'Nawigacja', links: [
-    { href: '#works',   text: 'Realizacje' },
-    { href: '#about',   text: 'O mnie'     },
-    { href: '#contact', text: 'Kontakt'    },
+    { href: '/#works',   text: 'Projekty'      },
+    { href: '/#uslugi',  text: 'Usługi'        },
+    { href: '/#process', text: 'Współpraca'    },
+    { href: '/#about',   text: 'O mnie'        },
+    { href: '/#contact', text: 'Kontakt'       },
   ]},
   { label: 'Kontakt', links: [
     { href: `mailto:${EMAIL}`, text: 'Email'    },
     { href: CALENDLY_URL,      text: 'Calendly' },
+    ...(PHONE ? [{ href: phoneHref(PHONE), text: 'Telefon' }] : []),
+    { href: '/polityka-prywatnosci', text: 'Polityka prywatności' },
   ]},
   { label: 'Social', links: [
     { href: GITHUB_URL,   text: 'GitHub'   },
@@ -24,7 +28,7 @@ export function Footer() {
       <div className={styles.inner}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            <p className={styles.sig}>SP</p>
+            <p className={styles.sig}>{BRAND}</p>
             <p className={styles.tagline}>
               Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
             </p>
@@ -56,7 +60,7 @@ export function Footer() {
 
         <div className={styles.bottom}>
           <p className={styles.copy}>
-            © {year} Szymon Pochopień
+            © {year} {BRAND} · {OWNER}
           </p>
           <p className={styles.copy}>
             Next.js&nbsp;·&nbsp;Vercel

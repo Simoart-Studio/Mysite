@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AVAILABILITY } from '@/data/config';
+import { HeroDeck } from '@/components/HeroDeck/HeroDeck';
+import type { Project } from '@/types/project';
 import styles from './Hero.module.scss';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -55,7 +57,7 @@ function DustLine({
               ease: EASE,
             }}
           >
-            {char === ' ' ? ' ' : char}
+            {char === ' ' ? '\u00A0' : char}
           </motion.span>
         );
       })}
@@ -63,7 +65,7 @@ function DustLine({
   );
 }
 
-export function Hero() {
+export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'thumbnail'>[] }) {
   const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -105,6 +107,12 @@ export function Hero() {
         >
           Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
         </motion.p>
+
+        {deck.length >= 3 && (
+          <div className={styles.deck}>
+            <HeroDeck cards={deck} />
+          </div>
+        )}
 
         <motion.div
           className={styles.bottom}

@@ -383,3 +383,102 @@
   @include label;
   color: var(--color-text-dim);
 }
+
+/* ─── Nowe pola ─── */
+.file {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+
+  &::file-selector-button {
+    margin-right: var(--s-3);
+    padding: 8px 14px;
+    border: 1px solid var(--color-border-hi);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.fileInfo {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.fileRemove {
+  margin-left: var(--s-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--color-text);
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-text);
+  }
+}
+
+.consentLink {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+  margin-top: var(--s-4);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--color-border);
+
+  @include respond-to('mobile') { grid-template-columns: 1fr; }
+}
+
+.afterBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.afterTitle {
+  @include label;
+  color: var(--color-text);
+}
+
+.afterSteps {
+  list-style: decimal;
+  padding-left: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.afterDirect {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+
+  a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}

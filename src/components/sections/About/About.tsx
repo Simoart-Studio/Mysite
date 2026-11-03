@@ -4,15 +4,19 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { useTypewriter } from '@/hooks/useTypewriter';
 import { fromLeftProps, revealProps, EASE_WAVE } from '@/lib/motion';
-import { AVAILABILITY } from '@/data/config';
+import Image from 'next/image';
+import { AVAILABILITY, BRAND, OWNER, EMAIL, PHONE, CALENDLY_URL, phoneHref } from '@/data/config';
 import styles from './About.module.scss';
 
 const FACTS = [
   { k: 'Specjalizacja', v: 'Strony sprzedażowe · Sklepy internetowe · Aplikacje webowe' },
   { k: 'Dla kogo',      v: 'Małe firmy · Startupy · Personal brand'                     },
-  { k: 'Tryb pracy',    v: 'Zdalnie · Bezpośredni kontakt'                               },
+  { k: 'Tryb pracy',    v: 'Zdalnie · Bezpośredni kontakt, bez pośredników'              },
   { k: 'Dostępność',    v: AVAILABILITY                                                   },
 ] as const;
+
+/** Portret: ustaw np. { src: '/portrait.webp', width: 800, height: 1000 }. Null = karta z monogramem. */
+const PORTRAIT: { src: string; width: number; height: number } | null = null;
 
 const P1 = 'Tworzę strony i aplikacje od kilku lat. Zaczynałem od własnych projektów — dziś pomagam firmom zdobywać klientów przez internet, bo wiem że dobra strona to narzędzie sprzedaży, nie tylko wizytówka.';
 const P2 = 'Interesują mnie strony, które muszą pracować — zbierać rezerwacje, generować zapytania, budować markę. Nie takie, które się tylko ogląda.';
@@ -39,6 +43,24 @@ export function About() {
           {...fromLeftProps(isInView, reduced, 0)}
         >
           <p className={styles.label}>O mnie</p>
+          <div className={styles.portrait}>
+            {PORTRAIT ? (
+              <Image
+                src={PORTRAIT.src}
+                alt={`${OWNER}, ${BRAND}`}
+                width={PORTRAIT.width}
+                height={PORTRAIT.height}
+                sizes="(max-width: 1023px) 200px, 180px"
+                className={styles.portraitImg}
+              />
+            ) : (
+              <div className={styles.monogram} role="img" aria-label={`${OWNER} — ${BRAND}`}>
+                <span className={styles.monoTop}>{BRAND}</span>
+                <span className={styles.monoLetters} aria-hidden="true">SP</span>
+                <span className={styles.monoName}>{OWNER}</span>
+              </div>
+            )}
+          </div>
         </motion.div>
 
         <div className={styles.col2}>
@@ -65,18 +87,20 @@ export function About() {
 
           {/* body: typewriter */}
           <div className={styles.body}>
-            <p>
-              {reduced ? P1 : tw1}
-              {!reduced && tw1.length > 0 && tw1.length < P1.length && (
-                <span className={styles.cursor} aria-hidden="true" />
-              )}
-            </p>
-            <p>
-              {reduced ? P2 : tw2}
-              {!reduced && tw2.length > 0 && tw2.length < P2.length && (
-                <span className={styles.cursor} aria-hidden="true" />
-              )}
-            </p>
+            {[{ full: P1, typed: tw1 }, { full: P2, typed: tw2 }].map(({ full, typed }) => (
+              <p key={full.slice(0, 12)} className={styles.typePara}>
+                {/* Pełny tekst dla czytników i wyszukiwarek; widoczny bez JS */}
+                <span className="sr-only">{full}</span>
+                {/* Rezerwuje miejsce — brak skoku układu podczas pisania */}
+                <span className={styles.ghost} aria-hidden="true">{full}</span>
+                <span className={styles.typed} aria-hidden="true">
+                  {reduced ? full : typed}
+                  {!reduced && typed.length > 0 && typed.length < full.length && (
+                    <span className={styles.cursor} />
+                  )}
+                </span>
+              </p>
+            ))}
           </div>
 
           {/* facts: each row staggers in from bottom */}
@@ -92,6 +116,20 @@ export function About() {
               </motion.div>
             ))}
           </dl>
+
+          <motion.div className={styles.direct} {...revealProps(isInView, reduced, 0.8)}>
+            <p className={styles.directLabel}>Bezpośredni kontakt</p>
+            <ul className={styles.directList}>
+              <li><a href={`mailto:${EMAIL}`} className={styles.directLink}>{EMAIL}</a></li>
+              {PHONE && <li><a href={phoneHref(PHONE)} className={styles.directLink}>{PHONE}</a></li>}
+              <li>
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className={styles.directLink}>
+                  Umów 30 minut rozmowy ↗
+                </a>
+              </li>
+              <li><a href="#process" className={styles.directLink}>Jak wygląda współpraca →</a></li>
+            </ul>
+          </motion.div>
 
         </div>
       </div>

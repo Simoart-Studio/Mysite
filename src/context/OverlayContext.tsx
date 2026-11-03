@@ -8,13 +8,19 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import { lockScroll } from '@/lib/scrollLock';
 
 type OverlayType = 'menu' | 'contact' | null;
 
+export interface ContactPreset {
+  goal?: string;
+}
+
 interface OverlayCtx {
   overlay: OverlayType;
+  contactPreset: ContactPreset;
   openMenu: () => void;
-  openContact: () => void;
+  openContact: (preset?: ContactPreset) => void;
   close: () => void;
 }
 
@@ -22,14 +28,18 @@ const OverlayContext = createContext<OverlayCtx | null>(null);
 
 export function OverlayProvider({ children }: { children: ReactNode }) {
   const [overlay, setOverlay] = useState<OverlayType>(null);
+  const [contactPreset, setContactPreset] = useState<ContactPreset>({});
 
   const openMenu    = useCallback(() => setOverlay('menu'), []);
-  const openContact = useCallback(() => setOverlay('contact'), []);
+  const openContact = useCallback((preset: ContactPreset = {}) => {
+    setContactPreset(preset);
+    setOverlay('contact');
+  }, []);
   const close       = useCallback(() => setOverlay(null), []);
 
   useEffect(() => {
-    document.body.style.overflow = overlay ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (!overlay) return;
+    return lockScroll();
   }, [overlay]);
 
   useEffect(() => {
@@ -40,7 +50,7 @@ export function OverlayProvider({ children }: { children: ReactNode }) {
   }, [overlay, close]);
 
   return (
-    <OverlayContext.Provider value={{ overlay, openMenu, openContact, close }}>
+    <OverlayContext.Provider value={{ overlay, contactPreset, openMenu, openContact, close }}>
       {children}
     </OverlayContext.Provider>
   );

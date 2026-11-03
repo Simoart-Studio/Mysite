@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { NavCta } from '@/components/NavCta/NavCta';
+import { BRAND } from '@/data/config';
 import styles from './Nav.module.scss';
 
 export function Nav() {
@@ -56,20 +57,21 @@ export function Nav() {
           onClick={() =>
             window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' })
           }
-          aria-label="Szymon Pochopień — powrót na górę"
+          aria-label={`${BRAND} — powrót na górę`}
         >
-          SP
+          <span className={styles.logoMain}>SimoArt</span>
+          <span className={styles.logoSub}>studio</span>
         </button>
 
         <div className={styles.right}>
           <div className={styles.ctaWrap}>
-            <NavCta onClick={openContact} />
+            <NavCta onClick={() => openContact()} />
           </div>
 
           <button
             type="button"
             className={styles.mobileContact}
-            onClick={openContact}
+            onClick={() => openContact()}
             onMouseEnter={() => setContactHovered(true)}
             onMouseLeave={() => setContactHovered(false)}
             aria-label="Napisz do mnie"

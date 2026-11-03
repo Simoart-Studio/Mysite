@@ -33,7 +33,7 @@ export function WhatIDo() {
 
   return (
     <section
-      id="process"
+      id="zasady"
       className={styles.section}
       ref={ref}
       aria-labelledby="principles-title"

@@ -15,9 +15,6 @@
   @include respond-to('tablet')  { grid-template-columns: 1fr; gap: var(--s-8); }
 }
 
-.col1 {
-  padding-top: 4px;
-}
 
 .label {
   @include label;
@@ -116,4 +113,108 @@
   line-height: var(--lh-body);
   overflow-wrap: break-word;
   hyphens: none;
+}
+
+/* ─── Portret / monogram ─── */
+.col1 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+
+  @include respond-to('mobile') { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+}
+
+.portrait {
+  width: 180px;
+
+  @include respond-to('mobile') { width: 132px; }
+}
+
+.portraitImg {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.monogram {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 3 / 4;
+  padding: 14px;
+  border-radius: 12px;
+  color: #f2ede6;
+  background:
+    radial-gradient(120% 80% at 20% 0%, rgb(201 185 154 / 0.2), transparent 60%),
+    repeating-linear-gradient(45deg, transparent 0 12px, rgb(242 237 230 / 0.04) 12px 13px),
+    #0c0b09;
+  border: 1px solid var(--color-border-hi);
+  transform: rotate(-3deg);
+  box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.8);
+  transition: transform var(--dur-base) var(--ease-out);
+
+  &:hover { transform: rotate(0deg) translateY(-4px); }
+
+  @include reduced-motion { transform: none; &:hover { transform: none; } }
+}
+
+.monoTop {
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c9b99a;
+}
+
+.monoLetters {
+  font-size: 3.5rem;
+  letter-spacing: -0.06em;
+  line-height: 1;
+
+  @include respond-to('mobile') { font-size: 2.6rem; }
+}
+
+.monoName {
+  font-size: 0.75rem;
+  color: #d8d2cb;
+}
+
+/* ─── Typewriter bez skoku układu ─── */
+.typePara {
+  display: grid;
+
+  > .ghost, > .typed { grid-area: 1 / 1; }
+}
+
+.ghost {
+  visibility: hidden;
+
+  :global(html:not(.js)) & { visibility: visible; }
+}
+
+.typed {
+  :global(html:not(.js)) & { display: none; }
+}
+
+/* ─── Bezpośredni kontakt ─── */
+.direct {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.directLabel { @include label; }
+
+.directList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-6);
+}
+
+.directLink {
+  @include text-link;
+  font-size: var(--fs-small);
+  color: var(--color-text);
+
+  &:focus-visible { @include focus-ring; }
 }
