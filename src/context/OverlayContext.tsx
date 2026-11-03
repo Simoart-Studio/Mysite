@@ -8,19 +8,22 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import { lockScroll } from '@/lib/scrollLock';
+import { lockScroll, scrollToTarget } from '@/lib/scrollLock';
 
-type OverlayType = 'menu' | 'contact' | null;
+type OverlayType = 'menu' | null;
 
 export interface ContactPreset {
   goal?: string;
+  /** Zmienia się przy każdym kliknięciu — formularz reaguje nawet na ten sam cel. */
+  nonce?: number;
 }
 
 interface OverlayCtx {
   overlay: OverlayType;
   contactPreset: ContactPreset;
   openMenu: () => void;
-  openContact: (preset?: ContactPreset) => void;
+  /** Przewija do formularza kontaktowego i (opcjonalnie) ustawia cel. */
+  openContact: (preset?: Omit<ContactPreset, 'nonce'>) => void;
   close: () => void;
 }
 
@@ -30,12 +33,20 @@ export function OverlayProvider({ children }: { children: ReactNode }) {
   const [overlay, setOverlay] = useState<OverlayType>(null);
   const [contactPreset, setContactPreset] = useState<ContactPreset>({});
 
-  const openMenu    = useCallback(() => setOverlay('menu'), []);
-  const openContact = useCallback((preset: ContactPreset = {}) => {
-    setContactPreset(preset);
-    setOverlay('contact');
+  const openMenu = useCallback(() => setOverlay('menu'), []);
+  const close    = useCallback(() => setOverlay(null), []);
+
+  const openContact = useCallback((preset: Omit<ContactPreset, 'nonce'> = {}) => {
+    if (!document.getElementById('contact')) {
+      window.location.href = '/#contact';
+      return;
+    }
+    setOverlay(null);
+    setContactPreset({ ...preset, nonce: Date.now() });
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Po zamknięciu ewentualnego menu (odblokowanie przewijania)
+    setTimeout(() => scrollToTarget('contact', reduced), 30);
   }, []);
-  const close       = useCallback(() => setOverlay(null), []);
 
   useEffect(() => {
     if (!overlay) return;

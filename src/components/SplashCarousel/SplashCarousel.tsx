@@ -15,9 +15,9 @@ const BLOBS = [
   'M330,94C368,140,377,206,352,262C327,318,268,364,204,370C140,376,71,342,40,288C9,234,16,160,52,110C88,60,153,34,216,36C279,38,292,48,330,94Z',
 ];
 const FILLS = [
-  { fill: 'var(--clay-soft)',  deep: '#E3BFAC', drop: 'var(--clay)'  },
-  { fill: 'var(--sage-soft)',  deep: '#C7CFB6', drop: 'var(--sage)'  },
-  { fill: 'var(--ochre-soft)', deep: '#E6CB9F', drop: 'var(--ochre)' },
+  { fill: '#E3F3CF', deep: '#C6E3A4', drop: 'var(--green)' },
+  { fill: '#E4ECDF', deep: '#C8D7C0', drop: '#5E8F4A'      },
+  { fill: '#EEF6D9', deep: '#D5E8AE', drop: '#8FCB5C'      },
 ];
 /* Krople rozprysku: kąt (stopnie), odległość (% promienia), rozmiar */
 const DROPS = [

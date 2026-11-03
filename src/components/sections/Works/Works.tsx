@@ -3,24 +3,25 @@ import { GITHUB_URL } from '@/data/config';
 import { ProjectDeck } from '@/components/ProjectDeck/ProjectDeck';
 import { ProjectGrid } from '@/components/ProjectDeck/ProjectGrid';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './Works.module.scss';
 
 export function Works() {
   return (
     <section
       id="works"
-      className={`${styles.section} section-light`}
+      className={styles.section}
       aria-labelledby="works-title"
     >
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
-          <div className={styles.headerRow}>
-            <p className={styles.label}>Realizacje</p>
-            <span className={styles.count} aria-hidden="true">
-              {projects.length.toString().padStart(2, '0')}
-            </span>
-          </div>
-          <h2 id="works-title" className={styles.headline}>Projekty</h2>
+          <h2 id="works-title" className={styles.headline}>
+            Wybrane <span className="hl">projekty.</span>
+          </h2>
+          <a href="/works" className="btn btn--green">
+            Wszystkie projekty
+            <BtnIcon />
+          </a>
         </header>
 
         <div className={styles.deckArea}>
@@ -33,16 +34,10 @@ export function Works() {
           </div>
         </div>
 
-        <div className={styles.footer}>
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.footerLink}
-          >
-            GitHub ↗
-          </a>
-        </div>
+        <p className={styles.github}>
+          Kod publicznych projektów:{' '}
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">github.com/kameleon1312 ↗</a>
+        </p>
       </div>
     </section>
   );

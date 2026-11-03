@@ -65,21 +65,20 @@
   border-radius: var(--r-lg);
   background: var(--sand-100);
 
-  &:nth-child(1) { background: var(--rose-soft); }
-  &:nth-child(2) { background: var(--sage-soft); }
-  &:nth-child(3) { background: var(--ochre-soft); }
-  &:nth-child(4) { background: var(--sand-200); }
+  background: var(--cream);
+
+  &:nth-child(4) { background: var(--mint-soft); }
 }
 
 .stepNum {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--clay-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--green);
 }
 
 .stepLabel {
   font-size: 1.25rem;
-  color: var(--espresso);
+  color: var(--ink);
 }
 
 .stepText {

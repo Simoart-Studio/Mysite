@@ -33,7 +33,7 @@ export default function HomePage() {
       <NoiseOverlay />
       <Nav />
       <main id="main-content">
-        <Hero deck={heroDeck} />
+        <Hero deck={heroDeck} total={projects.length} />
         <Works />
         <BuildPicker />
         <WhatIDo />

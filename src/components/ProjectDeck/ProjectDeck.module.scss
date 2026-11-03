@@ -4,8 +4,8 @@
 .deckRoot {
   --card-w: min(330px, 84vw);
   --card-h: calc(var(--card-w) * 1.4);
-  --card-radius: 26px;
-  --paper: var(--sand-50);
+  --card-radius: 24px;
+  --paper: var(--white);
 
   display: flex;
   flex-direction: column;
@@ -98,8 +98,8 @@
   border-radius: var(--card-radius);
   overflow: hidden;
   box-shadow:
-    0 1px 2px rgb(46 36 32 / 0.06),
-    0 24px 48px -26px rgb(46 36 32 / 0.45);
+    0 0 0 1px rgb(21 32 26 / 0.07),
+    0 24px 48px -26px rgb(21 32 26 / 0.40);
 }
 
 .faceBack { transform: rotateY(180deg); }
@@ -121,9 +121,9 @@
   display: block;
   flex-shrink: 0;
   aspect-ratio: 16 / 11;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
-  background: var(--sand-200);
+  background: var(--cream);
 }
 
 .thumbImg {
@@ -143,17 +143,17 @@
   display: grid;
   place-items: center;
   background:
-    radial-gradient(60% 70% at 30% 30%, var(--clay-soft), transparent 70%),
-    radial-gradient(50% 60% at 75% 75%, var(--ochre-soft), transparent 70%),
-    var(--sand-200);
+    radial-gradient(60% 70% at 30% 30%, var(--mint-soft), transparent 70%),
+    radial-gradient(50% 60% at 75% 75%, var(--sage-soft), transparent 70%),
+    var(--cream);
 }
 
 .thumbInitials {
-  font-family: var(--font-display);
   font-size: 3rem;
-  letter-spacing: -0.04em;
-  color: var(--clay-ink);
-  opacity: 0.75;
+  font-weight: 650;
+  letter-spacing: -0.05em;
+  color: var(--green);
+  opacity: 0.6;
 }
 
 .thumbNote {
@@ -162,8 +162,8 @@
   left: 10px;
   padding: 3px 10px;
   font-size: 0.6875rem;
-  background: rgb(251 247 242 / 0.9);
-  color: var(--clay-ink);
+  background: rgb(255 255 255 / 0.92);
+  color: var(--green-ink);
   border-radius: var(--r-pill);
 }
 
@@ -202,9 +202,9 @@
   background: currentColor;
 }
 
-.statusLive  { background: var(--sage-soft);  color: #46553A; }
-.statusDev   { background: var(--ochre-soft); color: #6E4B16; }
-.statusProto { background: var(--rose-soft);  color: var(--clay-ink); }
+.statusLive  { background: var(--mint-soft); color: var(--green-ink); }
+.statusDev   { background: #F3F0DC;          color: #5E5414; }
+.statusProto { background: var(--cream);     color: var(--color-text-muted); }
 
 .tag {
   padding: 4px 10px;
@@ -215,12 +215,14 @@
 }
 
 .name {
-  display: block;
+  align-self: flex-start;
   margin-top: 2px;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  padding: 0 0.06em;
+  font-size: 1.625rem;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  background: linear-gradient(var(--mint), var(--mint)) no-repeat 0 88% / 100% 0.42em;
 }
 
 .tagline {
@@ -258,11 +260,12 @@
 }
 
 .chip {
-  padding: 4px 10px;
+  padding: 5px 11px;
   font-size: 0.75rem;
-  background: var(--sand-200);
+  font-weight: 500;
+  background: var(--ink);
   border-radius: var(--r-pill);
-  color: var(--espresso);
+  color: var(--white);
 }
 
 .counter {
@@ -280,11 +283,11 @@
   justify-content: space-between;
   height: 100%;
   padding: 24px;
-  color: var(--sand-50);
+  color: var(--white);
   background:
-    radial-gradient(120% 90% at 0% 0%, #C98263 0%, transparent 60%),
-    radial-gradient(100% 80% at 100% 100%, #8F4E37 0%, transparent 65%),
-    var(--clay);
+    radial-gradient(120% 90% at 0% 0%, #2F8A5B 0%, transparent 60%),
+    radial-gradient(100% 80% at 100% 100%, #123F2A 0%, transparent 65%),
+    var(--green);
   border-radius: var(--card-radius);
   overflow: hidden;
 }
@@ -307,10 +310,10 @@
 
 .backTitle {
   position: relative;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 11vw, 3.25rem);
+  font-size: clamp(2.5rem, 11vw, 3.125rem);
+  font-weight: 650;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em;
 }
 
 .backMark {
@@ -321,13 +324,12 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgb(251 247 242 / 0.18);
-  border: 1px solid rgb(251 247 242 / 0.35);
+  color: var(--ink);
+  background: var(--mint);
   transition: transform var(--dur-base) var(--ease-spring), background var(--dur-base) var(--ease-out);
 
   .cardBtn:hover & {
-    transform: scale(1.1) rotate(8deg);
-    background: rgb(251 247 242 / 0.3);
+    transform: scale(1.08) rotate(45deg);
   }
 }
 
@@ -347,8 +349,8 @@
   border: 2px dashed var(--color-border-hi);
   border-radius: var(--card-radius);
   color: var(--color-text-muted);
-  font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
   text-align: center;
   padding: var(--s-6);
 }
@@ -376,11 +378,11 @@
 .ctrlPrimary {
   width: 56px;
   min-height: 56px;
-  background: var(--espresso);
-  color: var(--sand-50);
-  border-color: var(--espresso);
+  background: var(--ink);
+  color: var(--mint);
+  border-color: var(--ink);
 
-  &:hover:not(:disabled) { background: var(--clay-ink); border-color: var(--clay-ink); }
+  &:hover:not(:disabled) { background: var(--green); border-color: var(--green); color: var(--white); }
 }
 
 .ctrlSep {
@@ -407,7 +409,7 @@
 
 .pipOn {
   width: 14px;
-  background: var(--clay);
+  background: var(--green);
 }
 
 /* ─── Statyczna siatka (bez JS / widok listy) ─── */

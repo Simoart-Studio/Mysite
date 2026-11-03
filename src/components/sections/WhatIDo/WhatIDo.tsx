@@ -12,8 +12,9 @@ export function WhatIDo() {
     <section id="zasady" className={styles.section} aria-labelledby="principles-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
-          <p className={styles.label}>Jak pracuję</p>
-          <h2 id="principles-title" className={styles.headline}>Trzy zasady</h2>
+          <h2 id="principles-title" className={styles.headline}>
+            Trzy <span className="hl">zasady.</span>
+          </h2>
         </header>
         <SplashCarousel slides={PRINCIPLES} label="Trzy zasady pracy" />
       </div>

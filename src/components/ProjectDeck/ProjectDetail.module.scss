@@ -6,7 +6,7 @@
   display: grid;
   place-items: center;
   padding: clamp(0px, 3vw, 40px);
-  background: rgb(46 36 32 / 0.55);
+  background: rgb(21 32 26 / 0.45);
   backdrop-filter: blur(8px);
   perspective: 1800px;
 }
@@ -16,8 +16,8 @@
   flex-direction: column;
   width: min(960px, 100%);
   height: min(880px, 100%);
-  background: var(--sand-50);
-  color: var(--espresso);
+  background: var(--white);
+  color: var(--ink);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -51,8 +51,8 @@
   font-size: 0.75rem;
   font-weight: 500;
   border-radius: var(--r-pill);
-  background: var(--sage-soft);
-  color: #46553A;
+  background: var(--mint-soft);
+  color: var(--green-ink);
 }
 
 .tag {
@@ -80,11 +80,11 @@
 
 .closeBtn {
   @include icon-btn;
-  background: var(--espresso);
-  color: var(--sand-50);
-  border-color: var(--espresso);
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
 
-  &:hover:not(:disabled) { background: var(--clay-ink); border-color: var(--clay-ink); }
+  &:hover:not(:disabled) { background: var(--green); border-color: var(--green); }
 }
 
 .scroll {
@@ -104,10 +104,13 @@
 }
 
 .title {
+  align-self: flex-start;
+  padding: 0 0.06em;
   font-size: clamp(2.25rem, 6vw, 3.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
   outline: none;
+  background: linear-gradient(var(--mint), var(--mint)) no-repeat 0 88% / 100% 0.36em;
 }
 
 .tagline {
@@ -159,7 +162,7 @@
   inset: 0;
   z-index: -1;
   border-radius: var(--r-pill);
-  background: var(--sand-50);
+  background: var(--white);
   box-shadow: var(--shadow-sm);
 }
 
@@ -305,12 +308,12 @@
   height: 84px;
   padding-left: 4px;
   border-radius: 50%;
-  background: var(--espresso);
-  color: var(--sand-50);
+  background: var(--ink);
+  color: var(--mint);
   box-shadow: var(--shadow-md);
   transition: transform var(--dur-base) var(--ease-spring), background var(--dur-fast) var(--ease-out);
 
-  &:hover { transform: scale(1.08); background: var(--clay-ink); }
+  &:hover { transform: scale(1.08); background: var(--green); color: var(--white); }
   &:focus-visible { @include focus-ring; }
 }
 
@@ -325,7 +328,7 @@
   justify-content: center;
   gap: var(--s-4);
   padding: var(--s-6);
-  background: rgb(46 36 32 / 0.94);
+  background: rgb(21 32 26 / 0.94);
 }
 
 .lbFigure {

@@ -10,9 +10,9 @@ import styles from './HeroDeck.module.scss';
 type Mini = Pick<Project, 'slug' | 'name' | 'thumbnail'>;
 
 const FAN = [
-  { rotate: -14, x: -78, y: 14 },
+  { rotate: -12, x: -74, y: 12 },
   { rotate:   0, x:   0, y: 0  },
-  { rotate:  14, x:  78, y: 14 },
+  { rotate:  12, x:  74, y: 12 },
 ] as const;
 
 /**

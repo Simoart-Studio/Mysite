@@ -1,67 +1,159 @@
+'use client';
+
+import { useId, useRef, useState, type KeyboardEvent } from 'react';
+import { ArrowDown, ArrowRight, Check, Code2, HeartHandshake, MessagesSquare, PenTool, Rocket, UserRound, type LucideIcon } from 'lucide-react';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
+import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './Process.module.scss';
 
-const STEPS = [
+type Step = {
+  title: string;
+  icon: LucideIcon;
+  effect: string;
+  chips: string[];
+  mine: string;
+  yours: string;
+};
+
+const STEPS: Step[] = [
   {
     title: 'Ustalamy kierunek',
-    mine:  'Zakres, termin i wycena.',
-    yours: 'Cel, klienci, budżet.',
+    icon: MessagesSquare,
+    effect: 'Jasny zakres i wycena.',
+    chips: ['Cel', 'Zakres', 'Budżet', 'Termin'],
+    mine: 'Pytania o cel i klientów, propozycja zakresu i wycena.',
+    yours: 'Opis firmy, problemu i budżetu.',
   },
   {
     title: 'Projektuję',
-    mine:  'Układ i wygląd do komentarzy.',
-    yours: 'Treści, zdjęcia, uwagi.',
+    icon: PenTool,
+    effect: 'Widzisz stronę, zanim powstanie kod.',
+    chips: ['Układ', 'Wygląd', 'Treści'],
+    mine: 'Układ i wygląd kluczowych widoków do komentarzy.',
+    yours: 'Treści, zdjęcia i uwagi.',
   },
   {
     title: 'Wdrażam',
-    mine:  'Kod, testy, SEO, publikacja.',
-    yours: 'Akceptacja wersji testowej.',
+    icon: Rocket,
+    effect: 'Szybka strona, gotowa do pracy.',
+    chips: ['Kod', 'Testy', 'SEO', 'Publikacja'],
+    mine: 'Kod, testy na telefonach i komputerach, SEO, publikacja.',
+    yours: 'Sprawdzenie wersji testowej i akceptacja.',
   },
   {
     title: 'Dbam o rozwój',
-    mine:  'Poprawki, aktualizacje, nowe funkcje.',
+    icon: HeartHandshake,
+    effect: 'Strona rośnie razem z firmą.',
+    chips: ['Poprawki', 'Aktualizacje', 'Nowe funkcje'],
+    mine: 'Poprawki, aktualizacje i nowe funkcje według ustaleń.',
     yours: 'Decyzje o kolejnych krokach.',
   },
-] as const;
+];
+
+function Panel({ step, id, labelledBy, hidden }: { step: Step; id: string; labelledBy: string; hidden: boolean }) {
+  return (
+    <div className={styles.panel} role="tabpanel" id={id} aria-labelledby={labelledBy} hidden={hidden}>
+      <p className={styles.panelLabel}>Efekt etapu</p>
+      <p className={styles.effect}>{step.effect}</p>
+      <ul className={styles.chips}>
+        {step.chips.map((c) => <li key={c}>{c}</li>)}
+      </ul>
+      <dl className={styles.split}>
+        <div>
+          <dt><Code2 size={15} aria-hidden="true" /> Po mojej stronie</dt>
+          <dd>{step.mine}</dd>
+        </div>
+        <div>
+          <dt><UserRound size={15} aria-hidden="true" /> Po Twojej stronie</dt>
+          <dd>{step.yours}</dd>
+        </div>
+      </dl>
+      <p className={styles.accept}>
+        <span aria-hidden="true"><Check size={14} strokeWidth={3} /></span>
+        Zakres akceptujesz przed startem prac.
+      </p>
+    </div>
+  );
+}
 
 export function Process() {
+  const uid = useId();
+  const [active, setActive] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  function onKey(e: KeyboardEvent<HTMLButtonElement>, i: number) {
+    const map: Record<string, number> = {
+      ArrowDown: (i + 1) % STEPS.length,
+      ArrowRight: (i + 1) % STEPS.length,
+      ArrowUp: (i - 1 + STEPS.length) % STEPS.length,
+      ArrowLeft: (i - 1 + STEPS.length) % STEPS.length,
+      Home: 0,
+      End: STEPS.length - 1,
+    };
+    const next = map[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    setActive(next);
+    tabs.current[next]?.focus();
+  }
+
   return (
-    <section id="process" className={`${styles.section} section-light`} aria-labelledby="process-title">
+    <section id="process" className={styles.section} aria-labelledby="process-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
-          <p className={styles.label}>Proces współpracy</p>
-          <h2 id="process-title" className={styles.headline}>Cztery kroki</h2>
-          <p className={styles.intro}>Zakres akceptujesz przed startem prac.</p>
+          <h2 id="process-title" className={styles.headline}>
+            Dobry projekt.<br />Jasna <span className="hl">współpraca.</span>
+          </h2>
+          <p className={styles.intro}>Od pierwszej rozmowy po opiekę po starcie. Na każdym etapie wiesz, co dostajesz.</p>
         </header>
 
-        <ol className={styles.steps}>
-          {STEPS.map((s, i) => (
-            <li
-              key={s.title}
-              className={styles.step}
-              data-reveal
-              style={{ ['--reveal-delay' as string]: `${i * 90}ms` }}
-            >
-              <div className={styles.stepHead}>
-                <span className={styles.num} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className={styles.title}>{s.title}</h3>
-              </div>
-              <dl className={styles.split}>
-                <div className={styles.side}>
-                  <dt>Ja</dt>
-                  <dd>{s.mine}</dd>
+        <div className={styles.grid} data-reveal>
+          <div className={styles.list} role="tablist" aria-orientation="vertical" aria-label="Etapy współpracy">
+            {STEPS.map((s, i) => {
+              const Icon = s.icon;
+              const on = i === active;
+              return (
+                <div key={s.title} className={styles.item}>
+                  <button
+                    ref={(el) => { tabs.current[i] = el; }}
+                    type="button"
+                    role="tab"
+                    id={`${uid}-tab-${i}`}
+                    aria-selected={on}
+                    aria-controls={`${uid}-panel-${i}`}
+                    tabIndex={on ? 0 : -1}
+                    className={`${styles.step} ${on ? styles.stepOn : ''}`}
+                    onClick={() => setActive(i)}
+                    onKeyDown={(e) => onKey(e, i)}
+                  >
+                    <Icon size={19} strokeWidth={1.8} aria-hidden="true" className={styles.stepIcon} />
+                    <span className={styles.stepNum} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                    <span className={styles.stepTitle}>{s.title}</span>
+                    <span className={styles.stepArrow} aria-hidden="true">
+                      {on ? <ArrowDown size={16} strokeWidth={2.2} /> : <ArrowRight size={16} strokeWidth={2} />}
+                    </span>
+                  </button>
+                  {/* Telefon: panel tuż pod wybranym krokiem */}
+                  <div className={styles.inlinePanel} data-on={on}>
+                    <Panel step={s} id={`${uid}-ipanel-${i}`} labelledBy={`${uid}-tab-${i}`} hidden={false} />
+                  </div>
                 </div>
-                <div className={styles.side}>
-                  <dt>Ty</dt>
-                  <dd>{s.yours}</dd>
-                </div>
-              </dl>
-            </li>
-          ))}
-        </ol>
+              );
+            })}
+          </div>
+
+          <div className={styles.aside}>
+            {STEPS.map((s, i) => (
+              <Panel key={s.title} step={s} id={`${uid}-panel-${i}`} labelledBy={`${uid}-tab-${i}`} hidden={i !== active} />
+            ))}
+          </div>
+        </div>
 
         <div className={styles.footer} data-reveal>
-          <ContactTrigger className={styles.cta}>Porozmawiajmy →</ContactTrigger>
+          <ContactTrigger className="btn">
+            Zacznijmy od rozmowy
+            <BtnIcon />
+          </ContactTrigger>
         </div>
       </div>
     </section>

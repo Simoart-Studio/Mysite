@@ -24,7 +24,6 @@ export default function RootLayout({
         {/* Fonty hostowane lokalnie (public/fonts) — build nie zależy od Google Fonts */}
         <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* Oznacza, że JS działa — bez niego pokazujemy statyczną siatkę projektów */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <noscript>

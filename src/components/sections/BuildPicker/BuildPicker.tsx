@@ -1,6 +1,10 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import { Check, Globe, ShoppingBag, LayoutDashboard, Smartphone, FlaskConical, type LucideIcon } from 'lucide-react';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
+import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import { projects } from '@/lib/projects';
+import type { Project } from '@/types/project';
 import styles from './BuildPicker.module.scss';
 
 type Option = {
@@ -11,6 +15,10 @@ type Option = {
   gets:     string[];
   related:  string[];
   goal:     string;
+};
+
+const ICONS: Record<string, LucideIcon> = {
+  strona: Globe, sklep: ShoppingBag, webapp: LayoutDashboard, mobile: Smartphone, mvp: FlaskConical,
 };
 
 /* Pytamy o problem klienta, nie o technologię */
@@ -69,70 +77,86 @@ export function BuildPicker() {
     <section id="uslugi" className={styles.section} aria-labelledby="build-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
-          <p className={styles.label}>Usługi</p>
-          <h2 id="build-title" className={styles.headline}>Co chcesz zbudować?</h2>
+          <h2 id="build-title" className={styles.headline}>
+            Co chcesz <span className="hl">zbudować?</span>
+          </h2>
+          <p className={styles.intro}>Zacznij od problemu. Rozwiązanie dobierzemy razem.</p>
         </header>
 
-        <div className={styles.picker} data-reveal>
-          <fieldset className={styles.options}>
-            <legend className="sr-only">Jaki problem chcesz rozwiązać?</legend>
-            {OPTIONS.map((o, i) => (
-              <div key={o.id} className={styles.option}>
-                <input
-                  type="radio"
-                  name="build"
-                  id={`build-${o.id}`}
-                  value={o.id}
-                  defaultChecked={i === 0}
-                  className={styles.radio}
-                />
-                <label htmlFor={`build-${o.id}`} className={styles.tile}>
-                  <span className={styles.tileProblem}>„{o.problem}”</span>
-                  <span className={styles.tileTitle}>{o.title}</span>
-                </label>
-                {/* Telefon/tablet: odpowiedź tuż pod wybranym kafelkiem */}
-                <div className={`${styles.panel} ${styles.panelInline}`}>
-                  <Panel o={o} related={o.related.map((s) => bySlug.get(s)).filter((p): p is NonNullable<typeof p> => !!p)} />
-                </div>
-              </div>
-            ))}
+        <div className={styles.card} data-reveal>
+          <fieldset className={styles.tabs}>
+            <legend className="sr-only">Rodzaj projektu</legend>
+            {OPTIONS.map((o, i) => {
+              const Icon = ICONS[o.id]!;
+              return (
+                <span key={o.id} className={styles.tabWrap}>
+                  <input
+                    type="radio"
+                    name="build"
+                    id={`build-${o.id}`}
+                    value={o.id}
+                    defaultChecked={i === 0}
+                    className={styles.radio}
+                  />
+                  <label htmlFor={`build-${o.id}`} className={styles.tab}>
+                    <Icon size={17} strokeWidth={1.8} aria-hidden="true" />
+                    {o.title}
+                  </label>
+                </span>
+              );
+            })}
           </fieldset>
 
-          <div className={styles.panels} aria-live="polite">
-            {OPTIONS.map((o) => (
-              <div key={o.id} id={`build-panel-${o.id}`} className={styles.panel} data-for={o.id}>
-                <Panel o={o} related={o.related.map((s) => bySlug.get(s)).filter((p): p is NonNullable<typeof p> => !!p)} />
-              </div>
-            ))}
+          <div className={styles.panels}>
+            {OPTIONS.map((o) => {
+              const related = o.related.map((slug) => bySlug.get(slug)).filter((p): p is Project => !!p);
+              return (
+                <div key={o.id} id={`build-panel-${o.id}`} className={styles.panel} data-for={o.id}>
+                  <div className={styles.panelText}>
+                    <p className={styles.problem}>„{o.problem}”</p>
+                    <p className={styles.offer}>{o.offer}</p>
+                    <ul className={styles.gets}>
+                      {o.gets.map((g) => (
+                        <li key={g}>
+                          <Check size={15} strokeWidth={2.4} aria-hidden="true" />
+                          {g}
+                        </li>
+                      ))}
+                    </ul>
+                    <ContactTrigger className="btn" preset={{ goal: o.goal }}>
+                      Porozmawiajmy
+                      <BtnIcon />
+                    </ContactTrigger>
+                  </div>
+
+                  <div className={styles.panelVisual}>
+                    {related[0]?.thumbnail ? (
+                      <Link href={`/works/${related[0].slug}`} className={styles.related}>
+                        <Image
+                          src={related[0].thumbnail.src}
+                          alt=""
+                          width={related[0].thumbnail.width}
+                          height={related[0].thumbnail.height}
+                          sizes="(max-width: 1023px) 90vw, 460px"
+                          className={styles.relatedImg}
+                        />
+                        <span className={styles.relatedLabel}>
+                          Podobny projekt: <strong>{related[0].name}</strong>
+                          <span aria-hidden="true"> ↗</span>
+                        </span>
+                      </Link>
+                    ) : (
+                      <div className={styles.placeholder} aria-hidden="true">
+                        {(() => { const Icon = ICONS[o.id]!; return <Icon size={56} strokeWidth={1.2} />; })()}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function Panel({ o, related }: { o: Option; related: { slug: string; name: string }[] }) {
-  return (
-    <>
-      <p className={styles.panelEyebrow}>{o.title}</p>
-      <p className={styles.panelOffer}>{o.offer}</p>
-      <ul className={styles.gets}>
-        {o.gets.map((g) => <li key={g}>{g}</li>)}
-      </ul>
-      {related.length > 0 && (
-        <p className={styles.related}>
-          Podobny projekt:{' '}
-          {related.map((p, i) => (
-            <span key={p.slug}>
-              {i > 0 && ', '}
-              <Link href={`/works/${p.slug}`} className={styles.relatedLink}>{p.name}</Link>
-            </span>
-          ))}
-        </p>
-      )}
-      <ContactTrigger className={styles.cta} preset={{ goal: o.goal }}>
-        Porozmawiajmy →
-      </ContactTrigger>
-    </>
   );
 }

@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { useOverlay, type ContactPreset } from '@/context/OverlayContext';
 
 /**
- * Link do formularza kontaktowego. Z JS otwiera nakładkę z formularzem
- * (opcjonalnie z wybranym celem), bez JS przewija do sekcji kontaktu.
+ * Link do formularza kontaktowego. Z JS przewija do formularza i ustawia cel,
+ * bez JS (lub z podstrony) przechodzi do /#contact.
  */
 export function ContactTrigger({
   children,
@@ -14,15 +14,15 @@ export function ContactTrigger({
 }: {
   children: ReactNode;
   className?: string;
-  preset?: ContactPreset;
+  preset?: Omit<ContactPreset, 'nonce'>;
 }) {
   const { openContact } = useOverlay();
   return (
     <a
-      href="#contact"
+      href="/#contact"
       className={className}
-      aria-haspopup="dialog"
       onClick={(e) => {
+        if (!document.getElementById('contact')) return;
         e.preventDefault();
         openContact(preset);
       }}
