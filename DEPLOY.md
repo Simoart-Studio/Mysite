@@ -8,12 +8,8 @@ SITE_URL = 'https://twoja-domena.pl'
 ```
 To samo URL pojawi się automatycznie w: sitemap, robots, OG metadata, JSON-LD Schema.
 
-### Dodaj prawdziwe obrazy projektów
-Zastąp placeholdery w `public/works/`:
-- `barberspace-thumb.webp` — 1600×1000px, max 300KB
-- `taskiner-thumb.webp` — 800×600px, max 300KB
-
-Optymalizacja: użyj squoosh.app lub `npx @squoosh/cli --webp-lossless -d public/works/ public/works/*.png`
+### Projekty i zrzuty ekranu
+Zobacz README → „Projekty: dane z GitHuba + nadpisania”. Zrzuty: `public/projects/<slug>/*.webp`.
 
 ### Zaktualizuj URL-e socialowe w lib/schema.ts
 ```ts
@@ -54,9 +50,10 @@ vercel --prod
 
 ---
 
-## 4. Zmienne środowiskowe (opcjonalne)
-Jeśli dodasz Calendly embed lub inne integracje:
-- Vercel Dashboard → Settings → Environment Variables
+## 4. Zmienne środowiskowe
+Vercel Dashboard → Settings → Environment Variables:
+- `GMAIL_USER`, `GMAIL_APP_PASSWORD` — formularz kontaktowy (wymagane)
+- `GITHUB_TOKEN` — opcjonalnie, tylko odczyt; dane repozytoriów do talii przy buildzie
 
 ---
 
