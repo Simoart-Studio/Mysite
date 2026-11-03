@@ -9,6 +9,8 @@ import { useEffect } from 'react';
  */
 export function RevealObserver() {
   useEffect(() => {
+    // Gdy React przerenderuje <html> (np. po błędzie hydratacji), klasa z inline scriptu znika
+    document.documentElement.classList.add('js');
     const els = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-in)');
     if (!('IntersectionObserver' in window)) {
       els.forEach((el) => el.classList.add('is-in'));

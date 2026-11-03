@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { useTypewriter } from '@/hooks/useTypewriter';
+import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import { fromLeftProps, revealProps, EASE_WAVE } from '@/lib/motion';
 import Image from 'next/image';
 import { AVAILABILITY, BRAND, OWNER, EMAIL, PHONE, CALENDLY_URL, phoneHref } from '@/data/config';
@@ -24,6 +25,7 @@ const P2 = 'Interesują mnie strony, które muszą pracować — zbierać rezerw
 export function About() {
   const { ref, isInView } = useScrollReveal<HTMLElement>();
   const reduced = useReducedMotion();
+  const reducedDom = useReducedMotionSafe();
 
   const tw1 = useTypewriter(P1, !reduced && isInView, 22);
   const tw2 = useTypewriter(P2, !reduced && tw1.length === P1.length && isInView, 22);
@@ -94,8 +96,8 @@ export function About() {
                 {/* Rezerwuje miejsce — brak skoku układu podczas pisania */}
                 <span className={styles.ghost} aria-hidden="true">{full}</span>
                 <span className={styles.typed} aria-hidden="true">
-                  {reduced ? full : typed}
-                  {!reduced && typed.length > 0 && typed.length < full.length && (
+                  {reducedDom ? full : typed}
+                  {!reducedDom && typed.length > 0 && typed.length < full.length && (
                     <span className={styles.cursor} />
                   )}
                 </span>

@@ -162,3 +162,24 @@
 
   @include respond-to('mobile') { margin-block: var(--s-2) 0; }
 }
+
+/* ─── Wejście (CSS, bez czekania na JS) ─── */
+.enter {
+  animation: heroEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @include reduced-motion { animation: none; }
+}
+
+@keyframes heroEnter {
+  from { opacity: 0.01; transform: translateY(12px); }
+  to   { opacity: 1;    transform: none; }
+}
+
+/* Nagłówek na urządzeniach bez efektu „pyłu” (telefony) */
+.h1Enter {
+  @media (max-width: 767px), (pointer: coarse) {
+    animation: heroEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @include reduced-motion { animation: none; }
+}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AVAILABILITY } from '@/data/config';
+import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import { HeroDeck } from '@/components/HeroDeck/HeroDeck';
 import type { Project } from '@/types/project';
 import styles from './Hero.module.scss';
@@ -67,9 +68,14 @@ function DustLine({
 
 export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'thumbnail'>[] }) {
   const reduced = useReducedMotion();
+  const reducedDom = useReducedMotionSafe();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  // Efekt „pyłu” (animacja każdej litery z rozmyciem) tylko na desktopie z myszą.
+  // Na telefonach to kosztowne dla CPU — tam nagłówek wchodzi lekką animacją CSS.
+  useEffect(() => {
+    setMounted(window.matchMedia('(min-width: 768px) and (pointer: fine)').matches);
+  }, []);
   useEffect(() => {
     const onScroll = () => { if (window.scrollY > 60) setScrolled(true); };
     window.addEventListener('scroll', onScroll, { passive: true, once: true });
@@ -79,17 +85,13 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
   return (
     <section className={styles.hero} aria-labelledby="hero-h1">
       <div className={styles.inner}>
-        <motion.p
-          className={styles.label}
-          initial={reduced ? false : { opacity: 0, y: 10 }}
-          animate={reduced ? {} : { opacity: 1, y: 0 }}
-          transition={reduced ? {} : { duration: 0.6, ease: EASE, delay: 0.1 }}
-        >
+        {/* Wejścia w CSS: startują przed hydratacją, więc nie opóźniają LCP */}
+        <p className={`${styles.label} ${styles.enter}`} style={{ animationDelay: '0.1s' }}>
           <span className="sr-only">Rola: </span>
           Digital Developer&ensp;·&ensp;Self Made
-        </motion.p>
+        </p>
 
-        <h1 id="hero-h1" className={styles.h1}>
+        <h1 id="hero-h1" className={`${styles.h1} ${styles.h1Enter}`}>
           <span className={styles.dustLine} aria-hidden="true">
             <DustLine text="Good Site" delay={0.2} reduced={reduced} mounted={mounted} />
           </span>
@@ -99,14 +101,9 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
           <span className="sr-only">Good Site Better Life.</span>
         </h1>
 
-        <motion.p
-          className={styles.lead}
-          initial={reduced ? false : { opacity: 0, y: 14 }}
-          animate={reduced ? {} : { opacity: 1, y: 0 }}
-          transition={reduced ? {} : { duration: 0.7, ease: EASE, delay: 1.2 }}
-        >
+        <p className={`${styles.lead} ${styles.enter}`} style={{ animationDelay: '0.25s' }}>
           Projektuję i buduję cyfrowe produkty, które zarabiają — nie tylko wyglądają.
-        </motion.p>
+        </p>
 
         {deck.length >= 3 && (
           <div className={styles.deck}>
@@ -114,20 +111,15 @@ export function Hero({ deck = [] }: { deck?: Pick<Project, 'slug' | 'name' | 'th
           </div>
         )}
 
-        <motion.div
-          className={styles.bottom}
-          initial={reduced ? false : { opacity: 0, y: 10 }}
-          animate={reduced ? {} : { opacity: 1, y: 0 }}
-          transition={reduced ? {} : { duration: 0.6, ease: EASE, delay: 1.45 }}
-        >
+        <div className={`${styles.bottom} ${styles.enter}`} style={{ animationDelay: '0.5s' }}>
           <span className={styles.status}>
             <span className={styles.dot} aria-hidden="true" />
             <span className="sr-only">Status: </span>
             Dostępny {AVAILABILITY}
           </span>
-        </motion.div>
+        </div>
 
-        {!reduced && (
+        {!reducedDom && (
           <motion.div
             className={styles.scrollHint}
             aria-hidden="true"

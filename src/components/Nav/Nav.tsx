@@ -5,6 +5,7 @@ import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { NavCta } from '@/components/NavCta/NavCta';
 import { BRAND } from '@/data/config';
+import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import styles from './Nav.module.scss';
 
 export function Nav() {
@@ -13,6 +14,7 @@ export function Nav() {
   const lastY = useRef(0);
   const { overlay, openMenu, openContact, close } = useOverlay();
   const prefersReduced = useReducedMotion();
+  const reducedDom = useReducedMotionSafe();
 
   const menuOpen = overlay === 'menu';
   const [contactHovered, setContactHovered] = useState(false);
@@ -43,7 +45,7 @@ export function Nav() {
       animate={{ y: navHidden && !menuOpen ? '-100%' : '0%' }}
       transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
     >
-      {!prefersReduced && (
+      {!reducedDom && (
         <motion.div
           className={styles.progressBar}
           style={{ scaleX, transformOrigin: 'left' }}
@@ -59,7 +61,7 @@ export function Nav() {
           }
           aria-label={`${BRAND} — powrót na górę`}
         >
-          <span className={styles.logoMain}>SimoArt</span>
+          <span className={styles.logoMain}>SimoArt</span>{' '}
           <span className={styles.logoSub}>studio</span>
         </button>
 
@@ -74,7 +76,7 @@ export function Nav() {
             onClick={() => openContact()}
             onMouseEnter={() => setContactHovered(true)}
             onMouseLeave={() => setContactHovered(false)}
-            aria-label="Napisz do mnie"
+            aria-label="Kontakt — napisz do mnie"
           >
             <span className={styles.mobileContactFill} aria-hidden="true" />
             <span className={styles.mobileContactLetters} aria-hidden="true">

@@ -104,7 +104,10 @@ export function FlowField() {
     let t   = 0;
     let raf = 0;
 
+    let running = false;
+
     function draw() {
+      if (!running) return;
       raf = requestAnimationFrame(draw);
       t  += 0.016;
 
@@ -232,10 +235,21 @@ export function FlowField() {
       }
     }
 
-    draw();
+    // Start dopiero, gdy przeglądarka jest bezczynna — nie konkuruje z pierwszym renderem (LCP/TBT)
+    const start = () => { if (running || document.hidden) return; running = true; draw(); };
+    const stop  = () => { running = false; cancelAnimationFrame(raf); };
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', onVisibility);
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const idle = hasIdle
+      ? window.requestIdleCallback(start, { timeout: 2500 })
+      : globalThis.setTimeout(start, 1200);
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      if (hasIdle) window.cancelIdleCallback(idle as number);
+      else globalThis.clearTimeout(idle);
+      document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('resize',    resize);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('click',     onClick);

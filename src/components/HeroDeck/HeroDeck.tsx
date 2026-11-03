@@ -58,8 +58,8 @@ export function HeroDeck({ cards }: { cards: Mini[] }) {
         onFocus={() => setSpread(true)}
         onBlur={() => setSpread(false)}
         onClick={(e) => { e.preventDefault(); goToWorks(); }}
-        aria-label="Przejdź do talii projektów"
       >
+        <span className="sr-only">Moje projekty — przejdź do talii projektów</span>
         {shown.map((c, i) => {
           const f = FAN[i]!;
           const k = spread ? 1.35 : 1;

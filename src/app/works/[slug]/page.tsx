@@ -56,7 +56,7 @@ export default async function CaseStudyPage({
       />
       <NoiseOverlay />
       <Nav />
-      <main id="main-content" className={`${styles.page} section-light`}>
+      <main id="main-content" className={styles.page}>
         <header className={styles.hero}>
           <nav aria-label="Okruszki" className={styles.crumbs}>
             <Link href="/#works">← Wszystkie projekty</Link>

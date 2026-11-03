@@ -20,7 +20,7 @@ export default function PrivacyPage() {
   return (
     <>
       <Nav />
-      <main id="main-content" className={`${styles.page} section-light`}>
+      <main id="main-content" className={styles.page}>
         <article className={styles.article}>
           <Link href="/" className={styles.back}>← Strona główna</Link>
           <h1>Polityka prywatności</h1>

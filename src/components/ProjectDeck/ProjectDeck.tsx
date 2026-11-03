@@ -268,14 +268,15 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                     }}
                     onPointerEnter={isPileTop ? () => { void loadDetail(); } : undefined}
                     onFocus={isPileTop ? () => { void loadDetail(); } : undefined}
-                    aria-label={
-                      isStackTop
-                        ? `Odsłoń kartę ${i + 1} z ${n}`
-                        : `${p.name} — otwórz szczegóły projektu`
-                    }
                     aria-haspopup={isPileTop ? 'dialog' : undefined}
                   >
-                    {inner}
+                    {/* Nazwa dostępna z tekstu (zamiast aria-label), treść graficzna ukryta przed czytnikiem */}
+                    <span className="sr-only">
+                      {isStackTop
+                        ? `Moje projekty. Odsłoń kartę ${i + 1} z ${n}`
+                        : `${p.name}${p.tagline ? `: ${p.tagline}` : ''} — otwórz szczegóły projektu`}
+                    </span>
+                    <span aria-hidden="true">{inner}</span>
                   </motion.button>
                 ) : (
                   <span className={styles.cardBtn} inert>{inner}</span>
