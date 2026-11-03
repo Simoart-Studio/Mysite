@@ -305,15 +305,20 @@ function Lightbox({
 
   useEffect(() => { closeRef.current?.focus(); }, []);
 
+  // Jeden stały listener na czas otwarcia (bez przepinania przy każdym renderze —
+  // inaczej naciśnięcie Esc mogło trafić w lukę między odpięciem a podpięciem)
+  const latest = useRef({ index, many, onClose, onIndex, n: shots.length });
+  latest.current = { index, many, onClose, onIndex, n: shots.length };
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); onClose(); }
-      if (many && e.key === 'ArrowRight') onIndex((index + 1) % shots.length);
-      if (many && e.key === 'ArrowLeft')  onIndex((index - 1 + shots.length) % shots.length);
+      const l = latest.current;
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); l.onClose(); }
+      if (l.many && e.key === 'ArrowRight') l.onIndex((l.index + 1) % l.n);
+      if (l.many && e.key === 'ArrowLeft')  l.onIndex((l.index - 1 + l.n) % l.n);
     };
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);
-  }, [index, many, onClose, onIndex, shots.length]);
+  }, []);
 
   return (
     <motion.div
