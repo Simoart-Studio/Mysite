@@ -1,5 +1,4 @@
 import { projects } from '@/lib/projects';
-import { GITHUB_URL } from '@/data/config';
 import { ProjectDeck } from '@/components/ProjectDeck/ProjectDeck';
 import { ProjectGrid } from '@/components/ProjectDeck/ProjectGrid';
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
@@ -34,10 +33,6 @@ export function Works() {
           </div>
         </div>
 
-        <p className={styles.github}>
-          Kod publicznych projektów:{' '}
-          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">github.com/kameleon1312 ↗</a>
-        </p>
       </div>
     </section>
   );

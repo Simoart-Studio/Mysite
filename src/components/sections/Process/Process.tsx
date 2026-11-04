@@ -104,7 +104,6 @@ export function Process() {
           <h2 id="process-title" className={styles.headline}>
             Dobry projekt.<br />Jasna <span className="hl">współpraca.</span>
           </h2>
-          <p className={styles.intro}>Od pierwszej rozmowy po opiekę po starcie. Na każdym etapie wiesz, co dostajesz.</p>
         </header>
 
         <div className={styles.grid} data-reveal>

@@ -65,17 +65,19 @@
   margin: -6px 0 0 -6px;
   border-radius: 50%;
   pointer-events: none;
-  animation: splash 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: splash 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--delay, 0ms);
 }
 
 /* Rozprysk: krople wylatują ze środka plamy na jej obrzeże */
 @keyframes splash {
   0%   { transform: translate(0, 0) scale(0); opacity: 0; }
-  55%  { opacity: 0.9; }
+  30%  { opacity: 0.9; }
+  55%  { transform: translate(calc(var(--dx) * 1cqi), calc(var(--dy) * 1cqi)) scale(1); opacity: 0.7; }
   100% {
-    transform: translate(calc(var(--dx) * 1cqi), calc(var(--dy) * 1cqi)) scale(1);
-    opacity: 0.55;
+    /* Po rozprysku krople znikają — tło zostaje czyste */
+    transform: translate(calc(var(--dx) * 1.1cqi), calc(var(--dy) * 1.1cqi)) scale(0.4);
+    opacity: 0;
   }
 }
 

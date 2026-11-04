@@ -18,7 +18,7 @@ export function Contact() {
             Porozmawiajmy o <span className="hl">projekcie.</span>
           </h2>
           <p className={styles.lead}>
-            Nie potrzebujesz gotowego briefu. Napisz, co chcesz zbudować albo co dziś utrudnia pracę.
+            Nie potrzebujesz gotowego briefu. Wystarczy kilka zdań.
           </p>
 
           <div className={styles.block}>

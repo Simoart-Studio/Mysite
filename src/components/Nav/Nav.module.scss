@@ -39,6 +39,8 @@
   color: var(--ink);
 
   &:focus-visible { @include focus-ring; }
+
+  @media (max-width: 480px) { padding: 0 16px; font-size: 1.0625rem; }
 }
 
 .logoDot {
@@ -83,6 +85,8 @@
   display: flex;
   align-items: center;
   gap: var(--s-2);
+
+  @media (max-width: 480px) { gap: 6px; }
 }
 
 .cta {
@@ -90,9 +94,9 @@
   min-height: 52px;
   font-size: var(--fs-small);
 
-  @media (max-width: 520px) {
-    padding-left: 18px;
-    gap: 10px;
+  @media (max-width: 480px) {
+    padding-left: 14px;
+    gap: 8px;
     font-size: 0.8125rem;
   }
 

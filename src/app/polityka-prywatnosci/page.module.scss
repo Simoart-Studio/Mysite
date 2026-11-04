@@ -4,8 +4,12 @@
 }
 
 .article {
-  max-width: 70ch;
+  max-width: 78ch;
   margin-inline: auto;
+  padding: clamp(24px, 5vw, 56px);
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-xl);
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
@@ -34,10 +38,10 @@
   margin-top: var(--s-2);
   padding: 2px 8px;
   font-size: var(--fs-small);
-  color: #7a4300;
-  background: #fff1d6;
-  border: 1px dashed #d79a3a;
-  border-radius: 4px;
+  color: var(--green-ink);
+  background: var(--mint-soft);
+  border: 1px dashed var(--green-line);
+  border-radius: var(--r-pill);
 }
 
 .meta { font-size: var(--fs-small); }

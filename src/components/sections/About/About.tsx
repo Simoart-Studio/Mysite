@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Code2, PenTool, Rocket, Sparkle } from 'lucide-react';
-import { BRAND, OWNER, EMAIL, PHONE, phoneHref } from '@/data/config';
+import { BRAND, OWNER } from '@/data/config';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './About.module.scss';
@@ -54,11 +54,6 @@ export function About() {
               {SKILLS.map(({ label, icon: Icon }) => (
                 <li key={label}><Icon size={14} aria-hidden="true" />{label}</li>
               ))}
-            </ul>
-
-            <ul className={styles.direct} aria-label="Kontakt bezpośredni">
-              <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
-              {PHONE && <li><a href={phoneHref(PHONE)}>{PHONE}</a></li>}
             </ul>
 
             <ContactTrigger className="btn">

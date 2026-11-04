@@ -104,6 +104,15 @@
 
 .faceBack { transform: rotateY(180deg); }
 
+/* Odkryta karta: lekka zielona ramka przy najechaniu / fokusie */
+.faceFront { transition: box-shadow var(--dur-base) var(--ease-out); }
+.cardBtn:hover .faceFront,
+.cardBtn:focus-visible .faceFront {
+  box-shadow:
+    0 0 0 1.5px var(--green-line),
+    0 28px 52px -26px rgb(14 128 72 / 0.45);
+}
+
 /* ─── Awers ─── */
 .front {
   display: flex;
@@ -222,7 +231,6 @@
   font-weight: 650;
   line-height: 1.1;
   letter-spacing: -0.045em;
-  background: linear-gradient(var(--mint), var(--mint)) no-repeat 0 88% / 100% 0.42em;
 }
 
 .tagline {
@@ -241,7 +249,8 @@
   padding: 3px 10px;
   font-size: 0.875rem;
   color: var(--clay-ink);
-  background: var(--clay-soft);
+  background: var(--mint-soft);
+  border: 1px dashed var(--green-line);
   border-radius: var(--r-pill);
 }
 

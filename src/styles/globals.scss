@@ -34,14 +34,15 @@
 :root {
   /* Paleta */
   --white:     #FFFFFF;
-  --cream:     #F7F6F0;
-  --cream-2:   #EFEEE6;
-  --ink:       #15201A;   /* tekst i ciemne panele (zielonkawa czerń) */
-  --ink-2:     #223029;
-  --green:     #1F6B45;   /* zieleń główna (AA na kremie) */
-  --green-ink: #17583A;
-  --mint:      #BDE98C;   /* marker, ikony w przyciskach */
-  --mint-soft: #E6F4D6;
+  --cream:     #F6F4EC;
+  --cream-2:   #ECEADF;
+  --ink:       #0E1D15;   /* tekst i ciemne panele (zielonkawa czerń) */
+  --ink-2:     #1B2D23;
+  --green:     #0E8048;   /* zieleń główna — wyrazista, AA na kremie i z białym tekstem */
+  --green-ink: #0B6A3B;
+  --mint:      #A8EE6A;   /* akcent: ikony w przyciskach, kropki, tła wyróżnień */
+  --mint-soft: #E0F6CB;
+  --green-line: rgb(14 128 72 / 0.35);   /* lekkie zielone obramowania */
 
   /* Nazwy używane w komponentach → nowa paleta */
   --sand-50:   var(--white);
@@ -63,10 +64,10 @@
   --color-bg:           var(--cream);
   --color-bg-raised:    var(--white);
   --color-text:         var(--ink);
-  --color-text-muted:   #4F5B53;   /* ≥ 7:1 */
-  --color-text-dim:     #66716A;   /* ≥ 4.5:1 */
-  --color-border:       #E4E4DA;
-  --color-border-hi:    #CDD0C3;
+  --color-text-muted:   #4A5850;   /* ≥ 6.5:1 */
+  --color-text-dim:     #5F6D65;   /* ≥ 4.5:1 */
+  --color-border:       #E2E1D5;
+  --color-border-hi:    #C9CCBE;
   --color-accent:       var(--green);
 
   /* Typografia */
@@ -159,29 +160,26 @@
   color: var(--color-text);
 }
 
-/* Zielony „marker” pod słowem w nagłówku — rysuje się przy wejściu */
+/* Wyróżnione słowo w nagłówku: lekkie zielone obramowanie (zamiast podkreślenia) */
 .hl {
-  padding: 0 0.06em;
-  margin: 0 -0.02em;
-  color: inherit;
-  background-image: linear-gradient(var(--mint), var(--mint));
-  background-repeat: no-repeat;
-  background-position: 0 88%;
-  background-size: 100% 0.42em;
-  border-radius: 3px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  display: inline-block;
+  padding: 0 0.16em 0.04em;
+  margin: 0.04em 0;
+  line-height: 1.05;
+  color: var(--green-ink);
+  border: 1.5px solid var(--green-line);
+  border-radius: 0.28em;
+  transition: border-color 0.9s var(--ease-out), background-color 0.9s var(--ease-out);
 }
 
-html.js [data-reveal] .hl,
-html.js .hl[data-reveal] {
-  background-size: 0% 0.42em;
-  transition: background-size 0.9s var(--ease-out) 0.25s;
+/* Obramowanie „rysuje się” przy wejściu sekcji */
+html.js [data-reveal] .hl {
+  border-color: transparent;
 }
 
-html.js [data-reveal].is-in .hl,
-html.js .hl[data-reveal].is-in {
-  background-size: 100% 0.42em;
+html.js [data-reveal].is-in .hl {
+  border-color: var(--green-line);
+  transition-delay: 0.35s;
 }
 
 /* ─────────────────────────────────────
@@ -217,13 +215,6 @@ html {
     scroll-behavior: auto;
   }
 }
-
-/* Zalecane style Lenis — bez nich płynne przewijanie walczy z CSS */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-stopped { overflow: clip; }
-.lenis.lenis-smooth iframe { pointer-events: none; }
 
 section[id] { scroll-margin-top: calc(var(--nav-height) + 16px); }
 
@@ -330,21 +321,25 @@ button {
    ───────────────────────────────────── */
 html.js [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(28px) scale(0.985);
+  filter: blur(6px);
   transition:
-    opacity 0.8s var(--ease-out),
-    transform 0.8s var(--ease-out);
+    opacity 0.9s var(--ease-out),
+    transform 1s var(--ease-out),
+    filter 0.9s var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal] {
     transform: none;
+    filter: none;
     transition: opacity 0.3s linear;
   }
 }
@@ -354,7 +349,7 @@ html.js [data-reveal].is-in {
    <a class="btn btn--dark">Tekst<span class="btn__icon">…</span></a>
    ───────────────────────────────────── */
 .btn {
-  --btn-bg: var(--ink);
+  --btn-bg: var(--green);
   --btn-fg: var(--white);
   --btn-icon-bg: var(--mint);
   --btn-icon-fg: var(--ink);
@@ -376,7 +371,7 @@ html.js [data-reveal].is-in {
   transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out),
               box-shadow var(--dur-base) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 
-  &:hover { box-shadow: var(--shadow-md); }
+  &:hover { box-shadow: 0 14px 30px -14px rgb(14 128 72 / 0.55); transform: translateY(-1px); }
   &:active { transform: scale(0.98); }
   &:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
@@ -406,19 +401,24 @@ html.js [data-reveal].is-in {
   --btn-icon-fg: var(--mint);
 }
 
+.btn--dark {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--white);
+}
+
 .btn--light {
   --btn-bg: var(--white);
   --btn-fg: var(--ink);
 }
 
 .btn--ghost {
-  --btn-bg: transparent;
-  --btn-fg: var(--color-text);
-  --btn-icon-bg: var(--color-text);
-  --btn-icon-fg: var(--color-bg);
-  border-color: var(--color-border-hi);
+  --btn-bg: var(--white);
+  --btn-fg: var(--ink);
+  --btn-icon-bg: var(--mint-soft);
+  --btn-icon-fg: var(--green-ink);
+  border-color: var(--green-line);
 
-  &:hover { border-color: var(--color-text); box-shadow: none; }
+  &:hover { border-color: var(--green); box-shadow: none; }
 }
 
 /* Bez ikony */

@@ -1,37 +1,37 @@
 .footer {
-  padding-block: var(--s-16) var(--s-8);
+  padding-block: var(--s-8) var(--s-8);
 }
 
 .inner {
   @include container;
   display: flex;
   flex-direction: column;
-  gap: var(--s-12);
+  gap: var(--s-6);
 }
 
-.top {
-  padding-top: var(--s-12);
-  border-top: 1px solid var(--color-border);
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1.2fr 0.8fr;
-  gap: var(--s-8);
-
-  @media (max-width: 900px) { grid-template-columns: 1fr 1fr; }
-  @include respond-to('mobile') { grid-template-columns: 1fr; }
-}
-
-.brand {
+.row {
   display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-8);
+  padding: var(--s-6) var(--s-8);
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-pill);
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: var(--r-xl);
+  }
 }
 
 .logo {
   display: inline-flex;
   align-items: center;
-  align-self: flex-start;
   gap: 2px;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 650;
   letter-spacing: -0.045em;
   color: var(--ink);
@@ -39,7 +39,7 @@
   span {
     width: 7px;
     height: 7px;
-    margin: 7px 0 0 2px;
+    margin: 6px 0 0 2px;
     border-radius: 50%;
     background: var(--green);
   }
@@ -47,32 +47,29 @@
   &:focus-visible { @include focus-ring; }
 }
 
-.tagline {
-  max-width: 26ch;
-  color: var(--color-text-muted);
-}
-
-.col {
+.nav {
   display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
-
-  ul { display: flex; flex-direction: column; gap: 8px; }
+  flex-wrap: wrap;
+  gap: 4px var(--s-6);
 
   a {
     font-size: var(--fs-small);
+    font-weight: 500;
     color: var(--color-text-muted);
     transition: color var(--dur-fast) var(--ease-out);
 
-    &:hover { color: var(--ink); }
+    &:hover { color: var(--green-ink); }
     &:focus-visible { @include focus-ring; }
   }
 }
 
-.colLabel {
+.mail {
   font-size: var(--fs-small);
   font-weight: 600;
-  color: var(--ink);
+  color: var(--green-ink);
+
+  &:hover { text-decoration: underline; text-underline-offset: 3px; }
+  &:focus-visible { @include focus-ring; }
 }
 
 .bottom {
@@ -80,11 +77,16 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--s-3);
+  padding-inline: var(--s-8);
   font-size: 0.8125rem;
   color: var(--color-text-dim);
 
-  a {
-    color: var(--color-text-dim);
-    &:hover { color: var(--ink); }
-  }
+  @media (max-width: 900px) { padding-inline: var(--s-2); }
+}
+
+.links {
+  display: flex;
+  gap: var(--s-6);
+
+  a:hover { color: var(--ink); }
 }

@@ -140,7 +140,7 @@ export function ProjectDetail({
               </div>
             </header>
 
-            <div ref={scrollRef} className={styles.scroll} data-lenis-prevent>
+            <div ref={scrollRef} className={styles.scroll}>
               <div className={styles.intro}>
                 <h2 id={`${uid}-title`} ref={titleRef} tabIndex={-1} className={styles.title}>
                   {project.name}

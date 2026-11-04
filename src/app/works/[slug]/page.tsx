@@ -7,7 +7,6 @@ import { pageMetadata } from '@/lib/metadata';
 import { buildProjectSchema, jsonLd } from '@/lib/schema';
 import { Nav } from '@/components/Nav/Nav';
 import { Footer } from '@/components/Footer/Footer';
-import { NoiseOverlay } from '@/components/NoiseOverlay/NoiseOverlay';
 import { CaseStudyBody } from '@/components/ProjectDeck/CaseStudyBody';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import styles from './page.module.scss';
@@ -54,7 +53,6 @@ export default async function CaseStudyPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(buildProjectSchema(p)) }}
       />
-      <NoiseOverlay />
       <Nav />
       <main id="main-content" className={styles.page}>
         <header className={styles.hero}>

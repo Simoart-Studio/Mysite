@@ -1,63 +1,44 @@
 .page {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg);
+  @include container;
+  display: grid;
+  place-items: center;
+  min-height: 80svh;
+  padding-top: calc(var(--nav-height) + var(--s-8));
+  padding-bottom: var(--s-8);
 }
 
-.inner {
-  @include container;
+.card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--s-6);
+  align-items: center;
+  gap: var(--s-4);
+  width: min(620px, 100%);
+  padding: var(--s-12) var(--s-8);
+  text-align: center;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-xl);
 }
 
 .code {
-  font-family: var(--font-mono);
-  font-size: clamp(6rem, 20vw, 12rem);
-  font-weight: 400;
-  color: var(--color-border-hi);
+  font-size: clamp(5rem, 16vw, 8rem);
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: var(--tracking-hero);
-  user-select: none;
+  letter-spacing: -0.07em;
+  color: var(--green);
 }
 
 .headline {
   font-size: var(--fs-h1);
-  font-weight: 400;
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-text);
+  color: var(--ink);
 }
 
-.body {
-  font-size: var(--fs-lead);
-  color: var(--color-text-muted);
-}
+.body { color: var(--color-text-muted); }
 
 .links {
   display: flex;
-  align-items: center;
-  gap: var(--s-6);
   flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-3);
   margin-top: var(--s-4);
-}
-
-.cta {
-  @include text-link;
-  font-size: var(--fs-body);
-  color: var(--color-text);
-
-  &:focus-visible { @include focus-ring; }
-}
-
-.ctaSecondary {
-  @include text-link;
-  font-size: var(--fs-body);
-  color: var(--color-text-muted);
-  transition: color var(--dur-fast) var(--ease-out);
-
-  &:hover { color: var(--color-text); }
-  &:focus-visible { @include focus-ring; }
 }

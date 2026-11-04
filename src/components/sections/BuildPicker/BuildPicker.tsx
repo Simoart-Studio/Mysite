@@ -80,7 +80,6 @@ export function BuildPicker() {
           <h2 id="build-title" className={styles.headline}>
             Co chcesz <span className="hl">zbudować?</span>
           </h2>
-          <p className={styles.intro}>Zacznij od problemu. Rozwiązanie dobierzemy razem.</p>
         </header>
 
         <div className={styles.card} data-reveal>
