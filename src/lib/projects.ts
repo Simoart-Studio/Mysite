@@ -4,7 +4,6 @@ import type {
   Project, ProjectChallenge, ProjectImage, ProjectLabel, ProjectStatus,
 } from '@/types/project';
 
-/** Tekst wyświetlany, gdy pole nie wynika z repozytorium ani z nadpisań. */
 export const TODO = 'Do uzupełnienia';
 
 type GithubRepo = {
@@ -99,7 +98,6 @@ function build(): Project[] {
         limitations:   o.limitations ?? [],
         readmeSummary: g.readme?.summary ?? null,
         readmeFeatures: g.readme?.features ?? [],
-        // Repo prywatne: nie pokazujemy linku (dla odwiedzających byłby 404)
         repoUrl:       o.repoUrl ?? (isPrivate ? null : g.url ?? null),
         demoUrl:       o.demoUrl ?? g.homepage ?? null,
         embed:         o.embed ?? false,

@@ -27,7 +27,6 @@ export function Works() {
           <ErrorBoundary fallback={<ProjectGrid projects={projects} />}>
             <ProjectDeck projects={projects} grid={<ProjectGrid projects={projects} />} />
           </ErrorBoundary>
-          {/* Bez JS: statyczna siatka z tymi samymi treściami */}
           <div className={styles.noJs}>
             <ProjectGrid projects={projects} />
           </div>

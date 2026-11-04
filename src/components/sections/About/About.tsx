@@ -5,7 +5,6 @@ import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './About.module.scss';
 
-/** Portret: ustaw np. { src: '/portrait.webp', width: 800, height: 1000 }. Null = karta z monogramem. */
 const PORTRAIT: { src: string; width: number; height: number } | null = null;
 
 const SKILLS = [
@@ -35,7 +34,7 @@ export function About() {
                 className={styles.portraitImg}
               />
             ) : (
-              <span className={styles.monogram} role="img" aria-label={`${OWNER} — ${BRAND}`}>SP</span>
+              <span className={styles.monogram} role="img" aria-label={`${OWNER}, ${BRAND}`}>SP</span>
             )}
             <span className={styles.badge}>
               <Sparkle size={14} aria-hidden="true" />

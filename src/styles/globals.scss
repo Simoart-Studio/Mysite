@@ -1,7 +1,4 @@
-/* ─────────────────────────────────────
-   Font (lokalny, zmienny: Inter 400–700)
-   latin + latin-ext (polskie znaki), pobierane tylko gdy potrzebne
-   ───────────────────────────────────── */
+
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -18,7 +15,7 @@
   src: url('/fonts/inter-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-/* Zastępcze z dopasowanymi metrykami — mniejszy skok przy podmianie fontu */
+
 @font-face {
   font-family: 'Inter Fallback';
   src: local('Arial');
@@ -28,23 +25,20 @@
   size-adjust: 107.12%;
 }
 
-/* ─────────────────────────────────────
-   Design Tokens — biel, krem, zieleń
-   ───────────────────────────────────── */
 :root {
-  /* Paleta */
+  
   --white:     #FFFFFF;
   --cream:     #F6F4EC;
   --cream-2:   #ECEADF;
-  --ink:       #0E1D15;   /* tekst i ciemne panele (zielonkawa czerń) */
+  --ink:       #0E1D15;   
   --ink-2:     #1B2D23;
-  --green:     #0E8048;   /* zieleń główna — wyrazista, AA na kremie i z białym tekstem */
+  --green:     #0E8048;   
   --green-ink: #0B6A3B;
-  --mint:      #A8EE6A;   /* akcent: ikony w przyciskach, kropki, tła wyróżnień */
+  --mint:      #A8EE6A;   
   --mint-soft: #E0F6CB;
-  --green-line: rgb(14 128 72 / 0.35);   /* lekkie zielone obramowania */
+  --green-line: rgb(14 128 72 / 0.35);   
 
-  /* Nazwy używane w komponentach → nowa paleta */
+  
   --sand-50:   var(--white);
   --sand-100:  var(--cream);
   --sand-200:  var(--cream-2);
@@ -60,17 +54,17 @@
   --espresso:  var(--ink);
   --cocoa:     #4D5951;
 
-  /* Role */
+  
   --color-bg:           var(--cream);
   --color-bg-raised:    var(--white);
   --color-text:         var(--ink);
-  --color-text-muted:   #4A5850;   /* ≥ 6.5:1 */
-  --color-text-dim:     #5F6D65;   /* ≥ 4.5:1 */
+  --color-text-muted:   #4A5850;   
+  --color-text-dim:     #5F6D65;   
   --color-border:       #E2E1D5;
   --color-border-hi:    #C9CCBE;
   --color-accent:       var(--green);
 
-  /* Typografia */
+  
   --font-sans: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont,
                "Segoe UI", Helvetica, Arial, sans-serif;
   --font-display: var(--font-sans);
@@ -95,7 +89,7 @@
   --tracking-body:    -0.006em;
   --tracking-label:    0;
 
-  /* Odstępy */
+  
   --s-1:  4px;
   --s-2:  8px;
   --s-3:  12px;
@@ -109,24 +103,24 @@
   --s-24: 96px;
   --s-32: 128px;
 
-  /* Zaokrąglenia */
+  
   --r-sm:   10px;
   --r-md:   14px;
   --r-lg:   20px;
   --r-xl:   28px;
   --r-pill: 999px;
 
-  /* Cienie — delikatne */
+  
   --shadow-sm:   0 1px 2px rgb(21 32 26 / 0.05), 0 2px 8px -4px rgb(21 32 26 / 0.08);
   --shadow-md:   0 12px 32px -16px rgb(21 32 26 / 0.22);
   --shadow-lg:   0 32px 64px -28px rgb(21 32 26 / 0.32);
 
-  /* Układ */
+  
   --max-width:  1180px;
   --nav-height: 88px;
   --gutter:     clamp(20px, 5vw, 48px);
 
-  /* Ruch */
+  
   --ease-out:     cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -135,9 +129,6 @@
   --dur-slow:     600ms;
 }
 
-/* ─────────────────────────────────────
-   Motywy sekcji
-   ───────────────────────────────────── */
 .section-light {
   --color-bg:        var(--cream-2);
   --color-bg-raised: var(--white);
@@ -160,7 +151,6 @@
   color: var(--color-text);
 }
 
-/* Wyróżnione słowo w nagłówku: lekkie zielone obramowanie (zamiast podkreślenia) */
 .hl {
   display: inline-block;
   padding: 0 0.16em 0.04em;
@@ -172,7 +162,6 @@
   transition: border-color 0.9s var(--ease-out), background-color 0.9s var(--ease-out);
 }
 
-/* Obramowanie „rysuje się” przy wejściu sekcji */
 html.js [data-reveal] .hl {
   border-color: transparent;
 }
@@ -182,18 +171,11 @@ html.js [data-reveal].is-in .hl {
   transition-delay: 0.35s;
 }
 
-/* ─────────────────────────────────────
-   Keyframes
-   ───────────────────────────────────── */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.35; transform: scale(1.6); }
 }
 
-
-/* ─────────────────────────────────────
-   Reset
-   ───────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -203,11 +185,11 @@ html.js [data-reveal].is-in .hl {
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  /* Kotwice lądują pod przyklejoną nawigacją, nie za nią */
+  
   scroll-padding-top: calc(var(--nav-height) + 16px);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* clip zamiast hidden: nie tworzy drugiego kontenera przewijania (iOS) */
+  
   overflow-x: clip;
   background-color: var(--cream);
 
@@ -286,9 +268,6 @@ button {
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: #CDD0C3; border-radius: 8px; }
 
-/* ─────────────────────────────────────
-   Utilities
-   ───────────────────────────────────── */
 .skip-to-content {
   position: absolute;
   top: -100%;
@@ -316,9 +295,6 @@ button {
   border: 0;
 }
 
-/* ─────────────────────────────────────
-   Animacje wejścia (RevealObserver)
-   ───────────────────────────────────── */
 html.js [data-reveal] {
   opacity: 0;
   transform: translateY(28px) scale(0.985);
@@ -344,10 +320,6 @@ html.js [data-reveal].is-in {
   }
 }
 
-/* ─────────────────────────────────────
-   Przyciski: pigułka + okrągła ikona strzałki
-   <a class="btn btn--dark">Tekst<span class="btn__icon">…</span></a>
-   ───────────────────────────────────── */
 .btn {
   --btn-bg: var(--green);
   --btn-fg: var(--white);
@@ -421,14 +393,12 @@ html.js [data-reveal].is-in {
   &:hover { border-color: var(--green); box-shadow: none; }
 }
 
-/* Bez ikony */
 .btn--plain { padding: 6px 22px; }
 
 @media (prefers-reduced-motion: reduce) {
   .btn:hover .btn__icon { transform: none; }
 }
 
-/* Karta: biała, duże zaokrąglenie */
 .card {
   background: var(--white);
   border-radius: var(--r-xl);

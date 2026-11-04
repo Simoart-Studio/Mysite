@@ -1,7 +1,7 @@
 import { renderOg, OG_SIZE } from '@/lib/og';
 import { BRAND } from '@/data/config';
 
-export const alt = `${BRAND} — strony i aplikacje`;
+export const alt = `${BRAND}: strony i aplikacje`;
 export const size = OG_SIZE;
 export const contentType = 'image/png';
 

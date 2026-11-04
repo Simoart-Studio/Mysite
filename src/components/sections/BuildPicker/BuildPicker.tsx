@@ -21,7 +21,6 @@ const ICONS: Record<string, LucideIcon> = {
   strona: Globe, sklep: ShoppingBag, webapp: LayoutDashboard, mobile: Smartphone, mvp: FlaskConical,
 };
 
-/* Pytamy o problem klienta, nie o technologię */
 const OPTIONS: Option[] = [
   {
     id: 'strona',

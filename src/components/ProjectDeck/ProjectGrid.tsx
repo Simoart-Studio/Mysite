@@ -4,10 +4,6 @@ import { CardFront } from './CardFaces';
 import { CaseStudyBody } from './CaseStudyBody';
 import styles from './ProjectDeck.module.scss';
 
-/**
- * Statyczna siatka kart — fallback bez JS, przy błędzie talii
- * i tryb „Widok listy”. Te same treści co w talii.
- */
 export function ProjectGrid({ projects, id }: { projects: Project[]; id?: string }) {
   return (
     <ul className={styles.grid} id={id} aria-label="Lista projektów">

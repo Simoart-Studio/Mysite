@@ -130,7 +130,6 @@ export function Process() {
                       {on ? <ArrowDown size={16} strokeWidth={2.2} /> : <ArrowRight size={16} strokeWidth={2} />}
                     </span>
                   </button>
-                  {/* Telefon: panel tuż pod wybranym krokiem */}
                   <div className={styles.inlinePanel} data-on={on}>
                     <Panel step={s} id={`${uid}-ipanel-${i}`} labelledBy={`${uid}-tab-${i}`} hidden={false} />
                   </div>

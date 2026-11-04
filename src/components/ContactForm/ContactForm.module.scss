@@ -4,7 +4,7 @@
   gap: var(--s-4);
 }
 
-/* ─── Nagłówek karty + postęp ─── */
+/* Nagłówek karty + postęp */
 .head {
   display: flex;
   align-items: flex-end;
@@ -66,7 +66,7 @@
   }
 }
 
-/* ─── Grupy pól ─── */
+/* Grupy pól */
 .group {
   display: flex;
   flex-direction: column;
@@ -205,7 +205,7 @@
   color: var(--color-text-dim);
 }
 
-/* ─── Chipy ─── */
+/* Chipy */
 .chipGroup {
   display: flex;
   flex-direction: column;
@@ -254,7 +254,7 @@
   input:focus-visible + span { @include focus-ring; }
 }
 
-/* ─── Załącznik ─── */
+/* Załącznik */
 .fileRow {
   position: relative;
   display: flex;
@@ -308,7 +308,7 @@
   &:focus-visible { @include focus-ring; }
 }
 
-/* ─── Zgoda ─── */
+/* Zgoda */
 .consent {
   display: flex;
   align-items: flex-start;
@@ -340,7 +340,7 @@
   font-size: 1rem;
 }
 
-/* ─── Sukces ─── */
+/* Sukces */
 .success {
   display: flex;
   flex-direction: column;

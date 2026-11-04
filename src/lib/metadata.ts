@@ -4,7 +4,7 @@ import { BRAND, OWNER } from '@/data/config';
 export const SITE_URL = 'https://sp-flow.vercel.app';
 
 export const siteMetadata = {
-  title: `${BRAND} — strony i aplikacje, które pracują dla Twojej firmy`,
+  title: `Strony i aplikacje, które pracują dla Twojej firmy | ${BRAND}`,
   description:
     'Projektuję i buduję strony firmowe, sklepy internetowe i aplikacje webowe (PWA) w React i Next.js. Zobacz projekty, proces współpracy i napisz do mnie.',
   url: SITE_URL,
@@ -67,7 +67,6 @@ export const baseMetadata: Metadata = {
   },
 };
 
-/** Metadane podstrony: własny title, description, canonical, OG i Twitter. */
 export function pageMetadata({
   title,
   description,

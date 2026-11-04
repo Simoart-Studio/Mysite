@@ -2,158 +2,131 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-height: min(100svh, 920px);
-  padding-top: calc(var(--nav-height) + var(--s-8));
+  min-height: min(100svh, 860px);
+  padding-top: calc(var(--nav-height) + var(--s-10));
   padding-bottom: var(--s-16);
   overflow-x: clip;
   isolation: isolate;
 
-  /* Miękka zielona poświata w tle (bez kropek) */
   &::before {
     content: '';
     position: absolute;
     z-index: -1;
-    width: min(760px, 110vw);
+    width: min(820px, 120vw);
     aspect-ratio: 1;
-    right: -14%;
-    top: 4%;
+    right: -18%;
+    top: -12%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgb(168 238 106 / 0.32) 0%, rgb(168 238 106 / 0) 62%);
+    background: radial-gradient(circle, rgb(168 238 106 / 0.35) 0%, rgb(168 238 106 / 0) 62%);
     pointer-events: none;
   }
 
   @include respond-to('mobile') {
     min-height: 0;
-    padding-top: calc(var(--nav-height) + var(--s-6));
+    padding-top: calc(var(--nav-height) + var(--s-10));
     padding-bottom: var(--s-12);
   }
 }
 
 .inner {
   @include container;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  align-items: center;
-  gap: var(--s-12);
-
-  @media (max-width: 1023px) { grid-template-columns: 1fr; gap: var(--s-10); }
-}
-
-.copy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--s-6);
-}
+  gap: var(--s-12);
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  font-size: var(--fs-small);
-  font-weight: 500;
-  color: var(--color-text-muted);
-  background: var(--white);
-  border-radius: var(--r-pill);
-}
-
-.eyebrowDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 4px var(--mint-soft);
+  @include respond-to('mobile') { gap: var(--s-8); }
 }
 
 .h1 {
-  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
-  line-height: var(--lh-hero);
-  letter-spacing: var(--tracking-hero);
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.75rem, 7.6vw, 6.75rem);
   font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.055em;
   color: var(--ink);
-  max-width: 16ch;
 }
 
-/* Obramowanie wyróżnienia pojawia się tuż po wejściu */
+.line {
+  display: block;
+  animation: lineIn 0.9s var(--ease-out) both;
+
+  &:nth-child(2) { animation-delay: 0.08s; }
+  &:nth-child(3) { animation-delay: 0.16s; }
+
+  @include reduced-motion { animation: none; }
+}
+
+@keyframes lineIn {
+  from { opacity: 0.01; transform: translateY(0.35em); }
+  to   { opacity: 1; transform: none; }
+}
+
+.pill {
+  position: relative;
+  display: inline-block;
+  width: 1.75em;
+  height: 0.82em;
+  margin: 0 0.04em;
+  vertical-align: -0.04em;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--cream-2);
+  box-shadow: 0 0 0 2px var(--white), 0 18px 34px -18px rgb(14 29 21 / 0.55);
+  transform: rotate(var(--tilt, 0deg));
+  animation: pillIn 1s var(--ease-spring) both;
+  transition: width 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+
+  &:hover { width: 2.4em; transform: rotate(0deg); }
+
+  @include reduced-motion { animation: none; transition: none; &:hover { width: 1.75em; } }
+}
+
+@keyframes pillIn {
+  from { width: 0; opacity: 0; }
+  to   { width: 1.75em; opacity: 1; }
+}
+
+.pillImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
 .hlIn {
-  animation: hlIn 1s var(--ease-out) 0.6s both;
+  animation: hlIn 1s var(--ease-out) 0.7s both;
 
   @include reduced-motion { animation: none; }
 }
 
 @keyframes hlIn {
   from { border-color: transparent; background-color: transparent; }
-  to   { border-color: var(--green-line); background-color: rgb(168 238 106 / 0.12); }
+  to   { border-color: var(--green-line); background-color: rgb(168 238 106 / 0.14); }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-6) var(--s-10);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--color-border);
+  animation: lineIn 0.9s var(--ease-out) 0.3s both;
+
+  @include reduced-motion { animation: none; }
 }
 
 .lead {
+  max-width: 46ch;
   font-size: var(--fs-lead);
   line-height: var(--lh-body);
   color: var(--color-text-muted);
-  max-width: 44ch;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-3);
-  margin-top: var(--s-2);
-}
-
-
-
-/* ─── Karta z mini-talią ─── */
-.visual {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  padding: var(--s-6) var(--s-6) var(--s-10);
-  background: var(--white);
-  border: 1px solid var(--green-line);
-  border-radius: var(--r-xl);
-  box-shadow: 0 40px 80px -48px rgb(14 128 72 / 0.45);
-}
-
-/* Karta delikatnie „unosi się” — spokojny, ciągły ruch */
-.float {
-  animation: float 7s ease-in-out 1.2s infinite;
-
-  @include reduced-motion { animation: none; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-
-.visualHead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: var(--fs-small);
-  font-weight: 500;
-  color: var(--color-text-muted);
-}
-
-.count {
-  padding: 3px 10px;
-  font-size: 0.75rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-  background: var(--cream);
-  border-radius: var(--r-pill);
-}
-
-
-/* ─── Wejście (CSS, przed hydratacją) ─── */
-.enter {
-  animation: heroEnter 0.7s var(--ease-out) both;
-
-  @include reduced-motion { animation: none; }
-}
-
-@keyframes heroEnter {
-  from { opacity: 0.01; transform: translateY(14px); }
-  to   { opacity: 1;    transform: none; }
 }

@@ -59,7 +59,6 @@ export function ProjectDetail({
 
   useEffect(() => lockScroll(), []);
 
-  // Fokus do otwartej karty (nagłówek)
   useEffect(() => {
     titleRef.current?.focus({ preventScroll: true });
   }, [index]);
@@ -305,8 +304,6 @@ function Lightbox({
 
   useEffect(() => { closeRef.current?.focus(); }, []);
 
-  // Jeden stały listener na czas otwarcia (bez przepinania przy każdym renderze —
-  // inaczej naciśnięcie Esc mogło trafić w lukę między odpięciem a podpięciem)
   const latest = useRef({ index, many, onClose, onIndex, n: shots.length });
   latest.current = { index, many, onClose, onIndex, n: shots.length };
   useEffect(() => {

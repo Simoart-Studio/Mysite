@@ -17,7 +17,6 @@
   padding-inline: var(--gutter);
 }
 
-/* Text link with sliding underline */
 @mixin text-link {
   position: relative;
   text-decoration: none;
@@ -46,7 +45,6 @@
   outline-offset: 3px;
 }
 
-/* Przyciski: zaokrąglone, ciepłe */
 @mixin btn-base {
   display: inline-flex;
   align-items: center;

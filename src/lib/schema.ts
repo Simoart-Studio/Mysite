@@ -2,7 +2,6 @@ import type { Project } from '@/types/project';
 import { BRAND, OWNER, EMAIL, PHONE, GITHUB_URL, LINKEDIN_URL } from '@/data/config';
 import { SITE_URL } from './metadata';
 
-/** JSON.stringify z ochroną przed wstrzyknięciem </script> (zalecenie Next.js). */
 export function jsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
@@ -73,7 +72,7 @@ export function buildProjectsListSchema(projects: Project[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `Projekty — ${BRAND}`,
+    name: `Projekty ${BRAND}`,
     itemListElement: projects.map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,

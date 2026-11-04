@@ -2,14 +2,8 @@
 
 import { useEffect } from 'react';
 
-/**
- * Subtelne animacje wejścia sekcji: elementy z atrybutem `data-reveal`
- * dostają klasę `is-in`, gdy wejdą w widok. Bez JS treść jest widoczna od razu
- * (style działają tylko pod `html.js`).
- */
 export function RevealObserver() {
   useEffect(() => {
-    // Gdy React przerenderuje <html> (np. po błędzie hydratacji), klasa z inline scriptu znika
     document.documentElement.classList.add('js');
     const els = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-in)');
     if (!('IntersectionObserver' in window)) {

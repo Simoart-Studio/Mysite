@@ -26,7 +26,7 @@
   @media (max-width: 1023px) { grid-template-columns: 1fr; gap: var(--s-8); }
 }
 
-/* ─── Karta portretu ─── */
+/* Karta portretu */
 .portrait {
   position: relative;
   display: grid;
@@ -84,7 +84,7 @@
   svg { color: var(--mint); }
 }
 
-/* ─── Tekst ─── */
+/* Tekst */
 .text {
   display: flex;
   flex-direction: column;

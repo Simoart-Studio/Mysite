@@ -41,7 +41,7 @@
   @include respond-to('mobile') { padding: var(--s-4); gap: var(--s-6); }
 }
 
-/* ─── Zakładki ─── */
+/* Zakładki */
 .tabs {
   display: flex;
   gap: 4px;
@@ -57,7 +57,6 @@
 
   &::-webkit-scrollbar { display: none; }
 
-  // Wygaszenie krawędzi: widać, że zakładki można przesunąć
   @media (max-width: 1023px) {
     mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 28px), transparent 100%);
   }
@@ -105,7 +104,7 @@
   .radio:focus-visible + & { @include focus-ring; }
 }
 
-/* ─── Panele ─── */
+/* Panele */
 .panel {
   display: none;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -118,7 +117,6 @@
   @include reduced-motion { animation: none; }
 }
 
-// Panel zaznaczonej zakładki (bez JS — czysty CSS)
 @each $id in strona, sklep, webapp, mobile, mvp {
   .card:has(:global(#build-#{$id}):checked) .panel[data-for='#{$id}'] { display: grid; }
 }

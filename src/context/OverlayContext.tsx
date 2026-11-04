@@ -14,7 +14,6 @@ type OverlayType = 'menu' | null;
 
 export interface ContactPreset {
   goal?: string;
-  /** Zmienia się przy każdym kliknięciu — formularz reaguje nawet na ten sam cel. */
   nonce?: number;
 }
 
@@ -22,7 +21,6 @@ interface OverlayCtx {
   overlay: OverlayType;
   contactPreset: ContactPreset;
   openMenu: () => void;
-  /** Przewija do formularza kontaktowego i (opcjonalnie) ustawia cel. */
   openContact: (preset?: Omit<ContactPreset, 'nonce'>) => void;
   close: () => void;
 }
@@ -44,7 +42,6 @@ export function OverlayProvider({ children }: { children: ReactNode }) {
     setOverlay(null);
     setContactPreset({ ...preset, nonce: Date.now() });
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // Po zamknięciu ewentualnego menu (odblokowanie przewijania)
     setTimeout(() => scrollToTarget('contact', reduced), 30);
   }, []);
 

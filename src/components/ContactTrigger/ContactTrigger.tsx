@@ -3,10 +3,6 @@
 import type { ReactNode } from 'react';
 import { useOverlay, type ContactPreset } from '@/context/OverlayContext';
 
-/**
- * Link do formularza kontaktowego. Z JS przewija do formularza i ustawia cel,
- * bez JS (lub z podstrony) przechodzi do /#contact.
- */
 export function ContactTrigger({
   children,
   className,

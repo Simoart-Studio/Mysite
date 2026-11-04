@@ -39,9 +39,9 @@ export default function PrivacyPage() {
           <h2>2. Jakie dane zbieram i po co</h2>
           <p>Formularz kontaktowy przesyła:</p>
           <ul>
-            <li>imię i adres e-mail — żeby móc odpowiedzieć,</li>
-            <li>cel projektu, adres obecnej strony i orientacyjny budżet (opcjonalnie) — żeby przygotować propozycję,</li>
-            <li>treść wiadomości i załącznik (opcjonalnie, do {ATTACHMENT_MAX_MB} MB) — żeby zrozumieć Twój problem.</li>
+            <li>imię i adres e-mail, żeby móc odpowiedzieć,</li>
+            <li>cel projektu, adres obecnej strony i orientacyjny budżet (opcjonalnie), żeby przygotować propozycję,</li>
+            <li>treść wiadomości i załącznik (opcjonalnie, do {ATTACHMENT_MAX_MB} MB), żeby zrozumieć Twój problem.</li>
           </ul>
           <p>
             Podstawa prawna: Twoja zgoda (art. 6 ust. 1 lit. a RODO) oraz działania przed zawarciem umowy na Twoje
@@ -50,9 +50,9 @@ export default function PrivacyPage() {
 
           <h2>3. Komu przekazuję dane</h2>
           <ul>
-            <li>Google (Gmail) — wiadomość z formularza trafia na moją skrzynkę pocztową,</li>
-            <li>Vercel Inc. — hosting strony,</li>
-            <li>Calendly — tylko jeśli sam(a) umówisz rozmowę przez Calendly (obowiązuje wtedy ich polityka prywatności).</li>
+            <li>Google (Gmail): wiadomość z formularza trafia na moją skrzynkę pocztową,</li>
+            <li>Vercel Inc.: hosting strony,</li>
+            <li>Calendly: tylko jeśli sam(a) umówisz rozmowę przez Calendly (obowiązuje wtedy ich polityka prywatności).</li>
           </ul>
           <p>
             Część tych dostawców działa poza Europejskim Obszarem Gospodarczym. Przekazanie opiera się na standardowych
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
 
           <h2>4. Jak długo przechowuję dane</h2>
           <p>
-            Do czasu obsługi zapytania, a jeśli podejmiemy współpracę — przez czas jej trwania i okres wymagany przepisami.
+            Do czasu obsługi zapytania, a jeśli podejmiemy współpracę, przez czas jej trwania i okres wymagany przepisami.
             <br />
             <Todo>Konkretny okres przechowywania zapytań bez współpracy</Todo>
           </p>

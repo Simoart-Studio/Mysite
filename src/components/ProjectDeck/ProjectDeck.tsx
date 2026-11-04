@@ -11,7 +11,6 @@ import type { Project } from '@/types/project';
 import { CardBack, CardFront } from './CardFaces';
 import styles from './ProjectDeck.module.scss';
 
-// Widok szczegółowy ładujemy dopiero na żądanie (code splitting)
 const loadDetail = () => import('./ProjectDetail').then((m) => m.ProjectDetail);
 const ProjectDetail = dynamic(loadDetail, { ssr: false });
 
@@ -29,7 +28,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
   const n = projects.length;
   const uid = useId();
 
-  const [revealed, setRevealed]   = useState(0);       // ile kart leży w „odkrytej” kupce
+  const [revealed, setRevealed]   = useState(0);
   const [move, setMove]           = useState<Move>(null);
   const [resetting, setResetting] = useState(false);
   const [openIdx, setOpenIdx]     = useState<number | null>(null);
@@ -49,7 +48,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
     return () => mq.removeEventListener('change', update);
   }, []);
 
-  // Fokus po akcji z klawiatury: wierzch stosu albo wierzch kupki
   useEffect(() => {
     const target = pendingFocus.current;
     if (!target) return;
@@ -99,12 +97,10 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
 
   const closeDetail = useCallback((lastIdx: number) => {
     setOpenIdx(null);
-    // Jeśli w szczegółach przeszliśmy dalej niż kupka — dołóż karty
     setRevealed((r) => Math.max(r, lastIdx + 1));
     returnFocus.current = true;
   }, []);
 
-  // Po zamknięciu szczegółów oddaj fokus odkrytej karcie (otwierającej)
   const returnFocus = useRef(false);
   useEffect(() => {
     if (openIdx === null && returnFocus.current) {
@@ -176,7 +172,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
         <div className={styles.listWrap}>{grid}</div>
       ) : (
         <div className={styles.stage}>
-          {/* Puste miejsce po stosie */}
           <motion.div
             className={styles.slot}
             aria-hidden={revealed < n}
@@ -215,7 +210,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                   zIndex: 500,
                 }
               : moving && reduced
-                // Ruch ograniczony: bez odklejania, tylko łagodne pojawienie się
                 ? { x: ps.x, y: ps.y, rotate: ps.rotate, scale: ps.scale, zIndex: ps.z, opacity: [0, 1] }
                 : { x: ps.x, y: ps.y, rotate: ps.rotate, scale: ps.scale, zIndex: ps.z, opacity: 1 };
 
@@ -225,7 +219,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                 ? { duration: 0, opacity: { duration: 0.3, ease: 'easeOut' } }
                 : { ...base, zIndex: { duration: 0, delay: reduced ? 0 : resetting ? 0.4 : 0.3 } };
 
-            // Treść awersu renderujemy tylko dla kart odkrytych i wierzchu stosu
             const showFront = i <= revealed;
 
             const inner = (
@@ -276,11 +269,10 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                     onFocus={isPileTop ? () => { void loadDetail(); } : undefined}
                     aria-haspopup={isPileTop ? 'dialog' : undefined}
                   >
-                    {/* Nazwa dostępna z tekstu (zamiast aria-label), treść graficzna ukryta przed czytnikiem */}
                     <span className="sr-only">
                       {isStackTop
                         ? `Moje projekty. Odsłoń kartę ${i + 1} z ${n}`
-                        : `${p.name}${p.tagline ? `: ${p.tagline}` : ''} — otwórz szczegóły projektu`}
+                        : `${p.name}${p.tagline ? `: ${p.tagline}` : ''}. Otwórz szczegóły projektu`}
                     </span>
                     <span aria-hidden="true" className={isStackTop ? styles.invite : styles.innerWrap}>{inner}</span>
                   </motion.button>

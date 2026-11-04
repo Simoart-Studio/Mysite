@@ -8,7 +8,6 @@ import styles from './SplashCarousel.module.scss';
 
 export type SplashSlide = { title: string; body: string };
 
-/* Organiczne kształty plam (viewBox 0 0 400 400) */
 const BLOBS = [
   'M318,77C357,113,374,174,361,229C348,284,305,333,250,355C195,377,128,372,84,339C40,306,19,245,27,190C35,135,72,86,122,58C172,30,279,41,318,77Z',
   'M297,52C345,79,378,133,376,190C374,247,337,307,284,343C231,379,162,391,109,365C56,339,19,275,24,212C29,149,76,87,131,57C186,27,249,25,297,52Z',
@@ -19,7 +18,6 @@ const FILLS = [
   { fill: '#E4ECDF', deep: '#C8D7C0', drop: '#5E8F4A'      },
   { fill: '#EEF6D9', deep: '#D5E8AE', drop: '#8FCB5C'      },
 ];
-/* Krople rozprysku: kąt (stopnie), odległość (% promienia), rozmiar */
 const DROPS = [
   [ -20, 1.18, 14 ], [ 35, 1.22, 9 ], [ 100, 1.16, 12 ], [ 160, 1.24, 8 ],
   [ 205, 1.15, 13 ], [ 255, 1.2, 7 ], [ 300, 1.18, 10 ],
@@ -29,7 +27,6 @@ const SWIPE = 60;
 
 export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label: string }) {
   const reduced = !!useReducedMotion();
-  // Krople zmieniają DOM — wersja bezpieczna dla hydratacji
   const reducedDom = useReducedMotionSafe();
   const uid = useId();
   const n = slides.length;
@@ -137,7 +134,6 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
         ))}
       </div>
 
-      {/* Bez JS: wszystkie zasady jedna pod drugą */}
       <ol className={styles.static}>
         {slides.map((s, i) => (
           <li key={s.title}>

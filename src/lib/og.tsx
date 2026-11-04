@@ -3,7 +3,6 @@ import { BRAND } from '@/data/config';
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-/** Wspólny szablon obrazów Open Graph / Twitter Card. */
 export function renderOg({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) {
   return new ImageResponse(
     (

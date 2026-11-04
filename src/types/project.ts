@@ -21,9 +21,7 @@ export interface Project {
   isPrivate:     boolean;
   status:        ProjectStatus;
   labels:        ProjectLabel[];
-  /** Jednolinijkowy opis problemu (awers karty). */
   tagline:       string | null;
-  /** 3–4 chipy na awersie. */
   stack:         string[];
   stackFull:     string[];
   languages:     { name: string; percent: number }[];
@@ -45,6 +43,5 @@ export interface Project {
   lastCommitAt:  string | null;
   stars:         number | null;
   topics:        string[];
-  /** Lista pól, których brakuje (do uzupełnienia). */
   missing:       string[];
 }

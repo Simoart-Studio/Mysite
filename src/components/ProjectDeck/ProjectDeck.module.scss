@@ -1,6 +1,4 @@
-/* ─────────────────────────────────────
-   Talia kart projektów — ciepła, miękka
-   ───────────────────────────────────── */
+
 .deckRoot {
   --card-w: min(330px, 84vw);
   --card-h: calc(var(--card-w) * 1.4);
@@ -13,13 +11,11 @@
 
   @media (max-width: 480px) { --card-h: calc(var(--card-w) * 1.46); }
 
-  // Bez JS talia nie działa — wtedy statyczna siatka (Works.module.scss)
   :global(html:not(.js)) & { display: none; }
 }
 
 .stage {
   position: relative;
-  // Zarezerwowane miejsce — brak skoku układu (CLS)
   height: calc(var(--card-h) + 56px);
   perspective: 1600px;
   touch-action: pan-y;
@@ -63,7 +59,6 @@
   height: 100%;
 }
 
-/* Zaproszenie: wierzchnia karta co jakiś czas lekko unosi róg */
 .invite {
   transform-origin: 20% 100%;
   animation: invite 5.5s var(--ease-out) 1.6s infinite;
@@ -104,7 +99,6 @@
 
 .faceBack { transform: rotateY(180deg); }
 
-/* Odkryta karta: lekka zielona ramka przy najechaniu / fokusie */
 .faceFront { transition: box-shadow var(--dur-base) var(--ease-out); }
 .cardBtn:hover .faceFront,
 .cardBtn:focus-visible .faceFront {
@@ -113,7 +107,7 @@
     0 28px 52px -26px rgb(14 128 72 / 0.45);
 }
 
-/* ─── Awers ─── */
+/* Awers */
 .front {
   display: flex;
   flex-direction: column;
@@ -284,7 +278,7 @@
   color: var(--color-text-dim);
 }
 
-/* ─── Rewers ─── */
+/* Rewers */
 .back {
   position: relative;
   display: flex;
@@ -342,7 +336,7 @@
   }
 }
 
-/* ─── Puste miejsce po stosie ─── */
+/* Puste miejsce po stosie */
 .slot {
   position: absolute;
   top: 10px;
@@ -366,7 +360,7 @@
 
 .slotBtn { @include icon-btn; }
 
-/* ─── Sterowanie ─── */
+/* Sterowanie */
 .controls {
   display: flex;
   align-items: center;
@@ -421,7 +415,7 @@
   background: var(--green);
 }
 
-/* ─── Statyczna siatka (bez JS / widok listy) ─── */
+/* Statyczna siatka (bez JS / widok listy) */
 .listWrap { min-height: calc(var(--card-h) + 56px); }
 
 .grid {

@@ -3,10 +3,6 @@
 let locks = 0;
 let savedPadding = '';
 
-/**
- * Blokuje przewijanie strony (np. pod modalem). Liczy blokady, więc modale mogą się zagnieżdżać.
- * Kompensuje szerokość paska przewijania, żeby treść nie przeskakiwała w bok.
- */
 export function lockScroll() {
   locks += 1;
   if (locks === 1) {
@@ -27,7 +23,6 @@ export function lockScroll() {
   };
 }
 
-/** Przewiń do sekcji (lub na górę) z odstępem pod przyklejoną nawigacją. Natywnie, bez bibliotek. */
 export function scrollToTarget(target: string | 0, reduced = false) {
   const behavior: ScrollBehavior = reduced ? 'auto' : 'smooth';
   if (target === 0) {
@@ -36,6 +31,5 @@ export function scrollToTarget(target: string | 0, reduced = false) {
   }
   const el = document.getElementById(target.replace(/^#/, ''));
   if (!el) return;
-  // scroll-margin-top sekcji uwzględnia wysokość nawigacji
   el.scrollIntoView({ behavior, block: 'start' });
 }

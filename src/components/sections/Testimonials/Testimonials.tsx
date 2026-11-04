@@ -1,7 +1,6 @@
 import { testimonials, type Testimonial } from '@/data/testimonials';
 import styles from './Testimonials.module.scss';
 
-/** Sekcja opinii. Renderuje się tylko, gdy w src/data/testimonials.ts są wpisy. */
 export function Testimonials({ items = testimonials }: { items?: Testimonial[] }) {
   if (!items.length) return null;
 

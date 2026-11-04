@@ -26,7 +26,7 @@ export async function generateMetadata({
   const p = getProject(slug);
   if (!p) return {};
   return pageMetadata({
-    title: `${p.name} — studium przypadku`,
+    title: `${p.name}: studium przypadku`,
     description: p.tagline
       ? `${p.tagline} Problem, rozwiązanie, zakres prac i technologie projektu ${p.name}.`
       : `Projekt ${p.name}: status ${p.status.toLowerCase()}, technologie ${p.stack.join(', ')}. Opis w przygotowaniu.`,
@@ -79,7 +79,7 @@ export default async function CaseStudyPage({
               >
                 <Image
                   src={s.src}
-                  alt={s.alt ?? `${p.name} — zrzut ${i + 1}`}
+                  alt={s.alt ?? `${p.name}, zrzut ${i + 1}`}
                   width={s.width}
                   height={s.height}
                   sizes={s.device === 'mobile' ? '(max-width: 768px) 50vw, 300px' : '(max-width: 768px) 100vw, 900px'}

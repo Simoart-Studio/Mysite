@@ -36,7 +36,7 @@
   @media (max-width: 1023px) { grid-template-columns: 1fr; }
 }
 
-/* ─── Lista kroków ─── */
+/* Lista kroków */
 .list {
   display: flex;
   flex-direction: column;
@@ -94,7 +94,7 @@
   .step:hover & { transform: translateX(2px); }
 }
 
-/* ─── Panel (ciemny) ─── */
+/* Panel (ciemny) */
 .aside {
   @media (max-width: 1023px) { display: none; }
 }

@@ -6,7 +6,7 @@ import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './not-found.module.scss';
 
 export const metadata: Metadata = {
-  title: '404 — Strona nie istnieje',
+  title: '404: strona nie istnieje',
   robots: { index: false },
 };
 

@@ -44,7 +44,6 @@ function validate(name: string, email: string, message: string, consent: boolean
   return e;
 }
 
-/** Formularz kontaktowy osadzony w sekcji „Kontakt”. */
 export function ContactForm() {
   const { contactPreset } = useOverlay();
   const messageRef = useRef<HTMLTextAreaElement>(null);
@@ -62,7 +61,6 @@ export function ContactForm() {
   const [errors,   setErrors]   = useState<Errors>({});
   const [status,   setStatus]   = useState<Status>('idle');
 
-  // Przycisk „Porozmawiajmy” gdziekolwiek na stronie: ustaw cel i przejdź do wiadomości
   useEffect(() => {
     if (!contactPreset.nonce) return;
     if (contactPreset.goal) setGoal(contactPreset.goal);
@@ -134,7 +132,6 @@ export function ContactForm() {
         </div>
       </div>
 
-      {/* Honeypot — ukryte przed ludźmi, wypełniane przez boty */}
       <div className={styles.honeypot} aria-hidden="true">
         <label htmlFor="cf-website">Website</label>
         <input id="cf-website" type="text" name="website" tabIndex={-1} autoComplete="off"
@@ -273,7 +270,6 @@ export function ContactForm() {
   );
 }
 
-/** Numerowana grupa pól z oznaczeniem ukończenia. */
 function Group({
   n, title, optional = false, done, children,
 }: {
@@ -295,7 +291,6 @@ function Group({
   );
 }
 
-/** Wybór jednej opcji jako „chipy” (natywne radio — działa klawiaturą, nic się nie rozwija). */
 function ChipGroup({
   name, legend, options, value, onChange, optional = false,
 }: {

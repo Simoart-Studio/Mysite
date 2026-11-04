@@ -13,10 +13,6 @@ function Text({ value }: { value: string | null }) {
   return value ? <>{value}</> : <Todo />;
 }
 
-/**
- * Treść case study: Problem → Rozwiązanie → Mój zakres → Efekt.
- * Komponent bez hooków — działa w RSC, w kliencie i bez JS.
- */
 export function CaseStudyBody({
   project,
   heading: H = 'h3',

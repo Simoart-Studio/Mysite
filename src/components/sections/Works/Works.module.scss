@@ -35,7 +35,6 @@
   @include respond-to('mobile') { padding: var(--s-6) var(--s-3) var(--s-6); }
 }
 
-// Siatka bez JS: widoczna tylko, gdy skrypt nie ustawił klasy .js na <html>
 .noJs {
   :global(html.js) & { display: none; }
 }

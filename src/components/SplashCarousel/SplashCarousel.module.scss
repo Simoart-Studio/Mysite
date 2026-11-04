@@ -24,7 +24,6 @@
 .viewport {
   display: grid;
   place-items: center;
-  // Jeden slajd, wyśrodkowany — bez podglądu kolejnego
   min-height: min(460px, 92vw);
   overflow: visible;
 
@@ -36,7 +35,6 @@
 
 .slide {
   position: relative;
-  // Jednostki cqi kropli liczone od szerokości plamy
   container-type: inline-size;
   width: min(440px, 86vw);
   aspect-ratio: 1;
@@ -69,13 +67,12 @@
   animation-delay: var(--delay, 0ms);
 }
 
-/* Rozprysk: krople wylatują ze środka plamy na jej obrzeże */
 @keyframes splash {
   0%   { transform: translate(0, 0) scale(0); opacity: 0; }
   30%  { opacity: 0.9; }
   55%  { transform: translate(calc(var(--dx) * 1cqi), calc(var(--dy) * 1cqi)) scale(1); opacity: 0.7; }
   100% {
-    /* Po rozprysku krople znikają — tło zostaje czyste */
+    
     transform: translate(calc(var(--dx) * 1.1cqi), calc(var(--dy) * 1.1cqi)) scale(0.4);
     opacity: 0;
   }

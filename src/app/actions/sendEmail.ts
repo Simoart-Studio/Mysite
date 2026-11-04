@@ -19,9 +19,7 @@ function esc(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
 
-/** Formularz kontaktowy. Walidacja po stronie serwera niezależnie od klienta. */
 export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
-  // Honeypot — boty wypełniają ukryte pole, ludzie nie
   if (str(fd, 'website')) return { ok: true };
 
   const name    = str(fd, 'name', 120);
@@ -70,9 +68,9 @@ export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
 
   const rows: [string, string][] = [
     ['Od', `${name} <${email}>`],
-    ['Cel', goal || '—'],
-    ['Obecna strona', siteUrl || '—'],
-    ['Budżet', budget || '—'],
+    ['Cel', goal || '-'],
+    ['Obecna strona', siteUrl || '-'],
+    ['Budżet', budget || '-'],
     ['Zgoda RODO', 'tak'],
   ];
 
@@ -81,7 +79,7 @@ export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
       from:    `"Formularz SimoArt" <${process.env.GMAIL_USER}>`,
       to:      process.env.GMAIL_USER,
       replyTo: { name, address: email },
-      subject: `Nowe zapytanie: ${goal || 'kontakt'} — ${name}`,
+      subject: `Nowe zapytanie: ${goal || 'kontakt'} (${name})`,
       text: [...rows.map(([k, v]) => `${k}: ${v}`), '', message].join('\n'),
       html: `
         <table>${rows.map(([k, v]) => `<tr><td><strong>${esc(k)}</strong></td><td>${esc(v)}</td></tr>`).join('')}</table>

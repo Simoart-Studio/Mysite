@@ -35,7 +35,6 @@ export function Nav() {
       const y = window.scrollY;
       setScrolled(y > 24);
       const dy = y - lastY.current;
-      // W dół (poza górą strony) chowaj, w górę pokazuj; drobne drgania ignoruj
       setNavHidden((prev) => (y < 240 ? false : dy > 4 ? true : dy < -4 ? false : prev));
       lastY.current = y;
     };
@@ -43,7 +42,6 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Podświetl link sekcji, która jest na ekranie
   useEffect(() => {
     const els = LINKS.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[];
     if (!els.length) return;
@@ -58,7 +56,7 @@ export function Nav() {
   }, []);
 
   function go(e: React.MouseEvent, id: string) {
-    if (!document.getElementById(id)) return; // podstrona — zwykła nawigacja do /#id
+    if (!document.getElementById(id)) return;
     e.preventDefault();
     scrollToTarget(id, !!prefersReduced);
     history.replaceState(null, '', `#${id}`);
@@ -75,7 +73,7 @@ export function Nav() {
         <a
           href="/"
           className={styles.logo}
-          aria-label={`${BRAND} — strona główna`}
+          aria-label={`${BRAND}, strona główna`}
           onClick={(e) => {
             if (window.location.pathname !== '/') return;
             e.preventDefault();

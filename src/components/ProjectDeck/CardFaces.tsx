@@ -37,7 +37,6 @@ export function Thumb({ project, sizes = '340px' }: { project: Project; sizes?: 
   );
 }
 
-/** Awers karty. Same <span>, bo treść siedzi wewnątrz <button>. */
 export function CardFront({
   project,
   index,
@@ -79,7 +78,6 @@ export function CardFront({
   );
 }
 
-/** Rewers: karta tytułowa talii — bez instrukcji, sama zachęca kształtem i ruchem. */
 export function CardBack({ remaining, total }: { remaining: number; total: number }) {
   return (
     <span className={styles.back}>

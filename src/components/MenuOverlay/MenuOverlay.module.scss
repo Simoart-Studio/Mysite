@@ -1,5 +1,5 @@
 .overlay {
-  /* Ciepły, ciemny motyw menu */
+  
   --color-bg:         var(--espresso);
   --color-text:       #F3F5EF;
   --color-text-muted: #C9D1C8;
@@ -19,7 +19,7 @@
   grid-template-rows: var(--nav-height) 1fr auto;
 }
 
-/* ─── Top bar ─── */
+/* Top bar */
 .topBar {
   @include container;
   display: flex;
@@ -53,13 +53,12 @@
   &:focus-visible { @include focus-ring; }
 }
 
-/* ─── Obszar drzewa ─── */
+/* Obszar drzewa */
 .treeArea {
   position: relative;
   overflow: hidden;
 }
 
-/* SVG rozciągnięte na cały obszar — ukryte na mobile/tablet */
 .treeSvg {
   position: absolute;
   inset: 0;
@@ -70,7 +69,6 @@
   @include respond-to('tablet') { display: none; }
 }
 
-/* Pień */
 .trunk {
   fill: none;
   stroke: var(--color-border-hi);
@@ -78,7 +76,6 @@
   stroke-linecap: round;
 }
 
-/* Gałęzie */
 .branch {
   fill: none;
   stroke: var(--color-border-hi);
@@ -87,7 +84,6 @@
   opacity: 0.75;
 }
 
-/* Odnogi dekoracyjne */
 .twig {
   fill: none;
   stroke: var(--color-border-hi);
@@ -96,14 +92,12 @@
   opacity: 0.42;
 }
 
-/* Punkt łączenia gałęzi z pniem */
 .junctionDot {
   fill: var(--color-border-hi);
   transform-box: fill-box;
   transform-origin: center;
 }
 
-/* Kropka na końcu gałęzi */
 .tipDot {
   position: absolute;
   width: 7px;
@@ -114,7 +108,7 @@
   pointer-events: none;
 }
 
-/* ─── Nav overlay (desktop tree) ─── */
+/* Nav overlay (desktop tree) */
 .treeNav {
   position: absolute;
   inset: 0;
@@ -171,7 +165,6 @@
   &:focus-visible   { @include focus-ring; }
 }
 
-/* Numer porządkowy w monosapce */
 .navIndex {
   font-family: var(--font-mono);
   font-size: 0.5rem;
@@ -182,7 +175,6 @@
   line-height: 1;
 }
 
-/* Główne słowo nawigacji */
 .navWord {
   display: block;
   font-size: clamp(2rem, 3.6vw, 4rem);
@@ -193,7 +185,7 @@
   transition: letter-spacing 0.45s var(--ease-out), opacity 0.25s ease;
 }
 
-/* ─── Mobile nav — zjawa ─── */
+/* Mobile nav — zjawa */
 .mobileNav {
   display: none;
   flex-direction: column;
@@ -207,7 +199,7 @@
 }
 
 .mobileItem {
-  /* kontener animacji — bez własnych styli wizualnych */
+  
 }
 
 .mobileLink {
@@ -224,7 +216,7 @@
   &:focus-visible { @include focus-ring; }
 }
 
-/* ─── Bottom ─── */
+/* Bottom */
 .bottom {
   @include container;
   padding-block: var(--s-6) var(--s-10);
@@ -242,7 +234,6 @@
   }
 }
 
-/* cube-fill button — identyczny jak reszta strony */
 .talkBtn {
   position: relative;
   display: inline-flex;

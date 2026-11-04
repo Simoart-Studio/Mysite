@@ -91,11 +91,9 @@ export function MenuOverlay() {
   function handleNav(e: React.MouseEvent, href: string) {
     if (!href.startsWith('/#')) return;
     const id = href.slice(2);
-    // Na podstronie sekcji nie ma — zwykła nawigacja na stronę główną
     if (!document.getElementById(id)) return;
     e.preventDefault();
     close();
-    // Po zamknięciu menu (odblokowanie przewijania) — przewiń z odstępem pod nawigacją
     setTimeout(() => scrollToTarget(id, !!prefersReduced), prefersReduced ? 0 : 260);
   }
 
@@ -116,7 +114,6 @@ export function MenuOverlay() {
             opacity:  { duration: 0.18 },
           }}
         >
-          {/* ─── Top bar ─── */}
           <div className={styles.topBar}>
             <span className={styles.logoMark} aria-hidden="true">SimoArt</span>
             <button
@@ -130,7 +127,6 @@ export function MenuOverlay() {
             </button>
           </div>
 
-          {/* ─── Drzewo ─── */}
           <div className={styles.treeArea}>
 
             <svg
@@ -192,7 +188,6 @@ export function MenuOverlay() {
               ))}
             </svg>
 
-            {/* Desktop — zawieszki na drzewie */}
             <nav className={styles.treeNav} aria-label="Nawigacja główna">
               {ITEMS.map((item, i) => (
                 <motion.div
@@ -232,7 +227,6 @@ export function MenuOverlay() {
               ))}
             </nav>
 
-            {/* Mobile — zjawa: każdy element materializuje się z nicości */}
             <nav className={styles.mobileNav} aria-label="Nawigacja główna">
               {ITEMS.map((item, i) => (
                 <motion.div
@@ -258,7 +252,6 @@ export function MenuOverlay() {
             </nav>
           </div>
 
-          {/* ─── Bottom ─── */}
           <motion.div
             className={styles.bottom}
             initial={{ opacity: 0 }}

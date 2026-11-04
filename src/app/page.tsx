@@ -12,11 +12,10 @@ import { projects }     from '@/lib/projects';
 import { buildProjectsListSchema, jsonLd } from '@/lib/schema';
 
 export default function HomePage() {
-  // Do mini-talii w hero: dwa projekty ze zrzutami + rewers w środku
-  const withThumbs = projects.filter((p) => p.thumbnail);
-  const heroDeck = [withThumbs[0], projects[0], withThumbs[1]]
-    .filter((p): p is NonNullable<typeof p> => !!p)
-    .map(({ slug, name, thumbnail }) => ({ slug, name, thumbnail }));
+  const shots = ['barberspace', 'lingua']
+    .map((slug) => projects.find((p) => p.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => !!p?.thumbnail)
+    .map((p) => ({ ...p.thumbnail!, name: p.name }));
 
   return (
     <>
@@ -26,7 +25,7 @@ export default function HomePage() {
       />
       <Nav />
       <main id="main-content">
-        <Hero deck={heroDeck} total={projects.length} />
+        <Hero shots={shots} />
         <Works />
         <BuildPicker />
         <WhatIDo />
