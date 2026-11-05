@@ -9,7 +9,7 @@ export function Works() {
   return (
     <section
       id="works"
-      className={styles.section}
+      className={`${styles.section} bg-white`}
       aria-labelledby="works-title"
     >
       <div className={styles.inner}>

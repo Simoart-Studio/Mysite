@@ -1,272 +1,106 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { useOverlay } from '@/context/OverlayContext';
 import { scrollToTarget } from '@/lib/scrollLock';
+import { EMAIL, PHONE, phoneHref } from '@/data/config';
+import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './MenuOverlay.module.scss';
 
-const E_WAVE = [0.76, 0, 0.24, 1] as const;
-const E_SOFT = [0.22, 1, 0.36, 1] as const;
-
-type Item = {
-  href:      string;
-  label:     string;
-  branch:    string;
-  twig:      string | null;
-  junctionY: number;
-  dotLeft:   string;
-  dotTop:    string;
-  swingDir:  1 | -1;
-  tBranch:   number;
-  tItem:     number;
-};
-
-const ITEMS: Item[] = [
-  {
-    href:      '/#works',
-    label:     'Realizacje',
-    branch:    'M 720,200 C 618,178 492,152 318,126',
-    twig:      'M 510,162 C 466,154 422,146 374,139',
-    junctionY: 200,
-    dotLeft:   '22%',
-    dotTop:    '13%',
-    swingDir:  -1,
-    tBranch:   0.72,
-    tItem:     1.48,
-  },
-  {
-    href:      '/#about',
-    label:     'O mnie',
-    branch:    'M 720,290 C 842,268 982,202 1122,150',
-    twig:      'M 930,216 C 982,202 1034,188 1078,175',
-    junctionY: 290,
-    dotLeft:   '78%',
-    dotTop:    '15%',
-    swingDir:  1,
-    tBranch:   0.92,
-    tItem:     1.68,
-  },
-  {
-    href:      '/#process',
-    label:     'Jak pracuję',
-    branch:    'M 720,440 C 615,433 492,422 322,412',
-    twig:      null,
-    junctionY: 440,
-    dotLeft:   '22%',
-    dotTop:    '53%',
-    swingDir:  -1,
-    tBranch:   1.12,
-    tItem:     1.88,
-  },
-  {
-    href:      '/#contact',
-    label:     'Kontakt',
-    branch:    'M 720,540 C 856,532 990,520 1122,510',
-    twig:      null,
-    junctionY: 540,
-    dotLeft:   '78%',
-    dotTop:    '66%',
-    swingDir:  1,
-    tBranch:   1.32,
-    tItem:     2.08,
-  },
-];
-
-const TRUNK = 'M 720,748 C 717,590 723,400 720,52';
+const ITEMS = [
+  { id: 'works',   label: 'Projekty'   },
+  { id: 'uslugi',  label: 'Usługi'     },
+  { id: 'process', label: 'Współpraca' },
+  { id: 'about',   label: 'O mnie'     },
+] as const;
 
 export function MenuOverlay() {
   const { overlay, close, openContact } = useOverlay();
-  const prefersReduced = useReducedMotion();
-  const closeRef       = useRef<HTMLButtonElement>(null);
-  const isOpen         = overlay === 'menu';
+  const reduced = useReducedMotion();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const isOpen = overlay === 'menu';
 
   useEffect(() => {
-    if (isOpen) closeRef.current?.focus();
+    if (!isOpen) return;
+    const t = setTimeout(() => panelRef.current?.querySelector<HTMLElement>('a,button')?.focus(), 60);
+    return () => clearTimeout(t);
   }, [isOpen]);
 
-  const d = (t: number) => prefersReduced ? 0 : t;
-
-  function handleNav(e: React.MouseEvent, href: string) {
-    if (!href.startsWith('/#')) return;
-    const id = href.slice(2);
+  function go(e: React.MouseEvent, id: string) {
     if (!document.getElementById(id)) return;
     e.preventDefault();
     close();
-    setTimeout(() => scrollToTarget(id, !!prefersReduced), prefersReduced ? 0 : 260);
+    setTimeout(() => scrollToTarget(id, !!reduced), 40);
+  }
+
+  function trap(e: React.KeyboardEvent) {
+    if (e.key !== 'Tab' || !panelRef.current) return;
+    const items = [...panelRef.current.querySelectorAll<HTMLElement>('a,button')];
+    const first = items[0], last = items[items.length - 1];
+    if (!first || !last) return;
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          key="menu-backdrop"
+          className={styles.backdrop}
+          onClick={close}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reduced ? 0 : 0.25 }}
+          aria-hidden="true"
+        />
+      )}
+      {isOpen && (
+        <motion.div
+          key="menu-panel"
+          ref={panelRef}
           id="menu-overlay"
           role="dialog"
           aria-modal="true"
-          aria-label="Menu główne"
-          className={styles.overlay}
-          initial={prefersReduced ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)', opacity: 1 }}
-          animate={prefersReduced ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)',   opacity: 1 }}
-          exit={prefersReduced   ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)',  opacity: 1 }}
-          transition={{
-            clipPath: { duration: 0.65, ease: [0.76, 0, 0.24, 1] },
-            opacity:  { duration: 0.18 },
-          }}
+          aria-label="Menu"
+          className={styles.panel}
+          onKeyDown={trap}
+          initial={reduced ? { opacity: 0 } : { opacity: 0, y: -14, scale: 0.97 }}
+          animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+          exit={reduced ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
+          transition={{ duration: reduced ? 0.1 : 0.32, ease: [0.2, 0.7, 0.2, 1] }}
         >
-          <div className={styles.topBar}>
-            <span className={styles.logoMark} aria-hidden="true">SimoArt</span>
-            <button
-              ref={closeRef}
-              type="button"
-              className={styles.close}
-              onClick={close}
-              aria-label="Zamknij menu"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className={styles.treeArea}>
-
-            <svg
-              viewBox="0 0 1440 760"
-              preserveAspectRatio="none"
-              className={styles.treeSvg}
-              aria-hidden="true"
-            >
-              <defs>
-                <filter id="tree-grain" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise"/>
-                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
-              </defs>
-
-              <g filter="url(#tree-grain)">
-                <motion.path
-                  d={TRUNK}
-                  className={styles.trunk}
-                  vectorEffect="non-scaling-stroke"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: d(1.1), delay: d(0.45), ease: 'easeInOut' }}
-                />
-                {ITEMS.map((item) => (
-                  <g key={item.href}>
-                    <motion.path
-                      d={item.branch}
-                      className={styles.branch}
-                      vectorEffect="non-scaling-stroke"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: d(0.72), delay: d(item.tBranch + 0.25), ease: E_WAVE }}
-                    />
-                    {item.twig && (
-                      <motion.path
-                        d={item.twig}
-                        className={styles.twig}
-                        vectorEffect="non-scaling-stroke"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: d(0.42), delay: d(item.tBranch + 0.47), ease: E_WAVE }}
-                      />
-                    )}
-                  </g>
-                ))}
-              </g>
-
-              {ITEMS.map((item) => (
-                <motion.circle
-                  key={item.href}
-                  cx={720} cy={item.junctionY} r={4}
-                  className={styles.junctionDot}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: d(0.3), delay: d(item.tBranch + 0.25), ease: E_SOFT }}
-                  style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-                />
-              ))}
-            </svg>
-
-            <nav className={styles.treeNav} aria-label="Nawigacja główna">
+          <nav aria-label="Menu główne">
+            <ul className={styles.list}>
               {ITEMS.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  className={styles.ornament}
-                  style={{ left: item.dotLeft, top: item.dotTop }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: d(0.2), delay: d(item.tItem + 0.25) }}
+                <motion.li
+                  key={item.id}
+                  initial={reduced ? false : { opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: reduced ? 0 : 0.05 + i * 0.04, duration: 0.3 }}
                 >
-                  <motion.div
-                    className={styles.hangGroup}
-                    initial={{ rotate: prefersReduced ? 0 : item.swingDir * 18 }}
-                    animate={{ rotate: 0 }}
-                    whileHover={{ rotate: prefersReduced ? 0 : item.swingDir * -4 }}
-                    transition={{
-                      rotate: {
-                        type:      'spring',
-                        stiffness: 80,
-                        damping:   12,
-                        delay:     d(item.tItem + 0.25),
-                      },
-                    }}
-                  >
-                    <span className={styles.hangDot}    aria-hidden="true" />
-                    <span className={styles.hangString} aria-hidden="true" />
-                    <Link
-                      href={item.href}
-                      className={styles.navLink}
-                      onClick={(e) => handleNav(e, item.href)}
-                    >
-                      <span className={styles.navIndex} aria-hidden="true">0{i + 1}</span>
-                      <span className={styles.navWord}>{item.label}</span>
-                    </Link>
-                  </motion.div>
-                </motion.div>
+                  <a href={`/#${item.id}`} className={styles.item} onClick={(e) => go(e, item.id)}>
+                    <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
+                    <span className={styles.label}>{item.label}</span>
+                    <span className={styles.icon} aria-hidden="true"><ArrowUpRight size={16} /></span>
+                  </a>
+                </motion.li>
               ))}
-            </nav>
+            </ul>
+          </nav>
 
-            <nav className={styles.mobileNav} aria-label="Nawigacja główna">
-              {ITEMS.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  className={styles.mobileItem}
-                  initial={{ opacity: 0, filter: 'blur(14px)', y: 10 }}
-                  animate={{ opacity: 1, filter: 'blur(0px)',  y: 0  }}
-                  transition={prefersReduced ? { duration: 0 } : {
-                    duration: 1.1,
-                    delay:    0.25 + i * 0.2,
-                    ease:     E_SOFT,
-                  }}
-                >
-                  <Link
-                    href={item.href}
-                    className={styles.mobileLink}
-                    onClick={(e) => handleNav(e, item.href)}
-                  >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
-          </div>
+          <button type="button" className={`btn ${styles.cta}`} onClick={() => openContact()}>
+            Porozmawiajmy
+            <BtnIcon />
+          </button>
 
-          <motion.div
-            className={styles.bottom}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: d(0.4), delay: d(0.75) }}
-          >
-            <button
-              type="button"
-              className={styles.talkBtn}
-              onClick={() => { close(); openContact(); }}
-            >
-              <span>Napisz do mnie →</span>
-            </button>
-            <span className={styles.tagline}>Z Polski dla świata.</span>
-          </motion.div>
+          <p className={styles.contact}>
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            {PHONE && <a href={phoneHref(PHONE)}>{PHONE}</a>}
+          </p>
         </motion.div>
       )}
     </AnimatePresence>

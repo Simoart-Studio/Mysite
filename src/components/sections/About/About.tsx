@@ -15,7 +15,7 @@ const SKILLS = [
 
 export function About() {
   return (
-    <section id="about" className={styles.section} aria-labelledby="about-title">
+    <section id="about" className={`${styles.section} bg-white`} aria-labelledby="about-title">
       <div className={styles.inner}>
         <h2 id="about-title" className={styles.headline} data-reveal>
           Za projektem stoi <span className="hl">konkretna osoba.</span>

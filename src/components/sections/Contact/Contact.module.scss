@@ -26,7 +26,7 @@
 
 .headline {
   font-size: var(--fs-h2);
-  color: var(--ink);
+  color: var(--color-text);
   max-width: 12ch;
 }
 
@@ -45,7 +45,7 @@
 .blockTitle {
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--ink);
+  color: var(--color-text);
 }
 
 .steps {
@@ -74,7 +74,7 @@
       font-weight: 600;
       border-radius: 50%;
       background: var(--mint);
-      color: var(--ink);
+      color: var(--color-text);
     }
   }
 }
@@ -90,21 +90,29 @@
     gap: 10px;
     font-size: 0.9375rem;
 
-    svg { color: var(--green); flex-shrink: 0; }
+    svg { color: var(--mint); flex-shrink: 0; }
   }
 
   a {
     @include text-link;
     font-weight: 500;
-    color: var(--ink);
+    color: var(--color-text);
   }
 }
 
 .formCard {
-  padding: var(--s-8);
-  background: var(--cream-2);
-  border: 1px solid var(--color-border);
+  --color-text: var(--ink);
+  --color-text-muted: #4A5850;
+  --color-text-dim: #5F6D65;
+  --color-border: #E2E1D5;
+  --color-border-hi: #C9CCBE;
+  --color-bg: var(--white);
+
+  padding: var(--s-10);
+  color: var(--ink);
+  background: var(--white);
   border-radius: var(--r-xl);
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.5);
 
   @include respond-to('mobile') { padding: var(--s-6) var(--s-4); }
 }

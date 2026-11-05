@@ -14,9 +14,9 @@ const BLOBS = [
   'M330,94C368,140,377,206,352,262C327,318,268,364,204,370C140,376,71,342,40,288C9,234,16,160,52,110C88,60,153,34,216,36C279,38,292,48,330,94Z',
 ];
 const FILLS = [
-  { fill: '#E3F3CF', deep: '#C6E3A4', drop: 'var(--green)' },
-  { fill: '#E4ECDF', deep: '#C8D7C0', drop: '#5E8F4A'      },
-  { fill: '#EEF6D9', deep: '#D5E8AE', drop: '#8FCB5C'      },
+  { fill: '#FFFFFF', deep: '#CFE9B4', drop: 'var(--green)' },
+  { fill: '#D6F0BC', deep: '#B4DE8E', drop: '#5E8F4A'      },
+  { fill: '#F7FBF1', deep: '#D9EEC4', drop: '#8FCB5C'      },
 ];
 const DROPS = [
   [ -20, 1.18, 14 ], [ 35, 1.22, 9 ], [ 100, 1.16, 12 ], [ 160, 1.24, 8 ],

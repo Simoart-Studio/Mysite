@@ -73,7 +73,7 @@ export function BuildPicker() {
   const bySlug = new Map(projects.map((p) => [p.slug, p]));
 
   return (
-    <section id="uslugi" className={styles.section} aria-labelledby="build-title">
+    <section id="uslugi" className={`${styles.section} bg-cream`} aria-labelledby="build-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="build-title" className={styles.headline}>

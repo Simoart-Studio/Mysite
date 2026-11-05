@@ -110,136 +110,121 @@ export function ContactForm() {
     );
   }
 
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const done = [message.trim().length > 0, name.trim().length > 0, emailOk, consent];
-  const progress = Math.round((done.filter(Boolean).length / done.length) * 100);
-  const groupDone = {
-    project: message.trim().length > 0,
-    contact: name.trim().length > 0 && emailOk,
-    details: !!(siteUrl || budget || file),
-  };
-
   return (
     <form id="contact-form" className={styles.form} onSubmit={handleSubmit} noValidate aria-label="Formularz kontaktowy">
-      <div className={styles.head}>
-        <div>
-          <p className={styles.title}>Krótki brief</p>
-          <p className={styles.subtitle}>Około 2 minut. Pola bez dopisku są wymagane.</p>
-        </div>
-        <div className={styles.progress} aria-hidden="true">
-          <span className={styles.progressValue}>{progress}%</span>
-          <span className={styles.progressTrack}><span style={{ transform: `scaleX(${progress / 100})` }} /></span>
-        </div>
-      </div>
-
       <div className={styles.honeypot} aria-hidden="true">
         <label htmlFor="cf-website">Website</label>
         <input id="cf-website" type="text" name="website" tabIndex={-1} autoComplete="off"
           value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
       </div>
 
-      <Group n={1} title="Projekt" done={groupDone.project}>
-        <ChipGroup name="goal" legend="Co chcesz zbudować?" optional options={GOALS} value={goal} onChange={setGoal} />
-
+      <div className={styles.grid}>
         <div className={styles.field}>
-          <label htmlFor="cf-message" className={styles.label}>Wiadomość</label>
-          <textarea
-            ref={messageRef}
-            id="cf-message"
-            rows={4}
-            maxLength={5000}
-            aria-invalid={!!errors.message}
-            aria-describedby={errors.message ? 'cf-message-err' : undefined}
-            className={`${styles.input} ${styles.textarea} ${errors.message ? styles.inputError : ''}`}
-            placeholder="Co dziś nie działa tak, jak powinno? Jaki efekt chcesz osiągnąć?"
-            value={message}
-            onChange={(e) => { setMessage(e.target.value); clearErr('message'); }}
+          <label htmlFor="cf-name" className={styles.label}>Imię</label>
+          <input
+            id="cf-name" type="text" autoComplete="name"
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? 'cf-name-err' : undefined}
+            className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+            value={name}
+            onChange={(e) => { setName(e.target.value); clearErr('name'); }}
           />
-          {errors.message && <span id="cf-message-err" className={styles.error} role="alert">{errors.message}</span>}
+          {errors.name && <span id="cf-name-err" className={styles.error} role="alert">{errors.name}</span>}
         </div>
-      </Group>
 
-      <Group n={2} title="Kontakt" done={groupDone.contact}>
-        <div className={styles.row}>
-          <div className={styles.field}>
-            <label htmlFor="cf-name" className={styles.label}>Imię</label>
-            <input
-              id="cf-name" type="text" autoComplete="name"
-              aria-invalid={!!errors.name}
-              aria-describedby={errors.name ? 'cf-name-err' : undefined}
-              className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
-              placeholder="Twoje imię"
-              value={name}
-              onChange={(e) => { setName(e.target.value); clearErr('name'); }}
-            />
-            {errors.name && <span id="cf-name-err" className={styles.error} role="alert">{errors.name}</span>}
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="cf-email" className={styles.label}>E-mail</label>
-            <input
-              id="cf-email" type="email" autoComplete="email" inputMode="email"
-              aria-invalid={!!errors.email}
-              aria-describedby={errors.email ? 'cf-email-err' : undefined}
-              className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
-              placeholder="Na ten adres odpiszę"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); clearErr('email'); }}
-            />
-            {errors.email && <span id="cf-email-err" className={styles.error} role="alert">{errors.email}</span>}
-          </div>
-        </div>
-      </Group>
-
-      <Group n={3} title="Szczegóły" optional done={groupDone.details}>
         <div className={styles.field}>
+          <label htmlFor="cf-email" className={styles.label}>E-mail</label>
+          <input
+            id="cf-email" type="email" autoComplete="email" inputMode="email"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'cf-email-err' : undefined}
+            className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); clearErr('email'); }}
+          />
+          {errors.email && <span id="cf-email-err" className={styles.error} role="alert">{errors.email}</span>}
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="cf-goal" className={styles.label}>Rodzaj projektu</label>
+          <select id="cf-goal" className={`${styles.input} ${styles.select}`} value={goal} onChange={(e) => setGoal(e.target.value)}>
+            <option value="">Wybierz</option>
+            {GOALS.map((g) => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="cf-budget" className={styles.label}>
+            Budżet <span className={styles.optional}>opcjonalnie</span>
+          </label>
+          <select id="cf-budget" className={`${styles.input} ${styles.select}`} value={budget} onChange={(e) => setBudget(e.target.value)}>
+            <option value="">Wybierz</option>
+            {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
+          </select>
+        </div>
+
+        <div className={`${styles.field} ${styles.full}`}>
           <label htmlFor="cf-site" className={styles.label}>
-            Obecna strona <span className={styles.optional}>jeśli masz</span>
+            Obecna strona <span className={styles.optional}>opcjonalnie</span>
           </label>
           <input
             id="cf-site" type="url" inputMode="url" autoComplete="url"
             className={styles.input}
-            placeholder="twojafirma.pl"
+            placeholder="https://"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
           />
         </div>
 
-        <ChipGroup name="budget" legend="Budżet" optional options={BUDGETS} value={budget} onChange={setBudget} />
-
-        <div className={styles.field}>
-          <div className={styles.fileRow}>
-            <input
-              ref={fileRef}
-              id="cf-attachment"
-              type="file"
-              accept={ATTACHMENT_ACCEPT}
-              aria-invalid={!!errors.attachment}
-              aria-describedby={`cf-attachment-hint${errors.attachment ? ' cf-attachment-err' : ''}`}
-              className={styles.fileInput}
-              onChange={(e) => { setFile(e.target.files?.[0] ?? null); clearErr('attachment'); }}
-            />
-            <label htmlFor="cf-attachment" className={styles.fileBtn}>
-              <Paperclip size={16} aria-hidden="true" />
-              <span className={styles.fileName}>{file ? file.name : 'Dodaj załącznik'}</span>
-              {!file && <span className={styles.optional}>opcjonalnie</span>}
-            </label>
-            {file && (
-              <button
-                type="button"
-                className={styles.fileRemove}
-                onClick={() => { setFile(null); if (fileRef.current) fileRef.current.value = ''; }}
-              >
-                Usuń<span className="sr-only"> załącznik</span>
-              </button>
-            )}
-          </div>
-          <span id="cf-attachment-hint" className={styles.hint}>PDF, JPG, PNG, WEBP lub DOCX · do {ATTACHMENT_MAX_MB} MB</span>
-          {errors.attachment && <span id="cf-attachment-err" className={styles.error} role="alert">{errors.attachment}</span>}
+        <div className={`${styles.field} ${styles.full}`}>
+          <label htmlFor="cf-message" className={styles.label}>Wiadomość</label>
+          <textarea
+            ref={messageRef}
+            id="cf-message"
+            rows={5}
+            maxLength={5000}
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? 'cf-message-err' : undefined}
+            className={`${styles.input} ${styles.textarea} ${errors.message ? styles.inputError : ''}`}
+            placeholder="Kilka zdań o projekcie i celu."
+            value={message}
+            onChange={(e) => { setMessage(e.target.value); clearErr('message'); }}
+          />
+          {errors.message && <span id="cf-message-err" className={styles.error} role="alert">{errors.message}</span>}
         </div>
-      </Group>
+      </div>
+
+      <div className={styles.fileRow}>
+        <input
+          ref={fileRef}
+          id="cf-attachment"
+          type="file"
+          accept={ATTACHMENT_ACCEPT}
+          aria-invalid={!!errors.attachment}
+          aria-describedby={`cf-attachment-hint${errors.attachment ? ' cf-attachment-err' : ''}`}
+          className={styles.fileInput}
+          onChange={(e) => { setFile(e.target.files?.[0] ?? null); clearErr('attachment'); }}
+        />
+        <label htmlFor="cf-attachment" className={styles.fileBtn}>
+          <Paperclip size={15} aria-hidden="true" />
+          <span className={styles.fileName}>{file ? file.name : 'Dodaj załącznik'}</span>
+        </label>
+        {file ? (
+          <button
+            type="button"
+            className={styles.fileRemove}
+            onClick={() => { setFile(null); if (fileRef.current) fileRef.current.value = ''; }}
+          >
+            Usuń<span className="sr-only"> załącznik</span>
+          </button>
+        ) : (
+          <span id="cf-attachment-hint" className={styles.hint}>PDF, JPG, PNG, WEBP, DOCX · do {ATTACHMENT_MAX_MB} MB</span>
+        )}
+      </div>
+      {errors.attachment && <span id="cf-attachment-err" className={styles.error} role="alert">{errors.attachment}</span>}
 
       <div className={styles.foot}>
-        <div className={styles.field}>
+        <div className={styles.consentWrap}>
           <label className={styles.consent} htmlFor="cf-consent">
             <input
               id="cf-consent"
@@ -250,77 +235,20 @@ export function ContactForm() {
               onChange={(e) => { setConsent(e.target.checked); clearErr('consent'); }}
             />
             <span>
-              Zgadzam się na przetwarzanie danych w celu odpowiedzi na zapytanie.{' '}
-              <Link href="/polityka-prywatnosci" target="_blank" className={styles.consentLink}>
-                Polityka prywatności
-              </Link>
+              Zgadzam się na przetwarzanie danych w celu odpowiedzi.{' '}
+              <Link href="/polityka-prywatnosci" target="_blank" className={styles.consentLink}>Polityka prywatności</Link>
             </span>
           </label>
           {errors.consent && <span id="cf-consent-err" className={styles.error} role="alert">{errors.consent}</span>}
         </div>
 
-        {errors.form && <p className={styles.error} role="alert">{errors.form}</p>}
-
         <button type="submit" className={`btn ${styles.submit}`} disabled={status === 'sending'} aria-busy={status === 'sending'}>
-          {status === 'sending' ? 'Wysyłanie…' : 'Wyślij wiadomość'}
+          {status === 'sending' ? 'Wysyłanie…' : 'Wyślij'}
           <BtnIcon />
         </button>
       </div>
+
+      {errors.form && <p className={styles.error} role="alert">{errors.form}</p>}
     </form>
-  );
-}
-
-function Group({
-  n, title, optional = false, done, children,
-}: {
-  n: number;
-  title: string;
-  optional?: boolean;
-  done: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className={`${styles.group} ${done ? styles.groupDone : ''}`} aria-label={`${n}. ${title}`}>
-      <p className={styles.groupHead} aria-hidden="true">
-        <span className={styles.groupNum}>{done ? <Check size={14} strokeWidth={3} /> : n}</span>
-        {title}
-        {optional && <span className={styles.optional}>opcjonalnie</span>}
-      </p>
-      <div className={styles.groupBody}>{children}</div>
-    </section>
-  );
-}
-
-function ChipGroup({
-  name, legend, options, value, onChange, optional = false,
-}: {
-  name: string;
-  legend: string;
-  options: readonly string[];
-  value: string;
-  onChange: (v: string) => void;
-  optional?: boolean;
-}) {
-  return (
-    <fieldset className={styles.chipGroup}>
-      <legend className={styles.label}>
-        {legend} {optional && <span className={styles.optional}>opcjonalnie</span>}
-      </legend>
-      <div className={styles.chips}>
-        {options.map((o) => (
-          <label key={o} className={styles.chip}>
-            <input
-              type="radio"
-              name={name}
-              value={o}
-              checked={value === o}
-              onChange={() => onChange(o)}
-              onClick={() => { if (value === o) onChange(''); }}
-            />
-            <span>{o}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
   );
 }

@@ -98,7 +98,7 @@ export function Process() {
   }
 
   return (
-    <section id="process" className={styles.section} aria-labelledby="process-title">
+    <section id="process" className={`${styles.section} bg-cream`} aria-labelledby="process-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="process-title" className={styles.headline}>

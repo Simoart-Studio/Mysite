@@ -11,7 +11,7 @@ const NEXT = [
 
 export function Contact() {
   return (
-    <section id="contact" className={styles.section} aria-labelledby="contact-title">
+    <section id="contact" className={`${styles.section} section-dark`} aria-labelledby="contact-title">
       <div className={styles.inner}>
         <div className={styles.aside} data-reveal>
           <h2 id="contact-title" className={styles.headline}>

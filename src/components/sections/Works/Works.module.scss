@@ -28,8 +28,7 @@
 .deckArea {
   position: relative;
   padding: var(--s-10) var(--s-6) var(--s-8);
-  background: var(--white);
-  border: 1px solid var(--color-border);
+  background: var(--cream);
   border-radius: var(--r-xl);
 
   @include respond-to('mobile') { padding: var(--s-6) var(--s-3) var(--s-6); }

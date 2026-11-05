@@ -9,7 +9,7 @@ const PRINCIPLES = [
 
 export function WhatIDo() {
   return (
-    <section id="zasady" className={styles.section} aria-labelledby="principles-title">
+    <section id="zasady" className={`${styles.section} bg-mint`} aria-labelledby="principles-title">
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="principles-title" className={styles.headline}>
