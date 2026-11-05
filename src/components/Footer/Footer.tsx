@@ -13,7 +13,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={styles.footer} role="contentinfo">
+    <footer className={`${styles.footer} bg-white`} role="contentinfo">
       <div className={styles.inner}>
         <div className={styles.row}>
           <a href="/" className={styles.logo}>SimoArt<span aria-hidden="true" /></a>

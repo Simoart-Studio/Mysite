@@ -1,11 +1,18 @@
 .section {
-  padding-block: var(--s-24);
+  padding-block: var(--s-12) var(--s-16);
 
-  @include respond-to('mobile') { padding-block: var(--s-16); }
+  @include respond-to('mobile') { padding-block: var(--s-8) var(--s-12); }
 }
 
 .inner {
-  @include container;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: calc(var(--max-width) + 48px);
+  margin-inline: auto;
+  padding: clamp(28px, 5vw, 72px);
+  border-radius: clamp(28px, 4vw, 48px);
+  background:
+    radial-gradient(60% 50% at 0% 0%, rgb(168 238 106 / 0.12), transparent 70%),
+    var(--ink);
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: var(--s-12);

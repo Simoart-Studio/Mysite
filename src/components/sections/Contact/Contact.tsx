@@ -11,8 +11,8 @@ const NEXT = [
 
 export function Contact() {
   return (
-    <section id="contact" className={`${styles.section} section-dark`} aria-labelledby="contact-title">
-      <div className={styles.inner}>
+    <section id="contact" className={`${styles.section} bg-white`} aria-labelledby="contact-title">
+      <div className={`${styles.inner} section-dark`}>
         <div className={styles.aside} data-reveal>
           <h2 id="contact-title" className={styles.headline}>
             Porozmawiajmy o <span className="hl">projekcie.</span>

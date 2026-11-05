@@ -26,16 +26,14 @@ export default function HomePage() {
         <Works />
         <Wave from="var(--white)" to="var(--cream)" shape={1} />
         <BuildPicker />
-        <Wave from="var(--cream)" to="var(--bg-mint)" shape={2} />
+        <Wave from="var(--cream)" to="var(--white)" shape={2} />
         <WhatIDo />
-        <Wave from="var(--bg-mint)" to="var(--cream)" shape={0} />
+        <Wave from="var(--white)" to="var(--cream)" shape={0} />
         <Process />
         <Wave from="var(--cream)" to="var(--white)" shape={1} />
         <About />
         <Testimonials />
-        <Wave from="var(--white)" to="var(--ink)" shape={2} />
         <Contact />
-        <Wave from="var(--ink)" to="var(--cream)" shape={0} />
       </main>
       <Footer />
     </>
