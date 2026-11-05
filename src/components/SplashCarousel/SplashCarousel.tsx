@@ -1,7 +1,7 @@
 'use client';
 
-import { Fragment, useCallback, useId, useState, type KeyboardEvent } from 'react';
-import { AnimatePresence, motion, useReducedMotion, type PanInfo } from 'framer-motion';
+import { Fragment, useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { AnimatePresence, motion, useInView, useReducedMotion, type PanInfo } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import styles from './SplashCarousel.module.scss';
 
@@ -10,7 +10,8 @@ export type SplashSlide = { title: string; body: string };
 const STEP_MS = 16;
 
 /** Dzieli tekst na słowa i litery; każda litera dostaje kolejny indeks animacji. */
-function SmokeText({ text, start }: { text: string; start: number }) {
+function SmokeText({ text, start, plain }: { text: string; start: number; plain: boolean }) {
+  if (plain) return <>{text}</>;
   const words = text.split(' ');
   let k = start;
   const offsets = words.map((w) => { const o = k; k += w.length + 1; return o; });
@@ -58,8 +59,21 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
   const bodyStart = slide.title.length + 1;
   const total = bodyStart + slide.body.length;
 
+  // Po zakończeniu animacji litery są zastępowane zwykłym tekstem (pełny kerning i ligatury).
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { once: true, amount: 0.45 });
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    if (reduced) { setDone(true); return; }
+    setDone(false);
+    if (!inView) return;
+    const t = window.setTimeout(() => setDone(true), 120 + total * STEP_MS + 1000);
+    return () => window.clearTimeout(t);
+  }, [index, total, reduced, inView]);
+
   return (
     <div
+      ref={rootRef}
       className={styles.root}
       role="region"
       aria-roledescription="karuzela"
@@ -90,18 +104,18 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
               exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.96, x: dir * -32, filter: 'blur(6px)', transition: { duration: 0.24 } }}
               transition={reduced ? { duration: 0.25 } : { type: 'spring', stiffness: 300, damping: 26 }}
             >
-              <div className={`${styles.bubble} ${side}`} style={{ ['--n' as string]: total, ['--step' as string]: `${STEP_MS}ms` }}>
+              <div className={`${styles.bubble} ${side}${inView ? ` ${styles.play}` : ''}`} style={{ ['--n' as string]: total, ['--step' as string]: `${STEP_MS}ms` }}>
                 <span className={styles.smoke} aria-hidden="true">
                   <i /><i /><i /><i />
                 </span>
                 <span className={styles.num} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <h3 className={styles.title}>
                   <span className="sr-only">{slide.title}</span>
-                  <span aria-hidden="true"><SmokeText text={slide.title} start={0} /></span>
+                  <span aria-hidden="true"><SmokeText text={slide.title} start={0} plain={done} /></span>
                 </h3>
                 <p className={styles.body}>
                   <span className="sr-only">{slide.body}</span>
-                  <span aria-hidden="true"><SmokeText text={slide.body} start={bodyStart} /></span>
+                  <span aria-hidden="true"><SmokeText text={slide.body} start={bodyStart} plain={done} /></span>
                 </p>
                 <svg className={styles.tail} viewBox="0 0 30 22" aria-hidden="true">
                   <path className={styles.tailFill} d="M0 0 L0 20.5 Q0 22 1.3 21.2 L28 0 Z" />
