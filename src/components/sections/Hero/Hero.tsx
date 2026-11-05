@@ -15,7 +15,7 @@ export function Hero() {
           Strony, sklepy i aplikacje projektowane od pomysłu po wdrożenie.
         </p>
 
-        <div className={`${styles.actions} ${styles.enter}`} style={{ animationDelay: '0.28s' }}>
+        <div data-hero-actions className={`${styles.actions} ${styles.enter}`} style={{ animationDelay: '0.28s' }}>
           <ContactTrigger className="btn">
             Porozmawiajmy
             <BtnIcon />

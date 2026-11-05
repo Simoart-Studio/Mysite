@@ -89,6 +89,19 @@
   @media (max-width: 480px) { gap: 6px; }
 }
 
+.ctaWrap {
+  display: flex;
+  transition: opacity 0.35s var(--ease-out), transform 0.45s var(--ease-spring), visibility 0s linear 0s;
+}
+
+.ctaAway {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.92);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease-out), transform 0.3s var(--ease-out), visibility 0s linear 0.3s;
+}
+
 .cta {
   pointer-events: auto;
   min-height: 52px;

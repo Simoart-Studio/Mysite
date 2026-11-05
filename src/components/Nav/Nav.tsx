@@ -20,6 +20,7 @@ export function Nav() {
   const [scrolled, setScrolled]   = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [active, setActive]       = useState<string | null>(null);
+  const [heroCta, setHeroCta]     = useState(false);
   const lastY = useRef(0);
   const { overlay, openMenu, close } = useOverlay();
   const prefersReduced = useReducedMotion();
@@ -48,6 +49,15 @@ export function Nav() {
       { rootMargin: '-45% 0px -50% 0px' },
     );
     els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  // Na stronie głównej CTA w nawigacji pojawia się dopiero, gdy przyciski hero znikną z ekranu.
+  useEffect(() => {
+    const el = document.querySelector('[data-hero-actions]');
+    if (!el) { setHeroCta(false); return; }
+    const io = new IntersectionObserver(([e]) => setHeroCta(!!e?.isIntersecting), { threshold: 0 });
+    io.observe(el);
     return () => io.disconnect();
   }, []);
 
@@ -94,10 +104,12 @@ export function Nav() {
         </nav>
 
         <div className={styles.right}>
-          <ContactTrigger className={`btn ${styles.cta}`}>
-            Porozmawiajmy
-            <BtnIcon />
-          </ContactTrigger>
+          <span className={`${styles.ctaWrap} ${heroCta ? styles.ctaAway : ''}`} inert={heroCta || undefined}>
+            <ContactTrigger className={`btn ${styles.cta}`}>
+              Porozmawiajmy
+              <BtnIcon />
+            </ContactTrigger>
+          </span>
 
           <button
             type="button"
