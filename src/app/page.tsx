@@ -13,11 +13,6 @@ import { projects }     from '@/lib/projects';
 import { buildProjectsListSchema, jsonLd } from '@/lib/schema';
 
 export default function HomePage() {
-  const shots = ['barberspace', 'lingua']
-    .map((slug) => projects.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<typeof p> => !!p?.thumbnail)
-    .map((p) => ({ ...p.thumbnail!, name: p.name }));
-
   return (
     <>
       <script
@@ -26,7 +21,7 @@ export default function HomePage() {
       />
       <Nav />
       <main id="main-content">
-        <Hero shots={shots} />
+        <Hero />
         <Wave from="var(--cream)" to="var(--white)" shape={0} />
         <Works />
         <Wave from="var(--white)" to="var(--cream)" shape={1} />

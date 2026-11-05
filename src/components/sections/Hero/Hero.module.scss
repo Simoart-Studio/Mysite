@@ -104,48 +104,6 @@
 }
 
 /* Unoszące się miniatury po bokach */
-.float {
-  position: absolute;
-  z-index: -1;
-  width: clamp(170px, 15vw, 260px);
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-radius: var(--r-lg);
-  border: 4px solid var(--white);
-  box-shadow: 0 30px 60px -30px rgb(14 29 21 / 0.45);
-  animation: drift 10s ease-in-out infinite;
-
-  @media (max-width: 1023px) { display: none; }
-  @include reduced-motion { animation: none; }
-}
-
-.floatL {
-  left: -3%;
-  bottom: 9%;
-  --r: -8deg;
-  transform: rotate(var(--r));
-}
-
-.floatR {
-  right: -3%;
-  top: 15%;
-  --r: 7deg;
-  transform: rotate(var(--r));
-  animation-delay: -5s;
-}
-
-@keyframes drift {
-  0%, 100% { transform: rotate(var(--r)) translateY(0); }
-  50%      { transform: rotate(calc(var(--r) * 0.6)) translateY(-14px); }
-}
-
-.floatImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
 .enter {
   animation: heroEnter 0.8s var(--ease-out) both;
 
