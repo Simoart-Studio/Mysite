@@ -1,33 +1,39 @@
 'use client';
 
-import { useCallback, useId, useState, type KeyboardEvent } from 'react';
+import { Fragment, useCallback, useId, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion, type PanInfo } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import styles from './SplashCarousel.module.scss';
 
 export type SplashSlide = { title: string; body: string };
 
-const BLOBS = [
-  'M318,77C357,113,374,174,361,229C348,284,305,333,250,355C195,377,128,372,84,339C40,306,19,245,27,190C35,135,72,86,122,58C172,30,279,41,318,77Z',
-  'M297,52C345,79,378,133,376,190C374,247,337,307,284,343C231,379,162,391,109,365C56,339,19,275,24,212C29,149,76,87,131,57C186,27,249,25,297,52Z',
-  'M330,94C368,140,377,206,352,262C327,318,268,364,204,370C140,376,71,342,40,288C9,234,16,160,52,110C88,60,153,34,216,36C279,38,292,48,330,94Z',
-];
-const FILLS = [
-  { fill: '#FFFFFF', deep: '#CFE9B4', drop: 'var(--green)' },
-  { fill: '#D6F0BC', deep: '#B4DE8E', drop: '#5E8F4A'      },
-  { fill: '#F7FBF1', deep: '#D9EEC4', drop: '#8FCB5C'      },
-];
-const DROPS = [
-  [ -20, 1.18, 14 ], [ 35, 1.22, 9 ], [ 100, 1.16, 12 ], [ 160, 1.24, 8 ],
-  [ 205, 1.15, 13 ], [ 255, 1.2, 7 ], [ 300, 1.18, 10 ],
-] as const;
+const STEP_MS = 16;
+
+/** Dzieli tekst na słowa i litery; każda litera dostaje kolejny indeks animacji. */
+function SmokeText({ text, start }: { text: string; start: number }) {
+  const words = text.split(' ');
+  let k = start;
+  const offsets = words.map((w) => { const o = k; k += w.length + 1; return o; });
+  return (
+    <>
+      {words.map((w, wi) => (
+        <Fragment key={wi}>
+          <span className={styles.word}>
+            {Array.from(w).map((ch, ci) => (
+              <span key={ci} className={styles.ch} style={{ ['--i' as string]: offsets[wi]! + ci }}>{ch}</span>
+            ))}
+          </span>
+          {wi < words.length - 1 && ' '}
+        </Fragment>
+      ))}
+    </>
+  );
+}
 
 const SWIPE = 60;
 
 export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label: string }) {
   const reduced = !!useReducedMotion();
-  const reducedDom = useReducedMotionSafe();
   const uid = useId();
   const n = slides.length;
   const [[index, dir], setState] = useState<[number, 1 | -1]>([0, 1]);
@@ -48,8 +54,9 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
   }
 
   const slide = slides[index]!;
-  const shape = BLOBS[index % BLOBS.length]!;
-  const color = FILLS[index % FILLS.length]!;
+  const side = index % 2 === 0 ? styles.tailLeft : styles.tailRight;
+  const bodyStart = slide.title.length + 1;
+  const total = bodyStart + slide.body.length;
 
   return (
     <div
@@ -78,39 +85,28 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
               dragSnapToOrigin
               dragElastic={0.35}
               onDragEnd={onDragEnd}
-              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.35, rotate: dir * -8 }}
-              animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
-              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.85, x: dir * -40, transition: { duration: 0.22 } }}
-              transition={reduced ? { duration: 0.25 } : { type: 'spring', stiffness: 260, damping: 15, mass: 0.9 }}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.92, y: 14 }}
+              animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.96, x: dir * -32, filter: 'blur(6px)', transition: { duration: 0.24 } }}
+              transition={reduced ? { duration: 0.25 } : { type: 'spring', stiffness: 300, damping: 26 }}
             >
-              <svg className={styles.blob} viewBox="0 0 400 400" aria-hidden="true">
-                <path d={shape} fill={color.deep} transform="translate(10 14)" />
-                <path d={shape} fill={color.fill} />
-              </svg>
-
-              {!reducedDom && DROPS.map(([angle, dist, size], i) => {
-                const rad = (angle * Math.PI) / 180;
-                return (
-                  <span
-                    key={i}
-                    className={styles.drop}
-                    style={{
-                      width: size,
-                      height: size,
-                      background: color.drop,
-                      ['--dx' as string]: (Math.cos(rad) * dist * 50).toFixed(1),
-                      ['--dy' as string]: (Math.sin(rad) * dist * 50).toFixed(1),
-                      ['--delay' as string]: `${50 + i * 25}ms`,
-                    }}
-                    aria-hidden="true"
-                  />
-                );
-              })}
-
-              <div className={styles.content}>
+              <div className={`${styles.bubble} ${side}`} style={{ ['--n' as string]: total, ['--step' as string]: `${STEP_MS}ms` }}>
+                <span className={styles.smoke} aria-hidden="true">
+                  <i /><i /><i /><i />
+                </span>
                 <span className={styles.num} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <h3 className={styles.title}>{slide.title}</h3>
-                <p className={styles.body}>{slide.body}</p>
+                <h3 className={styles.title}>
+                  <span className="sr-only">{slide.title}</span>
+                  <span aria-hidden="true"><SmokeText text={slide.title} start={0} /></span>
+                </h3>
+                <p className={styles.body}>
+                  <span className="sr-only">{slide.body}</span>
+                  <span aria-hidden="true"><SmokeText text={slide.body} start={bodyStart} /></span>
+                </p>
+                <svg className={styles.tail} viewBox="0 0 30 22" aria-hidden="true">
+                  <path className={styles.tailFill} d="M0 0 L0 20.5 Q0 22 1.3 21.2 L28 0 Z" />
+                  <path className={styles.tailStroke} d="M0.75 0 L0.75 20.4 Q0.75 21.4 1.6 20.8 L28 0" />
+                </svg>
               </div>
             </motion.div>
           </AnimatePresence>

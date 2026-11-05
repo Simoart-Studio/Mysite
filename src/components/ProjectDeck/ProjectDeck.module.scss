@@ -364,6 +364,7 @@
 .controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
   gap: var(--s-3);
 
@@ -372,7 +373,6 @@
 
     .ctrl:not(.ctrlPrimary) { width: 42px; min-height: 42px; }
     .ctrlSep { margin-inline: 2px; }
-    .progress { padding-inline: 2px; gap: 4px; }
   }
 }
 
@@ -395,24 +395,127 @@
   background: var(--color-border-hi);
 }
 
-.progress {
+.slider {
+  --p: 0;
+  --thumb: 22px;
+
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 12px;
+  width: clamp(130px, 30vw, 240px);
   padding-inline: var(--s-2);
+
+  @media (max-width: 600px) {
+    order: -1;
+    flex: 0 0 100%;
+    width: auto;
+    max-width: 340px;
+    margin-inline: auto;
+    margin-bottom: var(--s-2);
+    padding-inline: 4px;
+  }
 }
 
-.pip {
-  width: 6px;
+.sliderTrack {
+  position: relative;
+  flex: 1;
   height: 6px;
+  margin-inline: calc(var(--thumb) / 2);
   border-radius: var(--r-pill);
-  background: var(--color-border-hi);
-  transition: width var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
+  background: var(--color-border);
+  box-shadow: inset 0 0 0 1px rgb(14 29 21 / 0.06);
 }
 
-.pipOn {
-  width: 14px;
-  background: var(--green);
+.sliderFill {
+  position: absolute;
+  inset: 0 auto 0 calc(var(--thumb) / -2);
+  width: calc(var(--p) * 100% + var(--thumb) / 2);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green-ink), var(--green));
+  transition: width 0.5s var(--ease-out);
+
+  @include reduced-motion { transition: none; }
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-border-hi);
+  transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+
+  &:last-child { opacity: 0; }
+}
+
+.tickOn { background: rgb(255 255 255 / 0.7); }
+
+/* Natywny input jako warstwa interakcji; kciuk rysowany przez przeglądarkę */
+.range {
+  position: absolute;
+  top: 50%;
+  left: var(--s-2);
+  right: calc(var(--s-2) + 48px);
+  height: 44px;
+  transform: translateY(-50%);
+  width: auto;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  touch-action: none;
+
+  @media (max-width: 600px) { left: 4px; right: 52px; }
+
+  &:disabled { cursor: default; opacity: 0.5; }
+
+  &::-webkit-slider-runnable-track { height: 100%; background: transparent; }
+  &::-moz-range-track { background: transparent; }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--thumb);
+    height: var(--thumb);
+    margin-top: calc((44px - var(--thumb)) / 2);
+    border-radius: 50%;
+    background: var(--white);
+    border: 6px solid var(--ink);
+    box-shadow: 0 0 0 4px rgb(168 238 106 / 0), 0 4px 10px rgb(14 29 21 / 0.22);
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  &::-moz-range-thumb {
+    width: var(--thumb);
+    height: var(--thumb);
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--white);
+    border: 6px solid var(--ink);
+    box-shadow: 0 4px 10px rgb(14 29 21 / 0.22);
+  }
+
+  &:hover::-webkit-slider-thumb { transform: scale(1.12); }
+  &:active::-webkit-slider-thumb {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 6px rgb(168 238 106 / 0.45), 0 4px 10px rgb(14 29 21 / 0.22);
+  }
+  &:focus-visible { outline: none; }
+  &:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--white), 0 0 0 6px var(--green); }
+  &:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--white), 0 0 0 6px var(--green); }
+}
+
+.sliderCount {
+  flex-shrink: 0;
+  width: 36px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--color-text-dim);
+
+  b { font-weight: 600; color: var(--ink); }
 }
 
 /* Statyczna siatka (bez JS / widok listy) */

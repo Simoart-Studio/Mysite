@@ -91,6 +91,15 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
     setAnnounce('Talia przetasowana. Wszystkie karty wróciły na stos.');
   }, [revealed]);
 
+  const goTo = useCallback((k: number) => {
+    const t = Math.max(0, Math.min(n, k));
+    if (t === revealed) return;
+    setMove(null);
+    setResetting(false);
+    setRevealed(t);
+    setAnnounce(t === 0 ? 'Wszystkie karty na stosie.' : `Odsłonięto ${t} z ${n}: ${projects[t - 1]!.name}.`);
+  }, [revealed, n, projects]);
+
   const open = useCallback((idx: number) => {
     setOpenIdx(idx);
   }, []);
@@ -297,10 +306,32 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
           <Undo2 size={18} aria-hidden="true" />
         </button>
 
-        <div className={styles.progress} aria-hidden="true">
-          {projects.map((p, i) => (
-            <span key={p.slug} className={i < revealed ? `${styles.pip} ${styles.pipOn}` : styles.pip} />
-          ))}
+        <div className={styles.slider} style={{ ['--p' as string]: n ? revealed / n : 0 }}>
+          <span className={styles.sliderTrack} aria-hidden="true">
+            <span className={styles.sliderFill} />
+            {projects.map((p, i) => (
+              <span
+                key={p.slug}
+                className={i < revealed ? `${styles.tick} ${styles.tickOn}` : styles.tick}
+                style={{ left: `${((i + 1) / n) * 100}%` }}
+              />
+            ))}
+          </span>
+          <input
+            type="range"
+            className={styles.range}
+            min={0}
+            max={n}
+            step={1}
+            value={revealed}
+            disabled={listMode}
+            onChange={(e) => goTo(Number(e.target.value))}
+            aria-label="Postęp talii"
+            aria-valuetext={revealed === 0 ? `0 z ${n}` : `${revealed} z ${n}: ${projects[revealed - 1]!.name}`}
+          />
+          <span className={styles.sliderCount} aria-hidden="true">
+            <b>{String(revealed).padStart(2, '0')}</b>/{String(n).padStart(2, '0')}
+          </span>
         </div>
 
         <button

@@ -19,6 +19,7 @@
   align-items: start;
 
   @media (max-width: 1023px) { grid-template-columns: 1fr; gap: var(--s-10); }
+  @include respond-to('mobile') { padding: 22px 14px 14px; gap: var(--s-6); border-radius: 26px; }
 }
 
 .aside {
@@ -121,5 +122,5 @@
   border-radius: var(--r-xl);
   box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.5);
 
-  @include respond-to('mobile') { padding: var(--s-6) var(--s-4); }
+  @include respond-to('mobile') { padding: 20px 16px; border-radius: 18px; box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.5); }
 }
