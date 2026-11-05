@@ -122,9 +122,6 @@ export function ProjectDetail({
               <div className={styles.headMeta}>
                 <span className={styles.status}>{project.status}</span>
                 {project.labels.map((l) => <span key={l} className={styles.tag}>{l}</span>)}
-                <span className={styles.count}>
-                  {index + 1}/{n}
-                </span>
               </div>
               <div className={styles.headActions}>
                 <button type="button" className={styles.navBtn} onClick={() => go(-1)} aria-label="Poprzedni projekt" title="Poprzedni">
@@ -341,7 +338,7 @@ function Lightbox({
           className={styles.lbImg}
           style={{ aspectRatio: `${shot.width} / ${shot.height}` }}
         />
-        {shot.alt && <figcaption className={styles.lbCaption}>{shot.alt} · {index + 1} / {shots.length}</figcaption>}
+        {shot.alt && <figcaption className={styles.lbCaption}>{shot.alt}</figcaption>}
       </figure>
       <div className={styles.lbControls}>
         {many && (

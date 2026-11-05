@@ -238,10 +238,10 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                 transition={reduced ? { duration: 0 } : { duration: moving ? 0.78 : 0.6, ease: EASE }}
               >
                 <span className={styles.faceFront}>
-                  {showFront && <CardFront project={p} index={i} total={n} />}
+                  {showFront && <CardFront project={p} />}
                 </span>
                 <span className={styles.faceBack}>
-                  <CardBack remaining={n - i} total={n} />
+                  <CardBack art={i === revealed || moving} />
                 </span>
               </motion.span>
             );
@@ -329,9 +329,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
             aria-label="Postęp talii"
             aria-valuetext={revealed === 0 ? `0 z ${n}` : `${revealed} z ${n}: ${projects[revealed - 1]!.name}`}
           />
-          <span className={styles.sliderCount} aria-hidden="true">
-            <b>{String(revealed).padStart(2, '0')}</b>/{String(n).padStart(2, '0')}
-          </span>
         </div>
 
         <button

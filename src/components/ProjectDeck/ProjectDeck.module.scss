@@ -271,57 +271,111 @@
   color: var(--white);
 }
 
-.counter {
-  flex-shrink: 0;
-  font-size: 0.75rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-dim);
-}
 
 /* Rewers */
 .back {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 100%;
-  padding: 24px;
+  padding: 20px;
   color: var(--white);
   background:
-    radial-gradient(120% 90% at 0% 0%, #2F8A5B 0%, transparent 60%),
-    radial-gradient(100% 80% at 100% 100%, #123F2A 0%, transparent 65%),
-    var(--green);
+    radial-gradient(90% 60% at 20% 0%, #1F7A4D 0%, transparent 70%),
+    radial-gradient(80% 70% at 100% 100%, #0B2E1F 0%, transparent 70%),
+    #0F5A36;
   border-radius: var(--card-radius);
   overflow: hidden;
+  isolation: isolate;
 }
 
-.backArt {
+/* Kolaż: wycinki jak przyklejone zdjęcia */
+.collage {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
-.backTop {
+.scrap {
+  --r: 0deg;
+
+  position: absolute;
+  display: block;
+  padding: 5px 5px 14px;
+  background: #FBFAF4;
+  border-radius: 3px;
+  box-shadow: 0 10px 22px -8px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.2);
+  transform: rotate(var(--r));
+  transition: transform 0.6s var(--ease-spring);
+
+  .cardBtn:hover & { transform: rotate(calc(var(--r) * 1.35)) translate(var(--hx, 0), var(--hy, 0)); }
+
+  @include reduced-motion { transition: none; }
+}
+
+.scrapImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1px;
+}
+
+.scrapA { --r: -8deg;  --hx: -6px; --hy: -4px; top: 5%;  left: -5%;  width: 56%; z-index: 2; }
+.scrapB { --r: 7deg;   --hx: 6px;  --hy: -6px; top: 3%;  right: -7%; width: 54%; z-index: 1; }
+.scrapC { --r: -2deg;  --hx: 0px;  --hy: -3px; top: 27%; left: 20%;  width: 62%; z-index: 4; }
+.scrapD { --r: 10deg;  --hx: -8px; --hy: 2px;  top: 47%; left: -9%;  width: 46%; z-index: 3; }
+.scrapE { --r: -9deg;  --hx: 8px;  --hy: 2px;  top: 50%; right: -8%; width: 46%; z-index: 3; }
+.scrapF { --r: 14deg;  --hx: 4px;  --hy: -8px; top: 12%; left: 39%;  width: 22%; z-index: 5; padding: 4px 4px 10px; }
+
+.tape {
+  position: absolute;
+  z-index: 6;
+  width: 64px;
+  height: 18px;
+  background: rgb(232 247 214 / 0.72);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+  clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 94%, 0 46%);
+}
+
+.tapeA { top: 4%;  left: 12%; transform: rotate(-24deg); }
+.tapeB { top: 26%; right: 16%; transform: rotate(18deg); width: 54px; }
+.tapeC { top: 48%; left: 28%; transform: rotate(-6deg); width: 50px; background: rgb(168 238 106 / 0.75); }
+
+/* Etykieta tytułu jak pasek papieru */
+.backLabel {
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  opacity: 0.85;
+  z-index: 7;
+  align-self: flex-start;
+  margin: 0 0 10px -4px;
+  padding: 8px 16px 10px;
+  background: var(--ink);
+  transform: rotate(-3deg);
+  box-shadow: 0 12px 24px -10px rgb(0 0 0 / 0.6);
+  clip-path: polygon(0 4%, 99% 0, 100% 92%, 1% 100%);
 }
 
 .backTitle {
-  position: relative;
-  font-size: clamp(2.5rem, 11vw, 3.125rem);
+  display: block;
+  font-size: clamp(2.25rem, 10vw, 2.875rem);
   font-weight: 650;
   line-height: 1;
   letter-spacing: -0.05em;
+  color: var(--white);
+
+  &::after {
+    content: '.';
+    color: var(--mint);
+  }
 }
 
 .backMark {
-  position: relative;
-  align-self: flex-end;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 7;
   display: grid;
   place-items: center;
   width: 52px;
@@ -458,7 +512,7 @@
   position: absolute;
   top: 50%;
   left: var(--s-2);
-  right: calc(var(--s-2) + 48px);
+  right: var(--s-2);
   height: 44px;
   transform: translateY(-50%);
   width: auto;
@@ -468,7 +522,7 @@
   cursor: pointer;
   touch-action: none;
 
-  @media (max-width: 600px) { left: 4px; right: 52px; }
+  @media (max-width: 600px) { left: 4px; right: 4px; }
 
   &:disabled { cursor: default; opacity: 0.5; }
 
@@ -507,16 +561,6 @@
   &:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--white), 0 0 0 6px var(--green); }
 }
 
-.sliderCount {
-  flex-shrink: 0;
-  width: 36px;
-  font-size: 0.75rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
-  color: var(--color-text-dim);
-
-  b { font-weight: 600; color: var(--ink); }
-}
 
 /* Statyczna siatka (bez JS / widok listy) */
 .listWrap { min-height: calc(var(--card-h) + 56px); }

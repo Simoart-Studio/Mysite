@@ -124,7 +124,6 @@ export function Process() {
                     onKeyDown={(e) => onKey(e, i)}
                   >
                     <Icon size={19} strokeWidth={1.8} aria-hidden="true" className={styles.stepIcon} />
-                    <span className={styles.stepNum} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                     <span className={styles.stepTitle}>{s.title}</span>
                     <span className={styles.stepArrow} aria-hidden="true">
                       {on ? <ArrowDown size={16} strokeWidth={2.2} /> : <ArrowRight size={16} strokeWidth={2} />}

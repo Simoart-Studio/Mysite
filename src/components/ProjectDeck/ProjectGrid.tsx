@@ -7,11 +7,11 @@ import styles from './ProjectDeck.module.scss';
 export function ProjectGrid({ projects, id }: { projects: Project[]; id?: string }) {
   return (
     <ul className={styles.grid} id={id} aria-label="Lista projektów">
-      {projects.map((p, i) => (
+      {projects.map((p) => (
         <li key={p.slug} className={styles.gridItem}>
           <article className={styles.gridCard} aria-labelledby={`grid-${p.slug}`}>
             <h3 id={`grid-${p.slug}`} className="sr-only">{p.name}</h3>
-            <CardFront project={p} index={i} total={projects.length} />
+            <CardFront project={p} />
             <details className={styles.gridDetails}>
               <summary>Opis projektu</summary>
               <div className={styles.gridDetailsBody}>

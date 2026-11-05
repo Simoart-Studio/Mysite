@@ -45,9 +45,8 @@ export function CaseStudyBody({
       </div>
 
       <ol className={styles.steps} aria-label="Przebieg projektu">
-        {steps.map(({ label, value }, i) => (
+        {steps.map(({ label, value }) => (
           <li key={label} className={styles.step}>
-            <span className={styles.stepNum} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <H className={styles.stepLabel}>{label}</H>
             <p className={styles.stepText}><Text value={value} /></p>
           </li>

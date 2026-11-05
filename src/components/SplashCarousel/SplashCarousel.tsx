@@ -42,7 +42,6 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
   const go = useCallback((d: 1 | -1) => {
     setState(([i]) => [(i + d + n) % n, d]);
   }, [n]);
-  const to = (i: number) => setState(([cur]) => [i, i >= cur ? 1 : -1]);
 
   function onKey(e: KeyboardEvent) {
     if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
@@ -108,7 +107,6 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
                 <span className={styles.smoke} aria-hidden="true">
                   <i /><i /><i /><i />
                 </span>
-                <span className={styles.num} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <h3 className={styles.title}>
                   <span className="sr-only">{slide.title}</span>
                   <span aria-hidden="true"><SmokeText text={slide.title} start={0} plain={done} /></span>
@@ -131,23 +129,9 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
         </button>
       </div>
 
-      <div className={styles.dots} role="group" aria-label="Wybierz zasadę">
-        {slides.map((s, i) => (
-          <button
-            key={s.title}
-            type="button"
-            className={styles.dot}
-            aria-label={`${i + 1}. ${s.title}`}
-            aria-current={i === index ? 'true' : undefined}
-            onClick={() => to(i)}
-          />
-        ))}
-      </div>
-
       <ol className={styles.static}>
-        {slides.map((s, i) => (
+        {slides.map((s) => (
           <li key={s.title}>
-            <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
             <strong>{s.title}</strong> {s.body}
           </li>
         ))}

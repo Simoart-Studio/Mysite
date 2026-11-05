@@ -45,7 +45,7 @@
 
 .step {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
   width: 100%;
@@ -69,18 +69,10 @@
 
   &:hover { color: var(--white); background: var(--ink); }
   .stepIcon { color: var(--mint); }
-  .stepNum { color: var(--mint); }
   .stepArrow { background: var(--mint); color: var(--ink); }
 }
 
 .stepIcon { color: var(--color-text-dim); }
-
-.stepNum {
-  font-size: 0.75rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-dim);
-}
 
 .stepArrow {
   display: grid;

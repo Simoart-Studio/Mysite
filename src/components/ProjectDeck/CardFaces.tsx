@@ -24,6 +24,7 @@ export function Thumb({ project, sizes = '340px' }: { project: Project; sizes?: 
           height={project.thumbnail.height}
           sizes={sizes}
           className={styles.thumbImg}
+          draggable={false}
           loading="lazy"
         />
       </span>
@@ -37,15 +38,7 @@ export function Thumb({ project, sizes = '340px' }: { project: Project; sizes?: 
   );
 }
 
-export function CardFront({
-  project,
-  index,
-  total,
-}: {
-  project: Project;
-  index: number;
-  total: number;
-}) {
+export function CardFront({ project }: { project: Project }) {
   return (
     <span className={styles.front}>
       <Thumb project={project} />
@@ -69,27 +62,38 @@ export function CardFront({
               <span key={t} className={styles.chip}>{t}</span>
             ))}
           </span>
-          <span className={styles.counter}>
-            {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
-          </span>
         </span>
       </span>
     </span>
   );
 }
 
-export function CardBack({ remaining, total }: { remaining: number; total: number }) {
+const SCRAPS = [
+  { src: '/projects/collage/travelpoint.webp', w: 440, h: 330, cls: 'scrapA' },
+  { src: '/projects/collage/barberspace.webp', w: 440, h: 330, cls: 'scrapB' },
+  { src: '/projects/collage/buds.webp',        w: 440, h: 330, cls: 'scrapC' },
+  { src: '/projects/collage/pawflo.webp',      w: 440, h: 330, cls: 'scrapD' },
+  { src: '/projects/collage/fancyshop.webp',   w: 440, h: 330, cls: 'scrapE' },
+  { src: '/projects/collage/taskiner.webp',    w: 220, h: 275, cls: 'scrapF' },
+] as const;
+
+/** Rewers talii: kolaż wycinków z realizacji przyklejonych taśmą. */
+export function CardBack({ art = true }: { art?: boolean }) {
   return (
     <span className={styles.back}>
-      <svg className={styles.backArt} viewBox="0 0 300 420" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-        <path d="M228,46C268,74,292,128,284,180C276,232,236,282,184,300C132,318,68,304,38,262C8,220,12,150,44,104C76,58,188,18,228,46Z" fill="rgb(255 255 255 / 0.10)" />
-        <path d="M250,262C284,290,300,340,280,378C260,416,204,436,158,428C112,420,76,384,78,342C80,300,120,252,164,240C208,228,216,234,250,262Z" fill="rgb(255 255 255 / 0.08)" />
-      </svg>
-      <span className={styles.backTop}>
-        <span>SimoArt</span>
-        <span>{String(total - remaining + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>
+      {art && <span className={styles.collage} aria-hidden="true">
+        {SCRAPS.map((sc) => (
+          <span key={sc.src} className={`${styles.scrap} ${styles[sc.cls]}`}>
+            <Image src={sc.src} alt="" width={sc.w} height={sc.h} sizes="180px" className={styles.scrapImg} loading="lazy" draggable={false} />
+          </span>
+        ))}
+        <span className={`${styles.tape} ${styles.tapeA}`} />
+        <span className={`${styles.tape} ${styles.tapeB}`} />
+        <span className={`${styles.tape} ${styles.tapeC}`} />
+      </span>}
+      <span className={styles.backLabel}>
+        <span className={styles.backTitle}>Projekty</span>
       </span>
-      <span className={styles.backTitle}>Projekty</span>
       <span className={styles.backMark} aria-hidden="true">
         <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </span>
