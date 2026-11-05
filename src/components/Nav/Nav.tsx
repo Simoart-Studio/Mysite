@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { BRAND } from '@/data/config';
 import { scrollToTarget } from '@/lib/scrollLock';
-import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './Nav.module.scss';
@@ -24,11 +23,8 @@ export function Nav() {
   const lastY = useRef(0);
   const { overlay, openMenu, close } = useOverlay();
   const prefersReduced = useReducedMotion();
-  const reducedDom = useReducedMotionSafe();
   const menuOpen = overlay === 'menu';
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
 
   useEffect(() => {
     const onScroll = () => {
@@ -117,9 +113,6 @@ export function Nav() {
         </div>
       </div>
 
-      {!reducedDom && (
-        <motion.div className={styles.progressBar} style={{ scaleX, transformOrigin: 'left' }} aria-hidden="true" />
-      )}
     </motion.header>
   );
 }
