@@ -83,7 +83,6 @@ export function MenuOverlay() {
                   transition={{ delay: reduced ? 0 : 0.05 + i * 0.04, duration: 0.3 }}
                 >
                   <a href={`/#${item.id}`} className={styles.item} onClick={(e) => go(e, item.id)}>
-                    <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
                     <span className={styles.label}>{item.label}</span>
                     <span className={styles.icon} aria-hidden="true"><ArrowUpRight size={16} /></span>
                   </a>

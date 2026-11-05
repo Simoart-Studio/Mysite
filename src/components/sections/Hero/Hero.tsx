@@ -6,11 +6,6 @@ export function Hero() {
   return (
     <section className={`${styles.hero} bg-cream`} aria-labelledby="hero-h1">
       <div className={styles.inner}>
-        <p className={`${styles.eyebrow} ${styles.enter}`}>
-          <span className={styles.dot} aria-hidden="true" />
-          SimoArt studio
-        </p>
-
         <h1 id="hero-h1" className={`${styles.h1} ${styles.enter}`} style={{ animationDelay: '0.08s' }}>
           Tworzymy spójną wizję,<br />
           wizje tworzą <span className={`hl ${styles.hlIn}`}>dzieło.</span>

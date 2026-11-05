@@ -47,26 +47,7 @@
   text-align: center;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  font-size: var(--fs-small);
-  font-weight: 500;
-  color: var(--color-text-muted);
-  background: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--r-pill);
-}
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 4px var(--mint-soft);
-}
 
 .h1 {
   font-size: clamp(2.4rem, 6.2vw, 5.25rem);

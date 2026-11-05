@@ -31,7 +31,7 @@
 
 .item {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 14px;
   min-height: 56px;
@@ -49,20 +49,12 @@
     color: var(--white);
     background: var(--ink);
 
-    .num { color: var(--mint); }
     .icon { background: var(--mint); color: var(--ink); transform: rotate(45deg); }
   }
 
   &:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 }
 
-.num {
-  font-size: 0.75rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-dim);
-  transition: color var(--dur-base);
-}
 
 .icon {
   display: grid;
