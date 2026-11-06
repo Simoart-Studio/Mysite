@@ -56,3 +56,16 @@ Po wdrożeniu na produkcję i zielonym smoke zostaje 5 grup P0 — wszystkie wym
 5. **INF-024 / REL-007 / QA-022** — jedna próba rollbacku.
 
 Do tego czasu decyzja pozostaje **NOT READY** (NG-1). Po ich zamknięciu i decyzji co do P1 (rate limiting na poziomie platformy, Turnstile, ochrona gałęzi, domena) możliwa jest decyzja **READY WITH ACCEPTED RISKS**.
+
+## Retest produkcji — 2026-11-06 (commit `15bd2c1`)
+
+| Test | Wynik | Dowód |
+|---|---|---|
+| Smoke `@smoke` na `https://sp-flow.vercel.app` | 6/6 PASS | [evidence/retest-prod-smoke.txt](evidence/retest-prod-smoke.txt) |
+| Formularz → e-mail (RISK-008, QA-004) | PASS — wiadomość testowa właściciela dostarczona | jw. |
+| Lighthouse mobile `/` | Performance 95 (było 86), A11y/BP/SEO 100, LCP 2,5 s (było 3,2 s), CLS 0, TBT 160 ms | [evidence/retest-prod-lighthouse.txt](evidence/retest-prod-lighthouse.txt) |
+| Lighthouse mobile `/works`, `/works/travelpoint` | Performance 99 i 100, LCP 2,1 s i 1,2 s | jw. |
+
+Wnioski: SEC-031, HDR-*, SEC-018, SEC-036, PERF-001 (lab, próg 2,5 s), PRIV-002 — **PASS na produkcji**. Poprawka po wdrożeniu: limit wysyłek liczy tylko poprawne zgłoszenia (`15bd2c1`) — wcześniej nieudane próby walidacji blokowały formularz.
+
+**Decyzja nadal NOT READY** — otwarte P0 wymagające działania właściciela: PRIV-073, PRIV-040, LOG-010, LOG-011, INF-024/REL-007/QA-022 (szczegóły wyżej, „Prognoza decyzji”).

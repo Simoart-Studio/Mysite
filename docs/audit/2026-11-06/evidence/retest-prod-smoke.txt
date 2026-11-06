@@ -1,0 +1,3 @@
+Smoke na produkcji (https://sp-flow.vercel.app, commit 15bd2c1), Playwright 1.63, projekt smoke:
+6/6 passed — strona główna, nagłówki bezpieczeństwa (CSP frame-ancestors, nosniff, XFO, Referrer-Policy, Permissions-Policy, brak X-Powered-By), /works i /works/travelpoint, 404 dla nieistniejących stron i tras OG, robots/sitemap/security.txt, polityka prywatności bez placeholderów.
+Formularz: wiadomość testowa wysłana przez właściciela i odebrana w skrzynce (potwierdzenie 2026-11-06).
