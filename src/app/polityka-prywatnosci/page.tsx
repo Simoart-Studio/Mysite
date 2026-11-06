@@ -12,9 +12,8 @@ export const metadata: Metadata = pageMetadata({
   path: '/polityka-prywatnosci',
 });
 
-function Todo({ children }: { children: string }) {
-  return <span className={styles.todo}>{children}: do uzupełnienia</span>;
-}
+const UPDATED = '6 listopada 2026';
+const RETENTION_MONTHS = 12;
 
 export default function PrivacyPage() {
   return (
@@ -31,9 +30,8 @@ export default function PrivacyPage() {
 
           <h2>1. Kto jest administratorem danych</h2>
           <p>
-            {OWNER}, prowadzący {BRAND}. Kontakt: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
-            <br />
-            <Todo>Adres i NIP (jeśli prowadzisz działalność)</Todo>
+            {OWNER}, prowadzący {BRAND}. Kontakt we wszystkich sprawach dotyczących danych:{' '}
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
           </p>
 
           <h2>2. Jakie dane zbieram i po co</h2>
@@ -46,6 +44,12 @@ export default function PrivacyPage() {
           <p>
             Podstawa prawna: Twoja zgoda (art. 6 ust. 1 lit. a RODO) oraz działania przed zawarciem umowy na Twoje
             żądanie (art. 6 ust. 1 lit. b RODO). Podanie danych jest dobrowolne, ale bez adresu e-mail nie mogę odpowiedzieć.
+          </p>
+          <p>
+            Przy każdym wejściu na stronę serwer hostingu zapisuje techniczne dane połączenia (m.in. adres IP, typ
+            przeglądarki, czas żądania) w logach. Służą one bezpieczeństwu strony i ograniczaniu nadużyć formularza,
+            np. limitowi liczby wiadomości z jednego adresu IP. Podstawa prawna: prawnie uzasadniony interes
+            (art. 6 ust. 1 lit. f RODO).
           </p>
 
           <h2>3. Komu przekazuję dane</h2>
@@ -61,9 +65,11 @@ export default function PrivacyPage() {
 
           <h2>4. Jak długo przechowuję dane</h2>
           <p>
-            Do czasu obsługi zapytania, a jeśli podejmiemy współpracę, przez czas jej trwania i okres wymagany przepisami.
-            <br />
-            <Todo>Konkretny okres przechowywania zapytań bez współpracy</Todo>
+            Wiadomości z formularza (razem z załącznikami) przechowuję przez {RETENTION_MONTHS} miesięcy od ostatniego
+            kontaktu, jeśli nie podejmiemy współpracy — potem je usuwam. Jeśli podejmiemy współpracę, przechowuję je
+            przez czas jej trwania i okres wymagany przepisami (np. podatkowymi). Wcześniej usunę je na Twoją prośbę
+            albo po cofnięciu zgody. Techniczne logi serwera są przechowywane przez dostawcę hostingu przez krótki
+            okres (zwykle do kilku dni).
           </p>
 
           <h2>5. Statystyki i ciasteczka</h2>
@@ -81,9 +87,7 @@ export default function PrivacyPage() {
             Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).
           </p>
 
-          <p className={styles.meta}>
-            <Todo>Data ostatniej aktualizacji</Todo>
-          </p>
+          <p className={styles.meta}>Ostatnia aktualizacja: {UPDATED}.</p>
         </article>
       </main>
       <Footer />

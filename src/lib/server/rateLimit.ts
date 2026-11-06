@@ -1,4 +1,3 @@
-import 'server-only';
 
 /**
  * Prosty limiter w pamięci funkcji (okno przesuwne). Na Vercelu każda instancja

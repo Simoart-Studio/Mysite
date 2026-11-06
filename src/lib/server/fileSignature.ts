@@ -1,4 +1,3 @@
-import 'server-only';
 
 /**
  * Rozpoznaje typ pliku po zawartości (magic bytes), a nie po nagłówku

@@ -33,15 +33,5 @@
   color: var(--color-text) !important;
 }
 
-.todo {
-  display: inline-block;
-  margin-top: var(--s-2);
-  padding: 2px 8px;
-  font-size: var(--fs-small);
-  color: var(--green-ink);
-  background: var(--mint-soft);
-  border: 1px dashed var(--green-line);
-  border-radius: var(--r-pill);
-}
 
 .meta { font-size: var(--fs-small); }

@@ -1,0 +1,53 @@
+name: Smoke (produkcja)
+
+# Po każdym udanym wdrożeniu produkcyjnym na Vercelu + co 6 godzin jako prosty monitoring dostępności.
+# Nieudany run = e-mail z GitHuba do właściciela repozytorium.
+on:
+  deployment_status:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PROD_URL: https://sp-flow.vercel.app
+
+jobs:
+  smoke:
+    if: github.event_name != 'deployment_status' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - name: Testy @smoke (tylko odczyt)
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url || env.PROD_URL }}
+        run: npm run test:smoke
+      - name: Certyfikat ważny ≥ 14 dni
+        run: |
+          host=$(echo "$PROD_URL" | sed 's#https://##')
+          end=$(echo | openssl s_client -connect "$host:443" -servername "$host" 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
+          left=$(( ( $(date -d "$end" +%s) - $(date +%s) ) / 86400 ))
+          echo "Certyfikat $host wygasa za $left dni"
+          test "$left" -ge 14
+
+  domain:
+    name: Domena własna odpowiada
+    if: github.event_name != 'deployment_status'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          for u in https://szymonfrontend.pl https://www.szymonfrontend.pl; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 20 "$u" || echo 000)
+            echo "$u → $code"
+            test "$code" = 200
+          done
