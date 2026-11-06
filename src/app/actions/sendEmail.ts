@@ -1,97 +1,135 @@
 'use server';
 
+import { randomUUID } from 'node:crypto';
+import { headers } from 'next/headers';
 import nodemailer from 'nodemailer';
-import { ATTACHMENT_MAX_MB, ATTACHMENT_TYPES } from '@/data/config';
+import { ATTACHMENT_MAX_MB } from '@/data/config';
+import { contactSchema, fieldErrors, type ContactField } from '@/lib/contactSchema';
+import { verifyFile } from '@/lib/server/fileSignature';
+import { checkContactLimit } from '@/lib/server/rateLimit';
+import { mailEnv } from '@/lib/server/env';
+import { logEvent } from '@/lib/server/log';
 
 export type SendEmailResult =
   | { ok: true }
-  | { ok: false; error: string; field?: string };
+  | { ok: false; error: string; field?: ContactField | 'attachment'; ref?: string };
 
 const MAX_BYTES = ATTACHMENT_MAX_MB * 1024 * 1024;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SMTP_TIMEOUT_MS = 10_000;
 
-function str(fd: FormData, key: string, max = 2000) {
+function text(fd: FormData, key: string): string {
   const v = fd.get(key);
-  return typeof v === 'string' ? v.trim().slice(0, max) : '';
+  return typeof v === 'string' ? v : '';
 }
 
 function esc(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
 
+async function clientIp(): Promise<string> {
+  const h = await headers();
+  // Vercel nadpisuje x-forwarded-for adresem klienta; pierwszy wpis to klient.
+  return h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
+}
+
 export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
-  if (str(fd, 'website')) return { ok: true };
+  const ref = randomUUID().slice(0, 8);
 
-  const name    = str(fd, 'name', 120);
-  const email   = str(fd, 'email', 200);
-  const goal    = str(fd, 'goal', 120);
-  const siteUrl = str(fd, 'siteUrl', 300);
-  const budget  = str(fd, 'budget', 60);
-  const message = str(fd, 'message', 5000);
-  const consent = fd.get('consent') === 'on';
-  const file    = fd.get('attachment');
+  // Honeypot: udajemy sukces, nic nie wysyłamy.
+  if (text(fd, 'website')) {
+    logEvent('contact_rejected', { ref, reason: 'honeypot' });
+    return { ok: true };
+  }
 
-  if (!name)                  return { ok: false, field: 'name',    error: 'Podaj imię.' };
-  if (!EMAIL_RE.test(email))  return { ok: false, field: 'email',   error: 'Podaj poprawny adres e-mail.' };
-  if (!message)               return { ok: false, field: 'message', error: 'Napisz kilka słów o projekcie.' };
-  if (!consent)               return { ok: false, field: 'consent', error: 'Potrzebuję zgody na przetwarzanie danych, żeby odpowiedzieć.' };
+  const limit = checkContactLimit(await clientIp());
+  if (!limit.ok) {
+    logEvent('contact_rejected', { ref, reason: `rate_${limit.reason}` });
+    return { ok: false, ref, error: 'Wysłano już kilka wiadomości. Spróbuj ponownie później albo napisz bezpośrednio na e-mail.' };
+  }
+
+  const parsed = contactSchema.safeParse({
+    name: text(fd, 'name'),
+    email: text(fd, 'email'),
+    goal: text(fd, 'goal'),
+    budget: text(fd, 'budget'),
+    siteUrl: text(fd, 'siteUrl'),
+    message: text(fd, 'message'),
+    consent: fd.get('consent') === 'on',
+  });
+  if (!parsed.success) {
+    const errs = fieldErrors(parsed.error);
+    const field = (Object.keys(errs)[0] ?? undefined) as ContactField | undefined;
+    logEvent('contact_rejected', { ref, reason: 'validation', field: field ?? null });
+    return { ok: false, ref, field, error: (field && errs[field]) || 'Sprawdź pola formularza.' };
+  }
+  const data = parsed.data;
 
   const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
+  const file = fd.get('attachment');
   if (file instanceof File && file.size > 0) {
     if (file.size > MAX_BYTES) {
-      return { ok: false, field: 'attachment', error: `Załącznik może mieć maksymalnie ${ATTACHMENT_MAX_MB} MB.` };
+      logEvent('contact_rejected', { ref, reason: 'attachment_size' });
+      return { ok: false, ref, field: 'attachment', error: `Załącznik może mieć maksymalnie ${ATTACHMENT_MAX_MB} MB.` };
     }
-    if (!(ATTACHMENT_TYPES as readonly string[]).includes(file.type)) {
-      return { ok: false, field: 'attachment', error: 'Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX.' };
+    const content = Buffer.from(await file.arrayBuffer());
+    const mime = verifyFile(content, file.name);
+    if (!mime) {
+      logEvent('contact_rejected', { ref, reason: 'attachment_type' });
+      return { ok: false, ref, field: 'attachment', error: 'Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX.' };
     }
     attachments.push({
       filename: file.name.replace(/[^\w.\- ]+/g, '_').slice(0, 100),
-      content: Buffer.from(await file.arrayBuffer()),
-      contentType: file.type,
+      content,
+      contentType: mime,
     });
   }
 
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.error('[sendEmail] brak GMAIL_USER / GMAIL_APP_PASSWORD');
-    return { ok: false, error: 'Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.' };
+  const env = mailEnv();
+  if (!env) {
+    logEvent('contact_error', { ref, reason: 'missing_smtp_env' });
+    return { ok: false, ref, error: 'Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.' };
   }
 
   const transporter = nodemailer.createTransport({
-    host:   'smtp.gmail.com',
-    port:   587,
+    host: 'smtp.gmail.com',
+    port: 587,
     secure: false,
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
+    requireTLS: true, // STARTTLS obowiązkowy — bez szyfrowania połączenie jest przerywane
+    connectionTimeout: SMTP_TIMEOUT_MS,
+    greetingTimeout: SMTP_TIMEOUT_MS,
+    socketTimeout: SMTP_TIMEOUT_MS,
+    auth: { user: env.user, pass: env.pass },
   });
 
   const rows: [string, string][] = [
-    ['Od', `${name} <${email}>`],
-    ['Cel', goal || '-'],
-    ['Obecna strona', siteUrl || '-'],
-    ['Budżet', budget || '-'],
+    ['Od', `${data.name} <${data.email}>`],
+    ['Cel', data.goal || '-'],
+    ['Obecna strona', data.siteUrl || '-'],
+    ['Budżet', data.budget || '-'],
     ['Zgoda RODO', 'tak'],
+    ['Nr zgłoszenia', ref],
   ];
 
   try {
     await transporter.sendMail({
-      from:    `"Formularz SimoArt" <${process.env.GMAIL_USER}>`,
-      to:      process.env.GMAIL_USER,
-      replyTo: { name, address: email },
-      subject: `Nowe zapytanie: ${goal || 'kontakt'} (${name})`,
-      text: [...rows.map(([k, v]) => `${k}: ${v}`), '', message].join('\n'),
+      from: `"Formularz SimoArt" <${env.user}>`,
+      to: env.user,
+      replyTo: { name: data.name, address: data.email },
+      subject: `Nowe zapytanie: ${data.goal || 'kontakt'} (${data.name})`,
+      text: [...rows.map(([k, v]) => `${k}: ${v}`), '', data.message].join('\n'),
       html: `
         <table>${rows.map(([k, v]) => `<tr><td><strong>${esc(k)}</strong></td><td>${esc(v)}</td></tr>`).join('')}</table>
         <hr/>
-        <p>${esc(message).replace(/\n/g, '<br/>')}</p>
+        <p>${esc(data.message).replace(/\n/g, '<br/>')}</p>
       `,
       attachments,
     });
   } catch (e) {
-    console.error('[sendEmail]', e);
-    return { ok: false, error: 'Nie udało się wysłać. Spróbuj ponownie albo napisz bezpośrednio.' };
+    const code = e && typeof e === 'object' && 'code' in e ? String((e as { code: unknown }).code) : 'unknown';
+    logEvent('contact_error', { ref, reason: 'smtp', code });
+    return { ok: false, ref, error: `Nie udało się wysłać (kod ${ref}). Spróbuj ponownie albo napisz bezpośrednio.` };
   }
 
+  logEvent('contact_sent', { ref, attachment: attachments.length > 0 });
   return { ok: true };
 }

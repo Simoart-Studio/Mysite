@@ -1,0 +1,12 @@
+UI siteUrl error: Podaj adres strony, np. mojafirma.pl. | focused: cf-site
+UI after valid submit: Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.
+goal spoza listy => {"ok":false,"ref":"6e0cd3cd","field":"goal","error":"Wybierz rodzaj projektu z listy."}
+budget spoza listy => {"ok":false,"ref":"89e150af","field":"budget","error":"Wybierz budżet z listy."}
+siteUrl javascript: => {"ok":false,"ref":"a2e03af6","field":"siteUrl","error":"Podaj adres strony, np. mojafirma.pl."}
+email z przecinkiem => {"ok":false,"ref":"8f293259","field":"email","error":"Ten adres e-mail wygląda na niepoprawny."}
+brak zgody => {"ok":false,"ref":"f3cec07f","field":"consent","error":"Zaznacz zgodę, żebym mógł odpowiedzieć."}
+.exe jako PDF => {"ok":false,"ref":"6cd095e1","field":"attachment","error":"Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX."}
+prawdziwy PDF z rozszerzeniem .exe => {"ok":false,"ref":"30a45e0f","field":"attachment","error":"Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX."}
+PNG udający PDF (rozszerzenie .pdf) => {"ok":false,"ref":"8266c3e8","field":"attachment","error":"Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX."}
+prawdziwy PDF => {"ok":false,"ref":"c9b75b2e","error":"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail."}
+5 żądań z jednego IP => OK(brak SMTP), OK(brak SMTP), OK(brak SMTP), LIMIT, LIMIT

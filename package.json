@@ -6,7 +6,7 @@
     "predev": "node scripts/predev.js",
     "dev": "next dev",
     "projects": "node scripts/fetch-projects.mjs",
-    "prebuild": "node scripts/fetch-projects.mjs --if-ci",
+    "prebuild": "node scripts/check-env.mjs && node scripts/fetch-projects.mjs --if-ci",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
@@ -21,7 +21,9 @@
     "nodemailer": "^10.3.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sass": "^1.99.0"
+    "sass": "^1.99.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^20",

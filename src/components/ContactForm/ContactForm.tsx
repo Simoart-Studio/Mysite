@@ -6,43 +6,25 @@ import { Paperclip, Check } from 'lucide-react';
 import { sendEmail } from '@/app/actions/sendEmail';
 import { useOverlay } from '@/context/OverlayContext';
 import { ATTACHMENT_MAX_MB, ATTACHMENT_ACCEPT } from '@/data/config';
+import { BUDGETS, GOALS, contactSchema, fieldErrors, type ContactField, type ContactInput } from '@/lib/contactSchema';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './ContactForm.module.scss';
 
 type Status = 'idle' | 'sending' | 'sent';
-type Field  = 'name' | 'email' | 'message' | 'consent' | 'attachment' | 'form';
+type Field  = ContactField | 'attachment' | 'form';
 type Errors = Partial<Record<Field, string>>;
-
-const GOALS = [
-  'Strona firmowa',
-  'Sklep internetowy',
-  'Aplikacja webowa',
-  'Aplikacja mobilna (PWA)',
-  'MVP / prototyp',
-  'Redesign obecnej strony',
-  'Inne',
-] as const;
-
-const BUDGETS = [
-  'Do 5 000 zł',
-  '5 000 – 10 000 zł',
-  '10 000 – 20 000 zł',
-  'Powyżej 20 000 zł',
-  'Nie wiem jeszcze',
-] as const;
 
 const MAX_BYTES = ATTACHMENT_MAX_MB * 1024 * 1024;
 
-function validate(name: string, email: string, message: string, consent: boolean, file: File | null): Errors {
-  const e: Errors = {};
-  if (!message.trim()) e.message = 'Napisz kilka słów o projekcie.';
-  if (!name.trim())    e.name    = 'Podaj imię.';
-  if (!email.trim())   e.email   = 'Podaj adres e-mail.';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Ten adres e-mail wygląda na niepoprawny.';
-  if (!consent)        e.consent = 'Zaznacz zgodę, żebym mógł odpowiedzieć.';
+function validate(input: Record<keyof ContactInput, unknown>, file: File | null): Errors {
+  const r = contactSchema.safeParse(input);
+  const e: Errors = r.success ? {} : fieldErrors(r.error);
   if (file && file.size > MAX_BYTES) e.attachment = `Plik ma ${(file.size / 1024 / 1024).toFixed(1)} MB. Limit to ${ATTACHMENT_MAX_MB} MB.`;
   return e;
 }
+
+const FIELD_ORDER: Field[] = ['name', 'email', 'goal', 'budget', 'siteUrl', 'message', 'attachment', 'consent'];
+const FIELD_ID: Partial<Record<Field, string>> = { siteUrl: 'cf-site' };
 
 export function ContactForm() {
   const { contactPreset } = useOverlay();
@@ -72,11 +54,11 @@ export function ContactForm() {
 
   async function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault();
-    const errs = validate(name, email, message, consent, file);
+    const errs = validate({ name, email, goal, budget, siteUrl, message, consent }, file);
     if (Object.keys(errs).length) {
       setErrors(errs);
-      const first = Object.keys(errs)[0];
-      document.getElementById(`cf-${first}`)?.focus();
+      const first = FIELD_ORDER.find((f) => errs[f]);
+      if (first) document.getElementById(FIELD_ID[first] ?? `cf-${first}`)?.focus();
       return;
     }
     setErrors({});
@@ -94,6 +76,7 @@ export function ContactForm() {
       if (res.ok) { setStatus('sent'); return; }
       setStatus('idle');
       setErrors({ [res.field ?? 'form']: res.error });
+      if (res.field) document.getElementById(FIELD_ID[res.field] ?? `cf-${res.field}`)?.focus();
     } catch {
       setStatus('idle');
       setErrors({ form: 'Błąd wysyłki. Spróbuj ponownie albo napisz bezpośrednio.' });
@@ -122,7 +105,7 @@ export function ContactForm() {
         <div className={styles.field}>
           <label htmlFor="cf-name" className={styles.label}>Imię</label>
           <input
-            id="cf-name" type="text" autoComplete="name"
+            id="cf-name" type="text" autoComplete="name" maxLength={120}
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? 'cf-name-err' : undefined}
             className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
@@ -135,7 +118,7 @@ export function ContactForm() {
         <div className={styles.field}>
           <label htmlFor="cf-email" className={styles.label}>E-mail</label>
           <input
-            id="cf-email" type="email" autoComplete="email" inputMode="email"
+            id="cf-email" type="email" autoComplete="email" inputMode="email" maxLength={200}
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? 'cf-email-err' : undefined}
             className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
@@ -169,11 +152,15 @@ export function ContactForm() {
           </label>
           <input
             id="cf-site" type="url" inputMode="url" autoComplete="url"
-            className={styles.input}
-            placeholder="https://"
+            className={`${styles.input} ${errors.siteUrl ? styles.inputError : ''}`}
+            placeholder="np. mojafirma.pl"
+            maxLength={300}
             value={siteUrl}
-            onChange={(e) => setSiteUrl(e.target.value)}
+            aria-invalid={!!errors.siteUrl}
+            aria-describedby={errors.siteUrl ? 'cf-site-err' : undefined}
+            onChange={(e) => { setSiteUrl(e.target.value); clearErr('siteUrl'); }}
           />
+          {errors.siteUrl && <span id="cf-site-err" className={styles.error} role="alert">{errors.siteUrl}</span>}
         </div>
 
         <div className={`${styles.field} ${styles.full}`}>
