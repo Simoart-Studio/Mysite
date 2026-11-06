@@ -3,6 +3,7 @@
 import { Fragment, useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, m, useInView, useReducedMotion, type PanInfo } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useReducedMotionSafe } from '@/hooks/useReducedMotionSafe';
 import styles from './SplashCarousel.module.scss';
 
 export type SplashSlide = { title: string; body: string };
@@ -13,8 +14,10 @@ const STEP_MS = 16;
 function SmokeText({ text, start, plain }: { text: string; start: number; plain: boolean }) {
   if (plain) return <>{text}</>;
   const words = text.split(' ');
-  let k = start;
-  const offsets = words.map((w) => { const o = k; k += w.length + 1; return o; });
+  const offsets = words.reduce<number[]>((acc, _w, i) => {
+    acc.push(i === 0 ? start : acc[i - 1]! + words[i - 1]!.length + 1);
+    return acc;
+  }, []);
   return (
     <>
       {words.map((w, wi) => (
@@ -61,12 +64,14 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
   // Po zakończeniu animacji litery są zastępowane zwykłym tekstem (pełny kerning i ligatury).
   const rootRef = useRef<HTMLDivElement>(null);
   const inView = useInView(rootRef, { once: true, amount: 0.45 });
-  const [done, setDone] = useState(false);
+  // Numer slajdu, którego animacja się zakończyła — stan ustawiany tylko w callbacku timera.
+  const [doneFor, setDoneFor] = useState<number | null>(null);
+  // Gałąź DOM zależna od reduced-motion tylko po hydratacji (inaczej HTML różni się od serwerowego).
+  const reducedDom = useReducedMotionSafe();
+  const done = reducedDom || doneFor === index;
   useEffect(() => {
-    if (reduced) { setDone(true); return; }
-    setDone(false);
-    if (!inView) return;
-    const t = window.setTimeout(() => setDone(true), 120 + total * STEP_MS + 1000);
+    if (reduced || !inView) return;
+    const t = window.setTimeout(() => setDoneFor(index), 120 + total * STEP_MS + 1000);
     return () => window.clearTimeout(t);
   }, [index, total, reduced, inView]);
 

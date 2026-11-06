@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { useReducedMotion } from 'framer-motion';
+
+const noopSubscribe = () => () => {};
 
 export function useReducedMotionSafe() {
   const reduced = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // false przy SSR i hydratacji, true po zamontowaniu — bez setState w efekcie.
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
   return mounted ? !!reduced : false;
 }

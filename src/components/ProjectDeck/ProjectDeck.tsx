@@ -39,6 +39,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
   const rootRef      = useRef<HTMLDivElement>(null);
   const pendingFocus = useRef<'stack' | 'pile' | null>(null);
   const dragged      = useRef(false);
+  const returnFocus  = useRef(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 900px)');
@@ -48,13 +49,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
     return () => mq.removeEventListener('change', update);
   }, []);
 
-  useEffect(() => {
-    const target = pendingFocus.current;
-    if (!target) return;
-    pendingFocus.current = null;
-    focusTop(target === 'stack' && revealed < n ? 'stack' : 'pile');
-  }, [revealed, n]);
-
   const focusTop = (which: 'stack' | 'pile') => {
     rootRef.current
       ?.querySelector<HTMLButtonElement>(`[data-top="${which}"]`)
@@ -62,6 +56,15 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
   };
 
   const focusInside = () => !!rootRef.current?.contains(document.activeElement);
+
+  useEffect(() => {
+    const target = pendingFocus.current;
+    if (!target) return;
+    pendingFocus.current = null;
+    focusTop(target === 'stack' && revealed < n ? 'stack' : 'pile');
+  }, [revealed, n]);
+
+
 
   const reveal = useCallback(() => {
     if (revealed >= n) return;
@@ -110,7 +113,6 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
     returnFocus.current = true;
   }, []);
 
-  const returnFocus = useRef(false);
   useEffect(() => {
     if (openIdx === null && returnFocus.current) {
       returnFocus.current = false;

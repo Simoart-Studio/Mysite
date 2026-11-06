@@ -10,15 +10,13 @@ import { Testimonials } from '@/components/sections/Testimonials/Testimonials';
 import { Contact }      from '@/components/sections/Contact/Contact';
 import { Wave }         from '@/components/Wave/Wave';
 import { projects }     from '@/lib/projects';
-import { buildProjectsListSchema, jsonLd } from '@/lib/schema';
+import { buildProjectsListSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd/JsonLd';
 
 export default function HomePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(buildProjectsListSchema(projects)) }}
-      />
+      <JsonLd data={buildProjectsListSchema(projects)} />
       <Nav />
       <main id="main-content">
         <Hero />

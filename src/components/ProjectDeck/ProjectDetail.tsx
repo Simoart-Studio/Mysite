@@ -302,7 +302,7 @@ function Lightbox({
   useEffect(() => { closeRef.current?.focus(); }, []);
 
   const latest = useRef({ index, many, onClose, onIndex, n: shots.length });
-  latest.current = { index, many, onClose, onIndex, n: shots.length };
+  useEffect(() => { latest.current = { index, many, onClose, onIndex, n: shots.length }; });
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const l = latest.current;

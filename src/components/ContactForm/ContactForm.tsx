@@ -46,12 +46,18 @@ export function ContactForm() {
   const [errors,   setErrors]   = useState<Errors>({});
   const [status,   setStatus]   = useState<Status>('idle');
 
+  // Preset z innej sekcji (np. „Co chcesz zbudować?”) ustawia cel podczas renderu — wzorzec z dokumentacji React.
+  const [presetNonce, setPresetNonce] = useState(contactPreset.nonce);
+  if (contactPreset.nonce !== presetNonce) {
+    setPresetNonce(contactPreset.nonce);
+    if (contactPreset.goal) setGoal(contactPreset.goal);
+  }
+
   useEffect(() => {
     if (!contactPreset.nonce) return;
-    if (contactPreset.goal) setGoal(contactPreset.goal);
     const id = setTimeout(() => messageRef.current?.focus({ preventScroll: true }), 700);
     return () => clearTimeout(id);
-  }, [contactPreset]);
+  }, [contactPreset.nonce]);
 
   const clearErr = (f: Field) => setErrors((p) => ({ ...p, [f]: undefined, form: undefined }));
 

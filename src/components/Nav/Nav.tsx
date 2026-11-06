@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { m, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { BRAND } from '@/data/config';
@@ -55,7 +56,7 @@ export function Nav() {
   // Na stronie głównej CTA w nawigacji pojawia się dopiero, gdy przyciski hero znikną z ekranu.
   useEffect(() => {
     const el = document.querySelector('[data-hero-actions]');
-    if (!el) { setHeroCta(false); return; }
+    if (!el) return;
     const io = new IntersectionObserver(([e]) => setHeroCta(!!e?.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
@@ -76,7 +77,7 @@ export function Nav() {
       transition={{ duration: 0.38, ease: [0.2, 0.7, 0.2, 1] }}
     >
       <div className={styles.inner}>
-        <a
+        <Link
           href="/"
           className={styles.logo}
           aria-label={`${BRAND}, strona główna`}
@@ -87,7 +88,7 @@ export function Nav() {
           }}
         >
           SimoArt<span className={styles.logoDot} aria-hidden="true" />
-        </a>
+        </Link>
 
         <nav className={styles.links} aria-label="Główna nawigacja">
           {LINKS.map((l) => (

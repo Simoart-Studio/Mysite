@@ -4,12 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { projects, getProject, TODO } from '@/lib/projects';
 import { pageMetadata } from '@/lib/metadata';
-import { buildProjectSchema, jsonLd } from '@/lib/schema';
+import { buildProjectSchema } from '@/lib/schema';
 import { Nav } from '@/components/Nav/Nav';
 import { Footer } from '@/components/Footer/Footer';
 import { CaseStudyBody } from '@/components/ProjectDeck/CaseStudyBody';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import styles from './page.module.scss';
+import { JsonLd } from '@/components/JsonLd/JsonLd';
 
 export const dynamicParams = false;
 
@@ -49,10 +50,7 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(buildProjectSchema(p)) }}
-      />
+      <JsonLd data={buildProjectSchema(p)} />
       <Nav />
       <main id="main-content" className={styles.page}>
         <header className={styles.hero}>

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { projects } from '@/lib/projects';
 import { ProjectDeck } from '@/components/ProjectDeck/ProjectDeck';
 import { ProjectGrid } from '@/components/ProjectDeck/ProjectGrid';
@@ -17,10 +18,10 @@ export function Works() {
           <h2 id="works-title" className={styles.headline}>
             Wybrane <span className="hl">projekty.</span>
           </h2>
-          <a href="/works" className="btn btn--green">
+          <Link href="/works" className="btn btn--green">
             Wszystkie projekty
             <BtnIcon />
-          </a>
+          </Link>
         </header>
 
         <div className={styles.deckArea}>

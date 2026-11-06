@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 import { useOverlay, type ContactPreset } from '@/context/OverlayContext';
 
 export function ContactTrigger({
@@ -14,7 +15,7 @@ export function ContactTrigger({
 }) {
   const { openContact } = useOverlay();
   return (
-    <a
+    <Link
       href="/#contact"
       className={className}
       onClick={(e) => {
@@ -24,6 +25,6 @@ export function ContactTrigger({
       }}
     >
       {children}
-    </a>
+    </Link>
   );
 }

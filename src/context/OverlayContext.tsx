@@ -8,6 +8,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import { useRouter } from 'next/navigation';
 import { lockScroll, scrollToTarget } from '@/lib/scrollLock';
 
 type OverlayType = 'menu' | null;
@@ -30,20 +31,21 @@ const OverlayContext = createContext<OverlayCtx | null>(null);
 export function OverlayProvider({ children }: { children: ReactNode }) {
   const [overlay, setOverlay] = useState<OverlayType>(null);
   const [contactPreset, setContactPreset] = useState<ContactPreset>({});
+  const router = useRouter();
 
   const openMenu = useCallback(() => setOverlay('menu'), []);
   const close    = useCallback(() => setOverlay(null), []);
 
   const openContact = useCallback((preset: Omit<ContactPreset, 'nonce'> = {}) => {
     if (!document.getElementById('contact')) {
-      window.location.href = '/#contact';
+      router.push('/#contact');
       return;
     }
     setOverlay(null);
     setContactPreset({ ...preset, nonce: Date.now() });
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setTimeout(() => scrollToTarget('contact', reduced), 30);
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (!overlay) return;
