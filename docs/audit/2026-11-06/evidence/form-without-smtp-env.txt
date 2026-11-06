@@ -1,0 +1,4 @@
+Lokalny build produkcyjny (commit 05f77df), brak zmiennych GMAIL_USER/GMAIL_APP_PASSWORD.
+Poprawnie wypełniony formularz → komunikat w UI:
+"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail."
+Build i start serwera zakończyły się sukcesem mimo braku zmiennych (brak fail-fast).

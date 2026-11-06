@@ -1,0 +1,14 @@
+Package                  Current    Wanted   Latest  Location                             Depended by
+@types/node             20.19.39  20.19.43   26.6.6  node_modules/@types/node             szymon-studio
+@types/nodemailer          8.0.0     8.0.2    8.0.2  node_modules/@types/nodemailer       szymon-studio
+@types/react             19.2.14    19.3.0   19.3.0  node_modules/@types/react            szymon-studio
+@types/react-dom          19.2.3    19.3.0   19.3.0  node_modules/@types/react-dom        szymon-studio
+@vercel/speed-insights     2.0.0     2.1.0    2.1.0  node_modules/@vercel/speed-insights  szymon-studio
+framer-motion            12.38.0   12.43.0  14.10.0  node_modules/framer-motion           szymon-studio
+lucide-react               1.8.0    1.70.0   1.70.0  node_modules/lucide-react            szymon-studio
+next                      16.2.4    16.2.4   16.4.5  node_modules/next                    szymon-studio
+nodemailer                 8.0.7    8.0.11   10.3.1  node_modules/nodemailer              szymon-studio
+react                     19.2.4    19.2.4   19.3.1  node_modules/react                   szymon-studio
+react-dom                 19.2.4    19.2.4   19.3.1  node_modules/react-dom               szymon-studio
+sass                      1.99.0   1.108.0  1.108.0  node_modules/sass                    szymon-studio
+typescript                 5.9.3     5.9.3    7.0.2  node_modules/typescript              szymon-studio

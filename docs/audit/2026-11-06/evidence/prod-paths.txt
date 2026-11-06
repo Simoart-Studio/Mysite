@@ -1,0 +1,84 @@
+== /
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /works
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /works/travelpoint
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /polityka-prywatnosci
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /robots.txt
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /sitemap.xml
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: application/xml
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /nie-istnieje
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /works/lingua
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /opengraph-image
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: image/png
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /_next/static/
+HTTP/1.1 200 Connection Established
+HTTP/2 308 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+location: /_next/static
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /.env
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+== /.git/config
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+strict-transport-security: max-age=63072000; includeSubDomains; preload

@@ -1,0 +1,40 @@
+== https://szymonfrontend.pl/
+curl: (56) CONNECT tunnel failed, response 502
+HTTP/1.1 502 Bad Gateway
+Content-Type: text/plain; charset=utf-8
+X-Content-Type-Options: nosniff
+Content-Length: 20
+Connection: close
+
+== https://www.szymonfrontend.pl/
+curl: (56) CONNECT tunnel failed, response 502
+HTTP/1.1 502 Bad Gateway
+Content-Type: text/plain; charset=utf-8
+X-Content-Type-Options: nosniff
+Content-Length: 20
+Connection: close
+
+== https://sp-flow.vercel.app/
+HTTP/1.1 200 Connection Established
+
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 85702
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-type: text/html; charset=utf-8
+date: Fri, 06 Nov 2026 11:06:26 GMT
+etag: "3b7a6a6a681a5fc4351f7c3dc022a739"
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-matched-path: /
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-vercel-cache: HIT
+x-vercel-id: iad1::czprl-1793963186572-49635a2226e9
+content-length: 413853
+
+== http://szymonfrontend.pl/
+curl: (6) Could not resolve host: szymonfrontend.pl

@@ -1,0 +1,13 @@
+From: Formularz <me@x.pl>
+To: me@x.pl
+Reply-To: =?UTF-8?Q?Jan=0D=0ABcc=3A_ofiara=40x=2Epl?= <jan@x.pl>
+Subject: Nowe zapytanie: kontakt (Jan Bcc: ofiara@x.pl)
+Message-ID: <41804262-44ad-6303-9e8f-efca3b926ff0@x.pl>
+Content-Transfer-Encoding: 7bit
+Date: Fri, 06 Nov 2026 11:10:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+x
+
+BCC header injected: false
