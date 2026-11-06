@@ -41,12 +41,6 @@ export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
     return { ok: true };
   }
 
-  const limit = checkContactLimit(await clientIp());
-  if (!limit.ok) {
-    logEvent('contact_rejected', { ref, reason: `rate_${limit.reason}` });
-    return { ok: false, ref, error: 'Wysłano już kilka wiadomości. Spróbuj ponownie później albo napisz bezpośrednio na e-mail.' };
-  }
-
   const parsed = contactSchema.safeParse({
     name: text(fd, 'name'),
     email: text(fd, 'email'),
@@ -82,6 +76,14 @@ export async function sendEmail(fd: FormData): Promise<SendEmailResult> {
       content,
       contentType: mime,
     });
+  }
+
+  // Limit liczy tylko poprawne zgłoszenia, które faktycznie trafiłyby do wysyłki —
+  // błędy walidacji (np. literówka w e-mailu) nie zużywają limitu.
+  const limit = checkContactLimit(await clientIp());
+  if (!limit.ok) {
+    logEvent('contact_rejected', { ref, reason: `rate_${limit.reason}` });
+    return { ok: false, ref, error: 'Wysłano już kilka wiadomości. Spróbuj ponownie później albo napisz bezpośrednio na e-mail.' };
   }
 
   const env = mailEnv();
