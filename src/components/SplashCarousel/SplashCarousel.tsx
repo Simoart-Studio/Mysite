@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
-import { AnimatePresence, motion, useInView, useReducedMotion, type PanInfo } from 'framer-motion';
+import { AnimatePresence, m, useInView, useReducedMotion, type PanInfo } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import styles from './SplashCarousel.module.scss';
 
@@ -86,7 +86,7 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
 
         <div className={styles.viewport}>
           <AnimatePresence initial={false} mode="wait" custom={dir}>
-            <motion.div
+            <m.div
               key={index}
               className={styles.slide}
               role="group"
@@ -120,7 +120,7 @@ export function SplashCarousel({ slides, label }: { slides: SplashSlide[]; label
                   <path className={styles.tailStroke} d="M0.75 0 L0.75 20.4 Q0.75 21.4 1.6 20.8 L28 0" />
                 </svg>
               </div>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
 

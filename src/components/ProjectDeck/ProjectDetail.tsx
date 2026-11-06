@@ -7,7 +7,7 @@ import {
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion';
 import type { Project, ProjectImage } from '@/types/project';
 import { TODO } from '@/lib/projects';
 import { lockScroll } from '@/lib/scrollLock';
@@ -96,7 +96,7 @@ export function ProjectDetail({
   return createPortal(
     <AnimatePresence onExitComplete={() => onClose(index)}>
       {visible && (
-        <motion.div
+        <m.div
           key="detail"
           className={styles.backdrop}
           initial={{ opacity: 0 }}
@@ -105,7 +105,7 @@ export function ProjectDetail({
           transition={{ duration: reduced ? 0.15 : 0.3 }}
           onMouseDown={(e) => { if (e.target === e.currentTarget) requestClose(); }}
         >
-          <motion.div
+          <m.div
             ref={panelRef}
             className={styles.panel}
             role="dialog"
@@ -163,7 +163,7 @@ export function ProjectDetail({
                   >
                     {t === 'opis' ? 'Opis' : 'Wygląd'}
                     {tab === t && !reduced && (
-                      <motion.span layoutId={`${uid}-ink`} className={styles.tabInk} />
+                      <m.span layoutId={`${uid}-ink`} className={styles.tabInk} />
                     )}
                     {tab === t && reduced && <span className={styles.tabInk} />}
                   </button>
@@ -260,7 +260,7 @@ export function ProjectDetail({
                 )}
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           <AnimatePresence>
             {lightbox !== null && shots[lightbox] && (
@@ -278,7 +278,7 @@ export function ProjectDetail({
               />
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>,
     document.body,
@@ -315,7 +315,7 @@ function Lightbox({
   }, []);
 
   return (
-    <motion.div
+    <m.div
       ref={rootRef}
       className={styles.lightbox}
       role="dialog"
@@ -355,6 +355,6 @@ function Lightbox({
           </button>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

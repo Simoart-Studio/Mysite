@@ -1,88 +1,33 @@
-# Deploy — Szymon Pochopień Portfolio
+# Deploy — SimoArt studio
 
-## 1. Przygotowanie przed deployem
+Hosting: Vercel (integracja z GitHub). `main` → produkcja, inne gałęzie → preview.
+Procedury operacyjne (rollback, rotacja sekretów, incydenty): [docs/RUNBOOK.md](docs/RUNBOOK.md).
 
-### Zmień domenę w lib/metadata.ts
-```
-SITE_URL = 'https://twoja-domena.pl'
-```
-To samo URL pojawi się automatycznie w: sitemap, robots, OG metadata, JSON-LD Schema.
+## Zmienne środowiskowe
 
-### Projekty i zrzuty ekranu
-Zobacz README → „Projekty: dane z GitHuba + nadpisania”. Zrzuty: `public/projects/<slug>/*.webp`.
+Opis każdej zmiennej: [.env.example](.env.example). Ustawiasz je w Vercel → Settings → Environment Variables.
 
-### Zaktualizuj URL-e socialowe w lib/schema.ts
-```ts
-sameAs: ['https://linkedin.com/in/TWOJ_PROFIL', 'https://github.com/TWOJ_NICK']
-```
-Oraz w Contact.tsx (href linków LinkedIn i GitHub).
+| Zmienna | Środowisko | Wymagana |
+|---|---|---|
+| `GMAIL_USER` | Production (+ Preview, jeśli formularz ma działać w preview) | tak — build produkcyjny bez niej kończy się błędem |
+| `GMAIL_APP_PASSWORD` | jw. | tak |
+| `GITHUB_TOKEN` | Production, Preview | nie (tylko odczyt, dane repozytoriów przy buildzie) |
 
-### Currently section
-Zaktualizuj bieżącą książkę w `src/components/sections/Currently/Currently.tsx`.
+`npm run build` uruchamia najpierw `scripts/check-env.mjs` (walidacja zmiennych), potem `scripts/fetch-projects.mjs` (dane z GitHuba).
 
----
+## Domena
 
-## 2. Vercel Deploy
+1. Vercel → Project → Settings → Domains → dodaj `szymonfrontend.pl` i `www.szymonfrontend.pl`.
+2. U rejestratora ustaw rekordy pokazane przez Vercel (A dla domeny głównej, CNAME dla `www`).
+3. Wybierz jedną wersję hosta jako główną; druga przekierowuje 308.
+4. Po działającej domenie zmień `SITE_URL` w `src/lib/metadata.ts` oraz `Canonical`/`Policy` w `public/.well-known/security.txt`, wdróż i zgłoś sitemapę w Google Search Console.
 
-### Opcja A — Vercel CLI (zalecane)
-```bash
-npm i -g vercel
-vercel login
-vercel --prod
-```
+## Przed wdrożeniem na produkcję
 
-### Opcja B — GitHub Import
-1. Push repo do GitHub: `git init && git add . && git commit -m "init" && git remote add origin [URL] && git push -u origin main`
-2. Wejdź na vercel.com → Add New Project → Import z GitHub
-3. Framework: Next.js (auto-detected)
-4. Kliknij Deploy
+- [ ] CI zielone (typecheck, lint, audit, build, testy E2E) — `.github/workflows/ci.yml`
+- [ ] Zmiany w formularzu lub zależnościach → wiadomość testowa po wdrożeniu
+- [ ] Po wdrożeniu: workflow „Smoke (produkcja)” zielony
 
----
+## Analityka
 
-## 3. Konfiguracja domeny w Vercel
-
-1. Vercel Dashboard → Project → Settings → Domains
-2. Dodaj domenę: `twoja-domena.pl`
-3. Vercel pokaże rekordy DNS do ustawienia u rejestratora:
-   - **A record**: `76.76.21.21`
-   - **CNAME www**: `cname.vercel-dns.com`
-4. Poczekaj do 24h na propagację DNS
-
----
-
-## 4. Zmienne środowiskowe
-Vercel Dashboard → Settings → Environment Variables:
-- `GMAIL_USER`, `GMAIL_APP_PASSWORD` — formularz kontaktowy (wymagane)
-- `GITHUB_TOKEN` — opcjonalnie, tylko odczyt; dane repozytoriów do talii przy buildzie
-
----
-
-## 5. Checklist przed launche'em
-
-- [ ] Prawdziwe screenshoty projektów (WebP, <300KB)
-- [ ] SITE_URL ustawiony na finalną domenę
-- [ ] LinkedIn/GitHub URL poprawne
-- [ ] Calendly link aktywny: https://calendly.com/szymon-pochopien01/30min
-- [ ] `npm run build` bez błędów
-- [ ] Lighthouse audit: Performance 95+, Accessibility 100, SEO 100
-- [ ] Test mobile: 375px (iPhone SE), 390px (iPhone 14), 430px (iPhone 15 Plus)
-- [ ] Test tablet: 768px
-- [ ] Test desktop: 1280px, 1920px
-- [ ] favicon.ico + apple-touch-icon.png dodane do /public
-
----
-
-## 6. Generowanie faviconów
-
-Zalecane: realfavicongenerator.net
-1. Upload logo/monogram SP w wysokiej rozdzielczości
-2. Pobierz paczkę — wgraj do `/public`
-3. Dodaj `<link>` tagi z wygenerowanego kodu do `src/app/layout.tsx` (w `<head>`)
-
----
-
-## 7. Analytics
-
-@vercel/analytics i @vercel/speed-insights są już zainstalowane i wgrane w `layout.tsx`.
-Automatycznie aktywują się po pierwszym deploy na Vercel.
-Podgląd: Vercel Dashboard → Analytics / Speed Insights
+`@vercel/analytics` i `@vercel/speed-insights` (bez cookies) są w `src/app/layout.tsx`. Opis w polityce prywatności (sekcja 5).

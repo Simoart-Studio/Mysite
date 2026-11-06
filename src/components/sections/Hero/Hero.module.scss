@@ -84,11 +84,18 @@
   margin-top: var(--s-2);
 }
 
-/* Unoszące się miniatury po bokach */
 .enter {
   animation: heroEnter 0.8s var(--ease-out) both;
 
   @include reduced-motion { animation: none; }
+}
+
+/* Nagłówek (element LCP) jest widoczny od pierwszej klatki — animujemy tylko przesunięcie. */
+.h1.enter { animation-name: heroRise; }
+
+@keyframes heroRise {
+  from { transform: translateY(14px); }
+  to   { transform: none; }
 }
 
 @keyframes heroEnter {

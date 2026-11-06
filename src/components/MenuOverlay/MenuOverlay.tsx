@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { useOverlay } from '@/context/OverlayContext';
 import { scrollToTarget } from '@/lib/scrollLock';
@@ -47,7 +47,7 @@ export function MenuOverlay() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           key="menu-backdrop"
           className={styles.backdrop}
           onClick={close}
@@ -59,7 +59,7 @@ export function MenuOverlay() {
         />
       )}
       {isOpen && (
-        <motion.div
+        <m.div
           key="menu-panel"
           ref={panelRef}
           id="menu-overlay"
@@ -76,7 +76,7 @@ export function MenuOverlay() {
           <nav aria-label="Menu główne">
             <ul className={styles.list}>
               {ITEMS.map((item, i) => (
-                <motion.li
+                <m.li
                   key={item.id}
                   initial={reduced ? false : { opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -86,7 +86,7 @@ export function MenuOverlay() {
                     <span className={styles.label}>{item.label}</span>
                     <span className={styles.icon} aria-hidden="true"><ArrowUpRight size={16} /></span>
                   </a>
-                </motion.li>
+                </m.li>
               ))}
             </ul>
           </nav>
@@ -100,7 +100,7 @@ export function MenuOverlay() {
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             {PHONE && <a href={phoneHref(PHONE)}>{PHONE}</a>}
           </p>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

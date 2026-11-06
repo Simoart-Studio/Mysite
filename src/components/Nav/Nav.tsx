@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { BRAND } from '@/data/config';
 import { scrollToTarget } from '@/lib/scrollLock';
@@ -69,7 +69,7 @@ export function Nav() {
   }
 
   return (
-    <motion.header
+    <m.header
       className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
       role="banner"
       animate={{ y: navHidden && !menuOpen ? '-110%' : '0%' }}
@@ -125,6 +125,6 @@ export function Nav() {
         </div>
       </div>
 
-    </motion.header>
+    </m.header>
   );
 }

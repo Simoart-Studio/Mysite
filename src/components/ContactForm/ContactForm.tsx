@@ -6,7 +6,8 @@ import { Paperclip, Check } from 'lucide-react';
 import { sendEmail } from '@/app/actions/sendEmail';
 import { useOverlay } from '@/context/OverlayContext';
 import { ATTACHMENT_MAX_MB, ATTACHMENT_ACCEPT } from '@/data/config';
-import { BUDGETS, GOALS, contactSchema, fieldErrors, type ContactField, type ContactInput } from '@/lib/contactSchema';
+import { BUDGETS, GOALS } from '@/lib/contactOptions';
+import type { ContactField, ContactInput } from '@/lib/contactSchema';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './ContactForm.module.scss';
 
@@ -16,7 +17,9 @@ type Errors = Partial<Record<Field, string>>;
 
 const MAX_BYTES = ATTACHMENT_MAX_MB * 1024 * 1024;
 
-function validate(input: Record<keyof ContactInput, unknown>, file: File | null): Errors {
+async function validate(input: Record<keyof ContactInput, unknown>, file: File | null): Promise<Errors> {
+  // Schemat (Zod) ładowany na żądanie — nie obciąża pierwszego wczytania strony.
+  const { contactSchema, fieldErrors } = await import('@/lib/contactSchema');
   const r = contactSchema.safeParse(input);
   const e: Errors = r.success ? {} : fieldErrors(r.error);
   if (file && file.size > MAX_BYTES) e.attachment = `Plik ma ${(file.size / 1024 / 1024).toFixed(1)} MB. Limit to ${ATTACHMENT_MAX_MB} MB.`;
@@ -54,7 +57,7 @@ export function ContactForm() {
 
   async function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault();
-    const errs = validate({ name, email, goal, budget, siteUrl, message, consent }, file);
+    const errs = await validate({ name, email, goal, budget, siteUrl, message, consent }, file);
     if (Object.keys(errs).length) {
       setErrors(errs);
       const first = FIELD_ORDER.find((f) => errs[f]);

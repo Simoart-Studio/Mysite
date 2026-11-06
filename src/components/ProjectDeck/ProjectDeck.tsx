@@ -5,7 +5,7 @@ import {
   type KeyboardEvent, type ReactNode,
 } from 'react';
 import dynamic from 'next/dynamic';
-import { motion, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
+import { m, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
 import { ArrowRight, LayoutGrid, Layers, RotateCcw, Undo2 } from 'lucide-react';
 import type { Project } from '@/types/project';
 import { CardBack, CardFront } from './CardFaces';
@@ -181,7 +181,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
         <div className={styles.listWrap}>{grid}</div>
       ) : (
         <div className={styles.stage}>
-          <motion.div
+          <m.div
             className={styles.slot}
             aria-hidden={revealed < n}
             animate={{ x: stackX, opacity: revealed >= n ? 1 : 0 }}
@@ -197,7 +197,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
             >
               <RotateCcw size={18} aria-hidden="true" />
             </button>
-          </motion.div>
+          </m.div>
 
           {projects.map((p, i) => {
             const ps = pose(i);
@@ -231,7 +231,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
             const showFront = i <= revealed;
 
             const inner = (
-              <motion.span
+              <m.span
                 className={styles.flipper}
                 initial={false}
                 animate={{ rotateY: ps.faceUp ? 0 : 180 }}
@@ -243,13 +243,14 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                 <span className={styles.faceBack}>
                   <CardBack art={i === revealed || moving} />
                 </span>
-              </motion.span>
+              </m.span>
             );
 
             return (
-              <motion.div
+              <m.div
                 key={p.slug}
                 className={styles.card}
+                data-deck-card
                 initial={false}
                 animate={animate}
                 transition={transition}
@@ -257,7 +258,7 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                 aria-hidden={!interactive}
               >
                 {interactive ? (
-                  <motion.button
+                  <m.button
                     data-top={isStackTop ? 'stack' : 'pile'}
                     type="button"
                     className={styles.cardBtn}
@@ -284,11 +285,11 @@ export function ProjectDeck({ projects, grid }: { projects: Project[]; grid: Rea
                         : `${p.name}${p.tagline ? `: ${p.tagline}` : ''}. Otwórz szczegóły projektu`}
                     </span>
                     <span aria-hidden="true" className={isStackTop ? styles.invite : styles.innerWrap}>{inner}</span>
-                  </motion.button>
+                  </m.button>
                 ) : (
                   <span className={styles.cardBtn} inert>{inner}</span>
                 )}
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
