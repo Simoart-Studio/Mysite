@@ -69,3 +69,13 @@ Do tego czasu decyzja pozostaje **NOT READY** (NG-1). Po ich zamknięciu i decyz
 Wnioski: SEC-031, HDR-*, SEC-018, SEC-036, PERF-001 (lab, próg 2,5 s), PRIV-002 — **PASS na produkcji**. Poprawka po wdrożeniu: limit wysyłek liczy tylko poprawne zgłoszenia (`15bd2c1`) — wcześniej nieudane próby walidacji blokowały formularz.
 
 **Decyzja nadal NOT READY** — otwarte P0 wymagające działania właściciela: PRIV-073, PRIV-040, LOG-010, LOG-011, INF-024/REL-007/QA-022 (szczegóły wyżej, „Prognoza decyzji”).
+
+## Aktualizacja — 2026-11-06 (informacje od właściciela)
+
+| Punkt | Status | Uzasadnienie |
+|---|---|---|
+| PRIV-073 | **PASS** | Właściciel nie prowadzi działalności gospodarczej — wystarczy imię, nazwisko i e-mail. Po założeniu JDG: dopisać adres i NIP. |
+| SEO-022, INF-005, INF-007 | **PASS / N/A** | Brak własnej domeny — jedynym hostem jest `sp-flow.vercel.app` (spójnie w canonical, sitemap, `SITE_URL`). Kontrola domeny usunięta ze smoke do czasu jej zakupu. |
+| QA-010, REL-020 | **PASS** (poprawka) | Smoke po wdrożeniu testował chroniony adres wdrożenia (`*-kameleon1312s-projects.vercel.app` → strona logowania Vercel). Teraz zawsze testuje adres produkcyjny. |
+
+Pozostałe otwarte P0: PRIV-040, LOG-010, LOG-011, INF-024/REL-007/QA-022.

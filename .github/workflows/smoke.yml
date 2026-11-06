@@ -29,7 +29,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Testy @smoke (tylko odczyt)
         env:
-          BASE_URL: ${{ github.event.deployment_status.environment_url || env.PROD_URL }}
+          # Zawsze publiczny adres produkcji — unikalne adresy wdrożeń Vercel są chronione logowaniem.
+          BASE_URL: ${{ env.PROD_URL }}
         run: npm run test:smoke
       - name: Certyfikat ważny ≥ 14 dni
         run: |
@@ -39,15 +40,5 @@ jobs:
           echo "Certyfikat $host wygasa za $left dni"
           test "$left" -ge 14
 
-  domain:
-    name: Domena własna odpowiada
-    if: github.event_name != 'deployment_status'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - run: |
-          for u in https://szymonfrontend.pl https://www.szymonfrontend.pl; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 20 "$u" || echo 000)
-            echo "$u → $code"
-            test "$code" = 200
-          done
+  # Kontrola własnej domeny — włącz po podpięciu domeny (zob. DEPLOY.md#domena):
+  # dodaj job sprawdzający, że https://<domena> zwraca 200.
