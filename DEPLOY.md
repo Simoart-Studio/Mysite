@@ -27,6 +27,7 @@ Opis każdej zmiennej: [.env.example](.env.example). Vercel → Project → *Set
 | `GMAIL_APP_PASSWORD` | jw. | **tak** | hasło aplikacji Google (16 znaków), nie hasło do konta |
 | `NEXT_PUBLIC_SITE_URL` | Production | nie | własna domena, np. `https://simoart.pl` (bez niej: domena produkcyjna Vercel) |
 | `GITHUB_TOKEN` | Production, Preview | nie | token tylko do odczytu — dane prywatnych repo w talii projektów |
+| `ALLOW_MISSING_MAIL` | Production | **tylko tymczasowo** | `1` = pozwala zbudować produkcję bez skrzynki Gmail (formularz pokazuje „chwilowo niedostępny” i odsyła do e-maila/telefonu). **Usuń** zaraz po dodaniu `GMAIL_USER` i `GMAIL_APP_PASSWORD`. |
 
 `npm run build` uruchamia najpierw `scripts/check-env.mjs` (walidacja zmiennych), potem
 `scripts/fetch-projects.mjs` (dane z GitHuba; gdy API nie odpowiada, zostają ostatnie poprawne dane — build nie pada).
