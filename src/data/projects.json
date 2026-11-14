@@ -1,0 +1,307 @@
+{
+  "$comment": "Plik generowany przez scripts/fetch-projects.mjs. Nie edytuj ręcznie — użyj projects.overrides.json.",
+  "generatedAt": "2026-11-11T14:59:05.340Z",
+  "user": "kameleon1312",
+  "repos": [
+    {
+      "name": "Hydro",
+      "fullName": "Simoart-Studio/Hydro",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://hydrokotly.pl",
+      "url": "https://github.com/Simoart-Studio/Hydro",
+      "stars": 0,
+      "primaryLanguage": "Astro",
+      "createdAt": "2026-11-04T17:27:07Z",
+      "pushedAt": "2026-11-11T11:23:57Z",
+      "lastCommitAt": "2026-11-11T11:23:52Z",
+      "languages": [
+        {
+          "name": "Astro",
+          "percent": 55.3
+        },
+        {
+          "name": "TypeScript",
+          "percent": 23
+        },
+        {
+          "name": "JavaScript",
+          "percent": 19.8
+        },
+        {
+          "name": "CSS",
+          "percent": 1.8
+        }
+      ],
+      "readme": {
+        "summary": "Statyczna strona usługowa firmy instalacyjnej (pompy ciepła, kotły, instalacje hydrauliczne, dotacje). Działa bez backendu i bazy danych; kontakt to linki tel: i formularz wysyłany przez Worker Cloudflare. Cookies (tag Google) tylko po zgodzie odwiedzającego.",
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "BarberSpace",
+      "fullName": "kameleon1312/BarberSpace",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://barber-space.vercel.app",
+      "url": "https://github.com/kameleon1312/BarberSpace",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-01-14T23:21:48Z",
+      "pushedAt": "2026-04-24T11:07:15Z",
+      "lastCommitAt": "2026-04-24T11:07:08Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 49.5
+        },
+        {
+          "name": "SCSS",
+          "percent": 46.2
+        },
+        {
+          "name": "HTML",
+          "percent": 3.9
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.5
+        }
+      ],
+      "readme": {
+        "summary": "BarberSpace to landing page dla premium salonu barberskiego, zbudowany w stylu editorial — ciepłe tło jak papier, głęboka czerwień jako akcent, Barlow Condensed w roli kroju display. Inspiracja: NYC barbershop culture przez pryzmat magazynu Dazed.",
+        "features": [
+          "Hero — oversized display type, statystyki z animowanym licznikiem, zdjęcie 3:4",
+          "Services — numerowana lista + live preview z crossfade'em zdjęcia",
+          "Process — 4-krokowy grid z separatorami",
+          "Pricing — 4 karty, featured wariant, klik otwiera booking",
+          "Gallery — editorial portrait grid, hover overlay",
+          "Testimonials — blockquote cards, Playfair Display",
+          "Team — ciemna sekcja, monogram avatary",
+          "FAQ — accordion animowany przez grid-template-rows (zero JS height)",
+          "Slide-in panel z focus trapem i scroll lockiem",
+          "Stany: sending / success / error"
+        ],
+        "stack": [
+          "React 19 + TypeScript",
+          "SCSS Modules",
+          "Vite",
+          "EmailJS",
+          "Lenis"
+        ]
+      }
+    },
+    {
+      "name": "Fancyshop",
+      "fullName": "kameleon1312/Fancyshop",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://my-fancyshop.vercel.app",
+      "url": "https://github.com/kameleon1312/Fancyshop",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2025-12-06T19:47:21Z",
+      "pushedAt": "2026-05-25T12:55:58Z",
+      "lastCommitAt": "2026-05-25T12:55:53Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 53.5
+        },
+        {
+          "name": "SCSS",
+          "percent": 45.6
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.5
+        }
+      ],
+      "readme": {
+        "summary": "FancyShop to nowoczesny sklep e-commerce stworzony jako projekt portfolio front-end developera.",
+        "features": [
+          "Lista produktów z dynamicznymi danymi",
+          "Dodawanie produktów do koszyka",
+          "Liczenie ceny całkowitej",
+          "Pełna responsywność (mobile / tablet / desktop)",
+          "Nowoczesny, minimalistyczny design",
+          "Szybkie renderowanie i clean code"
+        ],
+        "stack": [
+          "React",
+          "JavaScript (ES6+)",
+          "SCSS / CSS Modules",
+          "Vite",
+          "React Router"
+        ]
+      }
+    },
+    {
+      "name": "TravelPoint",
+      "fullName": "kameleon1312/TravelPoint",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://travelpointdemo-web.vercel.app",
+      "url": "https://github.com/kameleon1312/TravelPoint",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-31T02:07:09Z",
+      "pushedAt": "2026-10-19T19:37:42Z",
+      "lastCommitAt": "2026-10-19T18:22:43Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 96.3
+        },
+        {
+          "name": "JavaScript",
+          "percent": 3
+        },
+        {
+          "name": "CSS",
+          "percent": 0.5
+        }
+      ],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "Pawflo",
+      "fullName": "kameleon1312/Pawflo",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://pawflo.vercel.app",
+      "url": "https://github.com/kameleon1312/Pawflo",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-07T11:17:55Z",
+      "pushedAt": "2026-05-09T18:20:14Z",
+      "lastCommitAt": "2026-05-09T18:19:55Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 96.6
+        },
+        {
+          "name": "MDX",
+          "percent": 2.6
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.6
+        }
+      ],
+      "readme": {
+        "summary": "Polish dog community + matchmaking application.",
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "Taskiner",
+      "fullName": "kameleon1312/Taskiner",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://taskiner.vercel.app",
+      "url": "https://github.com/kameleon1312/Taskiner",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-04-09T13:04:24Z",
+      "pushedAt": "2026-11-06T11:31:10Z",
+      "lastCommitAt": "2026-11-06T11:31:08Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 64.1
+        },
+        {
+          "name": "SCSS",
+          "percent": 33.4
+        },
+        {
+          "name": "JavaScript",
+          "percent": 2
+        }
+      ],
+      "readme": {
+        "summary": "Taskiner is a modern task management PWA built with React + Vite, designed for clarity, elegance, and real productivity. It combines glassmorphism visuals, smooth micro-animations, and smart features like the Eisenhower Matrix, streak tracking, and push notifications to create a workspace that feels premium.",
+        "features": [
+          "Add, edit, and delete tasks with full detail sheet (notes, subtasks, deadline, priority, recurring)",
+          "Deadlines with status indicators: Upcoming · Today · Overdue",
+          "Filter by: All / Active / Completed / Category",
+          "Drag-to-reorder tasks, swipe to complete or delete",
+          "Recurring tasks (daily / weekly / monthly)",
+          "⊞ Eisenhower Matrix — auto-classify tasks by urgency and importance",
+          "Weekly Review — Sunday evening summary with heatmap & KPIs",
+          "Streak tracking with danger notification at 20:00",
+          "Milestones & celebration screen",
+          "Morning Ritual — daily focus prompt"
+        ],
+        "stack": [
+          "React 19 + TypeScript",
+          "Sass (SCSS)",
+          "Zustand",
+          "LocalStorage API",
+          "Vite",
+          "Service Worker + Manifest",
+          "Framer Motion",
+          "Vercel"
+        ]
+      }
+    },
+    {
+      "name": "Buds---2D-freaky-game",
+      "fullName": "kameleon1312/Buds---2D-freaky-game",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://buds-game.vercel.app",
+      "url": "https://github.com/kameleon1312/Buds---2D-freaky-game",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-10-13T08:53:37Z",
+      "pushedAt": "2026-11-11T14:34:52Z",
+      "lastCommitAt": "2026-11-11T14:34:46Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 52.7
+        },
+        {
+          "name": "C#",
+          "percent": 43.3
+        },
+        {
+          "name": "CSS",
+          "percent": 1.8
+        },
+        {
+          "name": "PLpgSQL",
+          "percent": 1.7
+        }
+      ],
+      "readme": {
+        "summary": "Mobilne RPG o ziomkach z miasta: stwórz swojego Buda, rozkręć się w sześciu miastach,",
+        "features": [],
+        "stack": []
+      }
+    }
+  ]
+}

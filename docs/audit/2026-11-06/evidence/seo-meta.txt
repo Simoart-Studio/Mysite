@@ -1,0 +1,4 @@
+/ | title: Strony i aplikacje, które pracują dla Twojej firmy | SimoArt studio | canon: https://sp-flow.vercel.app | desc len: 151 | og:image: True | robots: index, follow | ld+json: 4
+/works | title: Wszystkie projekty | SimoArt studio | canon: https://sp-flow.vercel.app/works | desc len: 100 | og:image: True | robots: index, follow | ld+json: 2
+/works/buds | title: Buds: studium przypadku | SimoArt studio | canon: https://sp-flow.vercel.app/works/buds | desc len: 153 | og:image: True | robots: index, follow | ld+json: 4
+/polityka-prywatnosci | title: Polityka prywatności | SimoArt studio | canon: https://sp-flow.vercel.app/polityka-prywatnosci | desc len: 107 | og:image: True | robots: index, follow | ld+json: 2

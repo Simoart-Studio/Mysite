@@ -1,0 +1,115 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.label {
+  @include label;
+  color: var(--color-text-muted);
+  font-size: var(--fs-label);
+  line-height: 1.4;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  max-width: 60ch;
+}
+
+.text {
+  color: var(--color-text-muted);
+  max-width: 62ch;
+}
+
+.note {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--sand-200);
+}
+
+.todo {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  font-size: var(--fs-small);
+  font-style: normal;
+  color: var(--clay-ink);
+  background: var(--mint-soft);
+  border: 1px dashed var(--green-line);
+  border-radius: var(--r-pill);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-3);
+
+  @include respond-to('mobile') { grid-template-columns: 1fr; }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background: var(--cream);
+}
+
+/* Korzyści: pełna szerokość, wyróżnione */
+.gain {
+  grid-column: 1 / -1;
+  background: var(--mint-soft);
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: var(--s-3) var(--s-6);
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--green);
+  }
+}
+
+.stepLabel {
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+
+.stepText {
+  color: var(--cocoa);
+  font-size: 0.9375rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.linkPrimary { @include btn-primary; }
+

@@ -1,0 +1,202 @@
+.section {
+  padding-block: var(--s-24);
+
+  @include respond-to('mobile') { padding-block: var(--s-16); }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-10);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.headline {
+  font-size: var(--fs-h2);
+  color: var(--ink);
+}
+
+.intro {
+  max-width: 46ch;
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--s-8);
+  align-items: start;
+
+  @media (max-width: 1023px) { grid-template-columns: 1fr; }
+}
+
+/* Lista kroków */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px 12px 10px 20px;
+  text-align: left;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-text-muted);
+  border-radius: var(--r-pill);
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+
+  &:hover { color: var(--ink); background: var(--white); }
+  &:focus-visible { @include focus-ring; }
+}
+
+.stepOn {
+  color: var(--white);
+  background: var(--ink);
+
+  &:hover { color: var(--white); background: var(--ink); }
+  .stepIcon { color: var(--mint); }
+  .stepArrow { background: var(--mint); color: var(--on-mint); }
+}
+
+.stepIcon { color: var(--color-text-dim); }
+
+.stepArrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-spring);
+
+  .step:hover & { transform: translateX(2px); }
+}
+
+/* Panel (ciemny) */
+.aside {
+  @media (max-width: 1023px) { display: none; }
+}
+
+.inlinePanel {
+  display: none;
+
+  @media (max-width: 1023px) {
+    &[data-on='true'] { display: block; margin-top: 6px; }
+  }
+
+  :global(html:not(.js)) & { display: block; margin-top: 6px; }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding: var(--s-10);
+  color: #F3F5EF;
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgb(189 233 140 / 0.12), transparent 70%),
+    var(--surface-dark, var(--ink));
+  border-radius: var(--r-xl);
+  animation: panelIn 0.4s var(--ease-out);
+
+  &[hidden] { display: none; }
+
+  @include respond-to('mobile') { padding: var(--s-6); gap: var(--s-4); }
+  @include reduced-motion { animation: none; }
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panelLabel {
+  font-size: var(--fs-small);
+  color: #A3AEA5;
+}
+
+.effect {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  max-width: 16ch;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  li {
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-radius: var(--r-pill);
+    background: #26352C;
+    color: #E3EAE2;
+  }
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+  padding-top: var(--s-6);
+  border-top: 1px solid #2E3C34;
+
+  @include respond-to('mobile') { grid-template-columns: 1fr; gap: var(--s-4); }
+
+  dt {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: var(--fs-small);
+    font-weight: 600;
+
+    svg { color: var(--mint); }
+  }
+
+  dd {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #C9D1C8;
+  }
+}
+
+.accept {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-small);
+  font-weight: 500;
+
+  span {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--on-mint);
+  }
+}
+
+.footer {
+  display: flex;
+}

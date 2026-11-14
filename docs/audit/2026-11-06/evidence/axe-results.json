@@ -1,0 +1,354 @@
+{
+  "desktop /": [],
+  "desktop /works": [],
+  "desktop /works/barberspace": [],
+  "desktop /polityka-prywatnosci": [],
+  "desktop /nie-istnieje": [],
+  "mobile /": [],
+  "mobile /works": [],
+  "mobile /works/barberspace": [],
+  "mobile /polityka-prywatnosci": [],
+  "mobile /nie-istnieje": [],
+  "keyboard": [
+    {
+      "tag": "A",
+      "label": "Przejdź do treści",
+      "outline": true,
+      "w": 158,
+      "h": 46
+    },
+    {
+      "tag": "A",
+      "label": "SimoArt studio, strona główna",
+      "outline": true,
+      "w": 124,
+      "h": 52
+    },
+    {
+      "tag": "A",
+      "label": "Projekty",
+      "outline": true,
+      "w": 91,
+      "h": 42
+    },
+    {
+      "tag": "A",
+      "label": "Usługi",
+      "outline": true,
+      "w": 77,
+      "h": 42
+    },
+    {
+      "tag": "A",
+      "label": "Współpraca",
+      "outline": true,
+      "w": 115,
+      "h": 42
+    },
+    {
+      "tag": "A",
+      "label": "O mnie",
+      "outline": true,
+      "w": 83,
+      "h": 42
+    },
+    {
+      "tag": "A",
+      "label": "Porozmawiajmy",
+      "outline": true,
+      "w": 195,
+      "h": 54
+    },
+    {
+      "tag": "A",
+      "label": "Projekty",
+      "outline": true,
+      "w": 142,
+      "h": 54
+    },
+    {
+      "tag": "A",
+      "label": "Wszystkie projekty",
+      "outline": true,
+      "w": 215,
+      "h": 53
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Moje projekty. Odsłoń kartę 1 ",
+      "outline": true,
+      "w": 330,
+      "h": 462
+    },
+    {
+      "tag": "INPUT",
+      "label": "Postęp talii",
+      "outline": false,
+      "w": 224,
+      "h": 44
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Odsłoń następną kartę",
+      "outline": true,
+      "w": 56,
+      "h": 56
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Widok listy",
+      "outline": true,
+      "w": 46,
+      "h": 46
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 13,
+      "h": 13
+    },
+    {
+      "tag": "A",
+      "label": "Porozmawiajmy",
+      "outline": true,
+      "w": 193,
+      "h": 53
+    },
+    {
+      "tag": "A",
+      "label": "Podobny projekt: BarberSpace ↗",
+      "outline": true,
+      "w": 466,
+      "h": 291
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Poprzednia zasada",
+      "outline": true,
+      "w": 46,
+      "h": 46
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Następna zasada",
+      "outline": true,
+      "w": 46,
+      "h": 46
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Ustalamy kierunek",
+      "outline": true,
+      "w": 466,
+      "h": 59
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Projektuję",
+      "outline": true,
+      "w": 466,
+      "h": 59
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Wdrażam",
+      "outline": true,
+      "w": 466,
+      "h": 59
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Dbam o rozwój",
+      "outline": true,
+      "w": 466,
+      "h": 59
+    },
+    {
+      "tag": "A",
+      "label": "Zacznijmy od rozmowy",
+      "outline": true,
+      "w": 243,
+      "h": 53
+    },
+    {
+      "tag": "A",
+      "label": "Porozmawiajmy o Twoim projekci",
+      "outline": true,
+      "w": 322,
+      "h": 53
+    },
+    {
+      "tag": "A",
+      "label": "szymon.pochopien01@gmail.com",
+      "outline": true,
+      "w": 236,
+      "h": 24
+    },
+    {
+      "tag": "A",
+      "label": "+48 793 950 330",
+      "outline": true,
+      "w": 122,
+      "h": 24
+    },
+    {
+      "tag": "A",
+      "label": "Umów 30 minut rozmowy ↗",
+      "outline": true,
+      "w": 193,
+      "h": 24
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 238,
+      "h": 53
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 238,
+      "h": 53
+    },
+    {
+      "tag": "SELECT",
+      "label": "WybierzStrona firmowaSklep int",
+      "outline": true,
+      "w": 238,
+      "h": 53
+    },
+    {
+      "tag": "SELECT",
+      "label": "WybierzDo 5 000 zł5 000 – 10 0",
+      "outline": true,
+      "w": 238,
+      "h": 53
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 492,
+      "h": 53
+    },
+    {
+      "tag": "TEXTAREA",
+      "label": "",
+      "outline": true,
+      "w": 492,
+      "h": 150
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "tag": "INPUT",
+      "label": "",
+      "outline": true,
+      "w": 18,
+      "h": 18
+    },
+    {
+      "tag": "A",
+      "label": "Polityka prywatności",
+      "outline": true,
+      "w": 124,
+      "h": 16
+    },
+    {
+      "tag": "BUTTON",
+      "label": "Wyślij",
+      "outline": true,
+      "w": 124,
+      "h": 53
+    },
+    {
+      "tag": "A",
+      "label": "SimoArt",
+      "outline": true,
+      "w": 83,
+      "h": 32
+    },
+    {
+      "tag": "A",
+      "label": "Projekty",
+      "outline": true,
+      "w": 55,
+      "h": 17
+    },
+    {
+      "tag": "A",
+      "label": "Usługi",
+      "outline": true,
+      "w": 41,
+      "h": 17
+    },
+    {
+      "tag": "A",
+      "label": "Współpraca",
+      "outline": true,
+      "w": 79,
+      "h": 17
+    },
+    {
+      "tag": "A",
+      "label": "O mnie",
+      "outline": true,
+      "w": 47,
+      "h": 17
+    },
+    {
+      "tag": "A",
+      "label": "Kontakt",
+      "outline": true,
+      "w": 51,
+      "h": 17
+    },
+    {
+      "tag": "A",
+      "label": "szymon.pochopien01@gmail.com",
+      "outline": true,
+      "w": 227,
+      "h": 22
+    },
+    {
+      "tag": "A",
+      "label": "GitHub",
+      "outline": true,
+      "w": 42,
+      "h": 21
+    }
+  ],
+  "reflow320 /": 0,
+  "reflow320 /works": 0,
+  "reflow320 /polityka-prywatnosci": 0,
+  "headings": [
+    "H1 Tworzymy spójną wizję,wizje tworzą dzieł",
+    "H2 Wybrane projekty.",
+    "H3 BarberSpace",
+    "H3 FancyShop",
+    "H3 TravelPoint",
+    "H3 Pawflo",
+    "H3 Taskiner",
+    "H3 Buds",
+    "H2 Co chcesz zbudować?",
+    "H2 Trzy zasady.",
+    "H3 Cel przed narzędziem.Cel przed narzędzie",
+    "H2 Dobry projekt.Jasna współpraca.",
+    "H2 Za projektem stoi konkretna osoba.",
+    "H2 Porozmawiajmy o projekcie."
+  ],
+  "landmarks": [
+    "header:5",
+    "nav:2",
+    "main:1",
+    "footer:1"
+  ]
+}

@@ -1,0 +1,3 @@
+/ Performance 95 | Accessibility 100 | Best 100 | SEO 100 | LCP 2.5 s | TBT 160 ms | CLS 0 | script 236KB font 53KB
+/works Performance 99 | Accessibility 100 | Best 100 | SEO 100 | LCP 2.1 s | TBT 80 ms | CLS 0 | script 236KB font 53KB
+/works/travelpoint Performance 100 | Accessibility 100 | Best 100 | SEO 100 | LCP 1.2 s | TBT 70 ms | CLS 0 | script 241KB font 53KB

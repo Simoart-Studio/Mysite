@@ -1,0 +1,67 @@
+{
+  "brak zgody": {
+    "status": 200,
+    "ms": 29,
+    "body": "1:{\"ok\":false,\"field\":\"consent\",\"error\":\"Potrzebuję zgody na przetwarzanie danych, żeby odpowiedzieć.\"}"
+  },
+  "zły email": {
+    "status": 200,
+    "ms": 8,
+    "body": "1:{\"ok\":false,\"field\":\"email\",\"error\":\"Podaj poprawny adres e-mail.\"}"
+  },
+  "email z przecinkiem (2 adresy)": {
+    "status": 200,
+    "ms": 6,
+    "body": "1:{\"ok\":false,\"field\":\"email\",\"error\":\"Podaj poprawny adres e-mail.\"}"
+  },
+  "CRLF w imieniu": {
+    "status": 200,
+    "ms": 8,
+    "body": "1:{\"ok\":false,\"error\":\"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.\"}"
+  },
+  "XSS w wiadomości": {
+    "status": 200,
+    "ms": 4,
+    "body": "1:{\"ok\":false,\"error\":\"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.\"}"
+  },
+  "bardzo długa wiadomość (100k)": {
+    "status": 200,
+    "ms": 7,
+    "body": "1:{\"ok\":false,\"error\":\"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.\"}"
+  },
+  "honeypot wypełniony": {
+    "status": 200,
+    "ms": 5,
+    "body": "1:{\"ok\":true}"
+  },
+  "nieznane pole __proto__": {
+    "status": 200,
+    "ms": 5,
+    "body": "1:{\"ok\":false,\"error\":\"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.\"}"
+  },
+  "plik .exe udający PDF (MIME z klienta)": {
+    "status": 200,
+    "ms": 6,
+    "body": "1:{\"ok\":false,\"error\":\"Formularz jest chwilowo niedostępny. Napisz bezpośrednio na e-mail.\"}"
+  },
+  "plik HTML z MIME text/html": {
+    "status": 200,
+    "ms": 5,
+    "body": "1:{\"ok\":false,\"field\":\"attachment\",\"error\":\"Dozwolone pliki: PDF, PNG, JPG, WEBP, DOCX.\"}"
+  },
+  "plik 6 MB": {
+    "status": 400,
+    "ms": 29,
+    "body": ""
+  },
+  "30 żądań pod rząd": {
+    "statuses": {
+      "200": 30
+    },
+    "ms": 129
+  },
+  "POST z obcym Origin": {
+    "status": 500,
+    "body": "0:{\"a\":\"$@1\",\"f\":\"\",\"q\":\"\",\"i\":false,\"b\":\"-9inJ-ZJNPhmYoXVngGAL\"}\n1:E{\"digest\":\"797889394@E80\"}\n"
+  }
+}

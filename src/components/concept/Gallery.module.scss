@@ -1,0 +1,231 @@
+$soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+.section {
+  --p: 0;
+  position: relative;
+  z-index: 1;
+  height: 500vh; /* nadpisywane z JS: długość pasa */
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: 100%; /* pas jest szerszy niż ekran — nie może rozpychać kolumny */
+  height: 100vh;
+  height: 100svh;
+  padding: 92px 0 30px;
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-inline: clamp(16px, 5vw, 72px);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(236 239 234 / 0.5);
+
+  span { color: #ECEFEA; margin-right: 8px; }
+}
+
+.count {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: rgb(236 239 234 / 0.45);
+  font-variant-numeric: tabular-nums;
+  span { color: #ECEFEA; }
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 7vw, 120px);
+  width: max-content;
+  height: 100%;
+  padding-inline: clamp(16px, 9vw, 160px) clamp(16px, 9vw, 160px);
+  will-change: transform;
+}
+
+/* ── Panel projektu ── */
+.panel {
+  --e: 0;
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: min(74vw, 980px);
+  color: inherit;
+  outline: none;
+
+  &:focus-visible .shot { outline: 2px solid #A8EE6A; outline-offset: 6px; }
+}
+
+.idx {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  font-size: clamp(4.5rem, 11vw, 10rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(236 239 234 / 0.28);
+  transform: translate(calc(-30% + var(--e) * 90px), -34%);
+  pointer-events: none;
+}
+
+.shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #121614;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.07), 0 40px 90px -50px var(--c);
+  /* odsłanianie przy wjeździe: lewa krawędź otwiera się razem z ruchem pasa */
+  clip-path: inset(0 0 0 clamp(0%, calc((var(--e) - 0.28) * 130%), 100%) round 18px);
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: top center;
+    transform: translateX(calc(var(--e) * -3%)) scale(1.06);
+    transition: scale 1s $soft, filter 0.6s $soft;
+  }
+}
+
+.phone {
+  position: absolute;
+  z-index: 3;
+  right: -3%;
+  bottom: 52px;
+  width: 17%;
+  aspect-ratio: 390 / 844;
+  overflow: hidden;
+  border: 5px solid #0A0C0B;
+  border-radius: 24px;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12), 0 30px 60px -18px rgb(0 0 0 / 0.85);
+  /* telefon „dogania” ekran: wjeżdża z opóźnieniem i nie wchodzi na sąsiedni projekt */
+  transform: translate(calc(var(--e) * 150px), calc(var(--e) * 40px)) rotate(calc(var(--e) * 6deg));
+
+  img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: top; }
+}
+
+.info {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding-inline: 4px;
+}
+
+.name {
+  position: relative;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  transition: color 0.4s $soft;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 0.32em;
+    height: 0.32em;
+    margin-right: 0.4em;
+    vertical-align: 0.18em;
+    border-radius: 3px;
+    background: var(--c);
+  }
+}
+
+.kind {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: rgb(236 239 234 / 0.5);
+}
+
+.arrow {
+  margin-left: auto;
+  align-self: center;
+  color: rgb(236 239 234 / 0.4);
+  transition: transform 0.45s $soft, color 0.45s;
+}
+
+@media (hover: hover) {
+  .panel:hover .shot img { scale: 1.035; }
+  .panel:hover .name { color: var(--c); }
+  .panel:hover .arrow { color: var(--c); transform: translate(4px, -4px); }
+}
+
+/* ── Na końcu: wszystkie projekty ── */
+.all {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  padding-inline: clamp(24px, 6vw, 80px);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: rgb(236 239 234 / 0.75);
+  outline: none;
+
+  &:focus-visible .allCircle { outline: 2px solid #A8EE6A; outline-offset: 6px; }
+}
+
+.allCircle {
+  display: grid;
+  place-items: center;
+  width: clamp(120px, 14vw, 180px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgb(236 239 234 / 0.25);
+  transition: background 0.5s $soft, color 0.5s, transform 0.6s $soft, border-color 0.5s;
+}
+
+@media (hover: hover) {
+  .all:hover .allCircle { background: #ECEFEA; color: #060807; border-color: #ECEFEA; transform: rotate(45deg); }
+}
+
+.progress {
+  flex: 1;
+  height: 1px;
+  background: rgb(236 239 234 / 0.12);
+
+  i {
+    display: block;
+    height: 100%;
+    background: #ECEFEA;
+    transform-origin: left;
+    transform: scaleX(var(--p));
+  }
+}
+
+@media (max-width: 699px) {
+  .panel { width: 84vw; }
+  .shot { aspect-ratio: 4 / 3.4; }
+  .phone { width: 31%; right: -4%; bottom: 40px; border-width: 4px; border-radius: 16px; }
+  .info { flex-wrap: wrap; gap: 4px 12px; }
+  .arrow { display: none; }
+}
+
+/* ── Ograniczony ruch / bez JS: zwykły pas przewijany w bok ── */
+.static, :global(html:not(.js)) .section {
+  height: auto;
+
+  .sticky { position: relative; height: auto; padding-block: 96px; overflow: visible; }
+  .track { width: auto; overflow-x: auto; scroll-snap-type: x mandatory; padding-block: 60px 20px; }
+  .panel, .all { scroll-snap-align: center; flex: 0 0 auto; }
+  .shot { clip-path: none; }
+  .shot img, .phone, .idx { transform: none; }
+  .progress { display: none; }
+}

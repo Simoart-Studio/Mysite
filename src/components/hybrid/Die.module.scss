@@ -1,0 +1,207 @@
+/* ── Scena kostki: unoszenie, podskok przy rzucie, cień na podłodze ── */
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(var(--s) * 1.9);
+  height: calc(var(--s) * 1.9);
+  perspective: calc(var(--s) * 7);
+}
+
+.lift {
+  display: grid;
+  place-items: center;
+  animation: float 5.5s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.jump { animation: jump 1.25s cubic-bezier(0.3, 0, 0.3, 1), float 5.5s ease-in-out 1.25s infinite; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(calc(var(--s) * -0.07)); }
+}
+
+@keyframes jump {
+  0%   { transform: translateY(0); }
+  12%  { transform: translateY(calc(var(--s) * 0.06)) scale(1.04, 0.94); }
+  42%  { transform: translateY(calc(var(--s) * -0.85)); }
+  72%  { transform: translateY(0); }
+  80%  { transform: translateY(calc(var(--s) * -0.14)); }
+  90%  { transform: translateY(0); }
+  95%  { transform: translateY(calc(var(--s) * -0.03)); }
+  100% { transform: translateY(0); }
+}
+
+.grab {
+  display: grid;
+  place-items: center;
+  width: var(--s);
+  height: var(--s);
+  cursor: grab;
+  touch-action: none;
+  transform-style: preserve-3d;
+  &:active { cursor: grabbing; }
+}
+
+.shadow {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--s) * 0.12);
+  width: calc(var(--s) * 1.15);
+  height: calc(var(--s) * 0.22);
+  margin-left: calc(var(--s) * -0.575);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.65), rgb(0 0 0 / 0.25) 55%, transparent);
+  animation: shadowFloat 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.shadowJump { animation: shadowJump 1.25s cubic-bezier(0.3, 0, 0.3, 1), shadowFloat 5.5s ease-in-out 1.25s infinite; }
+
+@keyframes shadowFloat { 50% { transform: scale(0.88); opacity: 0.8; } }
+@keyframes shadowJump {
+  42% { transform: scale(0.45); opacity: 0.35; }
+  72% { transform: scale(1.05); opacity: 1; }
+}
+
+/* ── Bryła ── */
+.cube {
+  --half: calc(var(--s) / 2);
+  --body: color-mix(in oklab, var(--c), #000 22%);
+  position: relative;
+  display: block;
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;
+}
+
+/* Trzy płaszczyzny w środku wypełniają narożniki zaokrąglonych ścianek — bryła bez prześwitów */
+.core {
+  position: absolute;
+  inset: 1.5%;
+  background: var(--body);
+  border-radius: calc(var(--r) * 0.6);
+}
+.coreY { transform: rotateY(90deg); }
+.coreX { transform: rotateX(90deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--r);
+  backface-visibility: hidden;
+  transition: border-radius 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* światło liczone z obrotu: cień i odblask nakładane na ściankę */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(rgb(255 255 255 / var(--hl)), rgb(255 255 255 / var(--hl))),
+      linear-gradient(rgb(0 0 0 / var(--shade)), rgb(0 0 0 / var(--shade)));
+    pointer-events: none;
+  }
+}
+
+.letter {
+  position: relative;
+  z-index: 1;
+  font-size: calc(var(--s) * 0.56);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.pips {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--s) * 0.07);
+  width: 62%;
+  height: 62%;
+
+  i { display: block; border-radius: 50%; }
+}
+
+/* ── Materiały ── */
+.cube[data-material='mat'] {
+  .face {
+    background:
+      radial-gradient(120% 120% at 28% 22%, color-mix(in oklab, var(--c), #fff 22%), var(--c) 52%, color-mix(in oklab, var(--c), #000 16%));
+    box-shadow:
+      inset 0 0 0 calc(var(--s) * 0.022) color-mix(in oklab, var(--c), #000 14%),
+      inset 0 calc(var(--s) * -0.05) calc(var(--s) * 0.09) color-mix(in oklab, var(--c), #000 22%),
+      inset 0 calc(var(--s) * 0.04) calc(var(--s) * 0.06) rgb(255 255 255 / 0.22);
+  }
+  .letter { color: #FFF7E8; text-shadow: 0 calc(var(--s) * 0.028) 0 rgb(0 0 0 / 0.32); }
+  .pip { background: radial-gradient(circle at 40% 35%, #3a3f3c, #0E1210 70%); box-shadow: inset 0 2px 2px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.25); }
+}
+
+.cube[data-material='glass'] {
+  .core { display: none; }
+  .face {
+    backface-visibility: visible;
+    background:
+      linear-gradient(140deg, rgb(255 255 255 / 0.32), transparent 40%),
+      color-mix(in oklab, var(--c) 38%, transparent);
+    box-shadow:
+      inset 0 0 0 calc(var(--s) * 0.014) rgb(255 255 255 / 0.55),
+      inset 0 0 calc(var(--s) * 0.18) color-mix(in oklab, var(--c) 60%, transparent);
+    &::after { opacity: 0.45; }
+  }
+  .letter { color: #fff; text-shadow: 0 0 calc(var(--s) * 0.08) color-mix(in oklab, var(--c) 80%, #fff); }
+  .pip { background: rgb(255 255 255 / 0.9); box-shadow: 0 0 8px rgb(255 255 255 / 0.6); }
+}
+
+.cube[data-material='neon'] {
+  --body: #070A09;
+  .face {
+    background: radial-gradient(circle at 50% 45%, color-mix(in oklab, var(--c) 18%, #0A0E0C), #070A09 75%);
+    box-shadow:
+      inset 0 0 0 calc(var(--s) * 0.018) var(--c),
+      inset 0 0 calc(var(--s) * 0.16) color-mix(in oklab, var(--c) 55%, transparent);
+    &::after { opacity: 0.55; }
+  }
+  .letter {
+    color: color-mix(in oklab, var(--c), #fff 35%);
+    text-shadow: 0 0 calc(var(--s) * 0.04) var(--c), 0 0 calc(var(--s) * 0.14) var(--c);
+  }
+  .pip { background: var(--c); box-shadow: 0 0 10px var(--c), 0 0 3px #fff inset; }
+}
+
+.cube[data-material='chrome'] {
+  --body: #4B5350;
+  .face {
+    background:
+      linear-gradient(135deg, #F7F9F8 0%, #A3ACA8 20%, #EEF2F0 38%, #6B7471 58%, #DCE2DF 78%, #8E9794 100%);
+    box-shadow:
+      inset 0 0 0 calc(var(--s) * 0.016) rgb(255 255 255 / 0.7),
+      inset 0 0 calc(var(--s) * 0.12) rgb(0 0 0 / 0.35);
+
+    /* lekki odcień koloru na metalu */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--c);
+      mix-blend-mode: color;
+      opacity: 0.45;
+    }
+  }
+  .letter {
+    color: #2B302E;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.7), 0 -1px 0 rgb(0 0 0 / 0.35);
+  }
+  .pip { background: radial-gradient(circle at 40% 35%, #555c59, #1c201e 70%); box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.6), 0 1px 0 rgb(255 255 255 / 0.6); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lift, .shadow, .jump, .shadowJump { animation: none; }
+}

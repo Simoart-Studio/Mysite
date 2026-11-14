@@ -1,0 +1,6 @@
+client bundle secret grep:
+(empty = none)
+1.1M	.next/static/chunks
+.next/static/chunks/10~x95jhs6ns3.js 70890
+.next/static/chunks/0e-wrhqh4h3r5.js 38378
+.next/static/chunks/0odjl3lxs.4y2.js 45345

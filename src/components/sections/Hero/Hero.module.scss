@@ -1,0 +1,94 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(100svh, 880px);
+  padding-top: calc(var(--nav-height) + var(--s-12));
+  padding-bottom: var(--s-24);
+  overflow: clip;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 48%;
+    width: min(900px, 130vw);
+    aspect-ratio: 1.4;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(168 238 106 / 0.38), rgb(168 238 106 / 0));
+    animation: breathe 9s ease-in-out infinite;
+    pointer-events: none;
+
+    @include reduced-motion { animation: none; }
+  }
+
+  @include respond-to('mobile') {
+    min-height: 0;
+    padding-top: calc(var(--nav-height) + var(--s-12));
+    padding-bottom: var(--s-20);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%      { transform: translate(-50%, -52%) scale(1.06); }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-6);
+  text-align: center;
+}
+
+
+
+.h1 {
+  font-size: clamp(2.4rem, 6.2vw, 5.25rem);
+  font-weight: 450;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  max-width: 18ch;
+}
+
+
+.lead {
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.enter {
+  animation: heroEnter 0.8s var(--ease-out) both;
+
+  @include reduced-motion { animation: none; }
+}
+
+/* Nagłówek (element LCP) jest widoczny od pierwszej klatki — animujemy tylko przesunięcie. */
+.h1.enter { animation-name: heroRise; }
+
+@keyframes heroRise {
+  from { transform: translateY(14px); }
+  to   { transform: none; }
+}
+
+@keyframes heroEnter {
+  from { opacity: 0.01; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}

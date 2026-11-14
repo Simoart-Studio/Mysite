@@ -1,0 +1,314 @@
+/*
+ * Choreografia (D = --peek, ustawiane na uchwycie w HeroStudio):
+ *   D + 0.00  wynurza się zza pudełka (sprężyście), D + 0.15 rozgląda się w lewo i w prawo
+ *   D + 0.60  pochyla się i opiera przedramię o krawędź pudełka
+ *   D + 1.00  macha na powitanie (3×, ramię–łokieć–nadgarstek), D + 2.65 opuszcza rękę i wskazuje
+ *   D + 1.15  dymek; od D + 1.30 tekst pisze się litera po literze (42 ms/znak), kursor mruga
+ *   D + 2.90  pętla: podwójne stuknięcie palcem co 2.6 s (styk w 30% i 44% cyklu — fala i ikona na
+ *             uchwycie w HeroStudio startują w 30% tego samego cyklu, od --peek + 2.9 s)
+ * Stan końcowy to styl bazowy, animacje mają tylko klatki początkowe (fill: backwards) — przy
+ * ograniczonym ruchu postać po prostu stoi w pozie docelowej.
+ */
+$spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.099 24.3%, 1.108 26%, 1.104, 1.09 30.6%, 1.035 37.1%, 1.008 41.2%, 0.99 45.9%, 0.985 49.4%, 0.999 61.1%, 1.002 70%, 1);
+$soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+$d: var(--peek, 1.2s);
+
+.root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* dolna krawędź SVG = górna krawędź pudełka; prawa krawędź = prawa krawędź pudełka (ekranu) */
+.svg {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  width: 132px;
+  max-width: none; // globalny reset (svg { max-width: 100% }) ścisnąłby SVG do szerokości uchwytu
+  height: 120px;
+  overflow: hidden; // to, co poniżej krawędzi, jest „za pudełkiem”
+}
+
+/* ── ruch ── */
+.rise {
+  animation: riseUp 0.8s $spring $d backwards;
+  transition: translate 0.45s $spring;
+
+  :global(.peek-host):hover & { translate: 0 -2.5px; }
+}
+@keyframes riseUp { from { transform: translateY(86px); } }
+
+.lean {
+  transform-box: view-box;
+  transform-origin: 106px 150px;
+  transform: rotate(-14deg);
+  animation: lean 0.6s cubic-bezier(0.3, 0.7, 0.3, 1.15) calc(#{$d} + 0.6s) backwards;
+}
+@keyframes lean { from { transform: rotate(0deg); } }
+
+.breathe {
+  transform-box: view-box;
+  transform-origin: 106px 150px;
+  animation: breathe 3.4s ease-in-out calc(#{$d} + 1.2s) infinite;
+}
+@keyframes breathe { 50% { scale: 1 1.014; } }
+
+.head {
+  transform-box: view-box;
+  transform-origin: 106px 76px;
+  animation: glance 1s ease-in-out calc(#{$d} + 0.15s) backwards;
+  transition: rotate 0.4s $spring;
+
+  :global(.peek-host):hover & { rotate: 4deg; }
+}
+@keyframes glance {
+  0%   { rotate: 0deg; }
+  30%  { rotate: -11deg; }
+  65%  { rotate: 8deg; }
+  100% { rotate: 0deg; }
+}
+
+/* źrenice: śledzenie kursora (--px/--py z JS); mruganie: spłaszczenie całych oczu */
+.eyes {
+  transform: translate(calc(var(--px, 0.6) * 1px), calc(var(--py, 1.1) * 1px));
+  transition: transform 0.16s ease-out;
+}
+.blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 4.8s linear calc(#{$d} + 2s) infinite;
+}
+@keyframes blink {
+  0%, 93%, 96.5%, 100% { scale: 1 1; }
+  94.5%                 { scale: 1 0.08; }
+}
+
+.brows { transition: translate 0.3s $spring; :global(.peek-host):hover & { translate: 0 -1.6px; } }
+
+/* uśmiech → szeroki uśmiech przy najechaniu */
+.grin { opacity: 0; transition: opacity 0.2s; :global(.peek-host):hover & { opacity: 1; } }
+.head { :global(.peek-host):hover & .blush { opacity: 1; } }
+.mouth { transition: opacity 0.2s; :global(.peek-host):hover & { opacity: 0; } }
+
+/*
+ * Ręka bliższa — trzy stawy, każdy z własną osią (w układzie tułowia):
+ *   bark (96, 87.5) → .armU/.tapU, łokieć (89.74, 99.57) → .armF/.tapF, nadgarstek (95.91, 108.19) → .armH
+ * Machanie: ramię unosi się w bok (+108° → w górę-lewo), przedramię pionowo w górę (+106° w łokciu), dłoń
+ * otwiera się, nadgarstek prostuje (−8°) i macha ±18° ze współruchem przedramienia; opadając, dłoń zamyka
+ * się w gest wskazywania.
+ */
+$shoulder: 96px 87.5px;
+$elbow: 89.74px 99.57px;
+$wrist: 95.91px 108.19px;
+$waveT: 1.9s;
+$waveD: calc(#{$d} + 1s);
+
+.armU, .tapU { transform-box: view-box; transform-origin: $shoulder; }
+.armF, .tapF { transform-box: view-box; transform-origin: $elbow; }
+.armH        { transform-box: view-box; transform-origin: $wrist; }
+
+/* zmiana dłoni: otwiera się przy unoszeniu ręki, zamyka w gest wskazywania przy opuszczaniu */
+.palm    { opacity: 0; animation: palmOn $waveT linear $waveD backwards; }
+.pointer { animation: pointerOff $waveT linear $waveD backwards; }
+@keyframes palmOn {
+  0%, 8%    { opacity: 0; }
+  14%, 72%  { opacity: 1; }
+  80%, 100% { opacity: 0; }
+}
+@keyframes pointerOff {
+  0%, 8%    { opacity: 1; }
+  14%, 72%  { opacity: 0; }
+  80%, 100% { opacity: 1; }
+}
+
+.armU { animation: waveU $waveT ease-in-out $waveD backwards; }
+.armF { animation: waveF $waveT ease-in-out $waveD backwards; }
+.armH { animation: waveH $waveT ease-in-out $waveD backwards; }
+
+@keyframes waveU {
+  0%   { rotate: 0deg; animation-timing-function: cubic-bezier(0.25, 0.8, 0.3, 1); }
+  18%  { rotate: 108deg; }
+  28%  { rotate: 104deg; }
+  38%  { rotate: 109deg; }
+  48%  { rotate: 104deg; }
+  58%  { rotate: 109deg; }
+  68%  { rotate: 107deg; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  87%  { rotate: -3deg; }
+  94%  { rotate: 1deg; }
+  100% { rotate: 0deg; }
+}
+@keyframes waveF {
+  0%   { rotate: 0deg; animation-timing-function: cubic-bezier(0.25, 0.8, 0.3, 1); }
+  18%  { rotate: 106deg; }
+  28%  { rotate: 98deg; }
+  38%  { rotate: 112deg; }
+  48%  { rotate: 98deg; }
+  58%  { rotate: 112deg; }
+  68%  { rotate: 106deg; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  87%  { rotate: 5deg; }
+  94%  { rotate: -1.5deg; }
+  100% { rotate: 0deg; }
+}
+@keyframes waveH {
+  0%   { rotate: 0deg; animation-timing-function: cubic-bezier(0.25, 0.8, 0.3, 1); }
+  18%  { rotate: -8deg; }
+  28%  { rotate: -26deg; }
+  38%  { rotate: 12deg; }
+  48%  { rotate: -26deg; }
+  58%  { rotate: 12deg; }
+  68%  { rotate: -8deg; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  87%  { rotate: 4deg; }
+  100% { rotate: 0deg; }
+}
+
+/*
+ * Stuknięcie (pętla 2.6 s, styk w 30% i 44% — zgrane z falą na uchwycie): uniesienie to skoordynowany
+ * obrót barku (+6.7°) i łokcia (−13°) — opuszek idzie 2.2 px pionowo w górę; docisk (−30%) dotyka krawędzi.
+ */
+$tapT: 2.6s;
+$tapD: calc(#{$d} + 2.9s);
+.tapU { animation: tapU $tapT ease-in-out $tapD infinite; }
+.tapF { animation: tapF $tapT ease-in-out $tapD infinite; }
+
+@keyframes tapU {
+  0%, 12%   { rotate: 0deg; }
+  21%       { rotate: 6.7deg; }
+  30%       { rotate: -2deg; }     // styk
+  37%       { rotate: 5deg; }
+  44%       { rotate: -1.7deg; }   // drugi styk
+  53%, 100% { rotate: 0deg; }
+}
+@keyframes tapF {
+  0%, 12%   { rotate: 0deg; }
+  21%       { rotate: -13deg; }
+  30%       { rotate: 3.9deg; }
+  37%       { rotate: -9.7deg; }
+  44%       { rotate: 3.3deg; }
+  53%, 100% { rotate: 0deg; }
+}
+
+/* zejście za pudełko, gdy pracownia się otwiera (uchwyt i tak odjeżdża w prawo) */
+.away .rise { translate: 0 92px; transition: translate 0.32s cubic-bezier(0.5, 0, 0.75, 0); }
+.away .bubble { opacity: 0; scale: 0.6; transition: opacity 0.2s, scale 0.25s; }
+
+/* ── kolory i kreska: jak w logo — gruby czarny kontur, płaskie kolory kostek, kremowa biel liter ── */
+$ink: #121514;
+$cream: #F6F1E4;
+$line: 1.7;
+
+.svg { filter: drop-shadow(0 7px 10px rgb(0 0 0 / 0.4)); }
+
+.dieFront { fill: #3DB3A2; stroke: $ink; stroke-width: $line; }
+.dieSide  { fill: #2A8A7D; stroke: $ink; stroke-width: $line; }
+.pip      { fill: $ink; }
+.gloss    { stroke: rgb(255 255 255 / 0.75); stroke-width: 1.5; }
+.drip     { fill: $ink; }
+.dripShine { stroke: rgb(255 255 255 / 0.7); stroke-width: 0.8; }
+
+.white  { fill: #FFFFFF; stroke: $ink; stroke-width: 1.2; }
+.pupil  { fill: $ink; }
+.spark  { fill: #FFFFFF; }
+.brow   { stroke: $ink; stroke-width: 1.9; }
+.mouth  { stroke: $ink; stroke-width: 1.6; }
+.grinIn { fill: $ink; }
+.tongue { fill: #EF5B4C; }
+.blush  { fill: #FFB4A6; opacity: 0.7; transition: opacity 0.25s; }
+
+/* kask w żółci kostki „I” z logo */
+.helmet      { fill: #F4B740; stroke: $ink; stroke-width: $line; }
+.brim        { fill: #E0A12C; stroke: $ink; stroke-width: $line; }
+.ridge       { stroke: #C98A1E; stroke-width: 1.6; }
+.helmetShine { stroke: rgb(255 255 255 / 0.8); stroke-width: 1.5; }
+.badge       { fill: #EF5B4C; stroke: $ink; stroke-width: 0.8; }
+.badgePip    { fill: #FFFFFF; }
+
+/* koszula robocza i kamizelka odblaskowa w pomarańczu kostki „A” */
+.shirt   { fill: #46524E; stroke: $ink; stroke-width: $line; }
+.neck    { fill: #56635E; stroke: $ink; stroke-width: 1.2; }
+.collar  { stroke: $ink; stroke-width: 1.3; fill: #6A7873; }
+.vest    { fill: #F58A3A; stroke: $ink; stroke-width: $line; }
+.reflect { fill: #E3E9E5; stroke: $ink; stroke-width: 0.9; }
+.pocket  { fill: #E07428; stroke: $ink; stroke-width: 1; }
+.pencilLine { stroke: $ink; stroke-width: 3.4; }
+.pencil     { stroke: #F4B740; stroke-width: 1.8; }
+.pencilTip  { stroke: #EF8A7A; stroke-width: 1.8; }
+
+/* rękawy koszuli z czarnym konturem, robocze rękawice z mankietem */
+.sleeveLine { stroke: $ink; stroke-width: 8.6; }
+.sleeve     { stroke: #56635E; stroke-width: 5.4; }
+.cuffLine   { stroke: $ink; stroke-width: 4.4; }
+.cuff       { stroke: #C98A1E; stroke-width: 2.2; }
+.fingerLine { stroke: $ink; stroke-width: 4.2; }
+.thumb      { stroke: $ink; stroke-width: 0.9; }
+.finger     { stroke: #E9B44C; stroke-width: 2.2; }
+.glove      { fill: #E9B44C; stroke: $ink; stroke-width: $line; }
+.gloveLine  { stroke: rgb(18 21 20 / 0.55); stroke-width: 0.9; }
+
+/* ── dymek: „zobacz co tu mam” ── */
+.bubble {
+  position: absolute;
+  right: 60px;
+  bottom: calc(100% + 60px);
+  display: flex;
+  align-items: center;
+  padding: 8px 13px 9px;
+  border: 2px solid #121514;
+  border-radius: 14px 14px 4px 14px;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: #121514;
+  background: #FFFDF6;
+  /* naklejka: biała obwódka wycięcia + twardy, przesunięty cień jak w komiksie */
+  box-shadow: 0 0 0 3px #FFFDF6, 3px 4px 0 3px #121514, 0 16px 28px -10px rgb(0 0 0 / 0.6);
+  rotate: -3deg;
+  transform-origin: 100% 100%;
+  animation: pop 0.55s $spring calc(#{$d} + 1.15s) backwards, float 3.6s ease-in-out calc(#{$d} + 2.6s) infinite;
+
+  /* ogonek w stronę głowy: czarny kontur pod białym wypełnieniem */
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    right: -9px;
+    bottom: -2px;
+    width: 14px;
+    height: 12px;
+    background: #121514;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+  }
+  &::after {
+    right: -5px;
+    bottom: 1px;
+    width: 10px;
+    height: 8px;
+    background: #FFFDF6;
+  }
+}
+@keyframes pop { from { opacity: 0; scale: 0.4; translate: 10px 8px; } }
+@keyframes float { 50% { translate: 0 -2px; } }
+
+/* pisanie: litery dochodzą jedna po drugiej (dymek rośnie w lewo, kursor idzie za tekstem) */
+.ch { animation: type 1ms linear calc(#{$d} + 1.3s + var(--i) * 42ms) backwards; }
+@keyframes type { from { display: none; } }
+
+.caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1em;
+  margin-left: 2px;
+  background: #121514;
+  animation: caret 0.9s steps(1) calc(#{$d} + 1.15s) 6 both;
+}
+@keyframes caret {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root *, .root *::before, .root *::after { animation: none !important; transition: none !important; }
+  .caret { display: none; }
+}
