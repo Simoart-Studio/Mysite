@@ -2,6 +2,9 @@
   "name": "szymon-pochopien-portfolio",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "predev": "node scripts/predev.js",
     "dev": "next dev",
