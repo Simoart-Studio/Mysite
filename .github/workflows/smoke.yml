@@ -12,11 +12,13 @@ permissions:
   contents: read
 
 env:
-  PROD_URL: https://sp-flow.vercel.app
+  # Adres produkcji: GitHub → Settings → Secrets and variables → Actions → Variables → PROD_URL
+  # (np. https://simoart.vercel.app). Bez tej zmiennej workflow się nie uruchamia.
+  PROD_URL: ${{ vars.PROD_URL }}
 
 jobs:
   smoke:
-    if: github.event_name != 'deployment_status' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production')
+    if: vars.PROD_URL != '' && (github.event_name != 'deployment_status' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

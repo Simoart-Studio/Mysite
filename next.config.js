@@ -7,17 +7,20 @@ const mixinsContent = fs.readFileSync(
 );
 
 const isDev = process.env.NODE_ENV === 'development';
+// Wdrożenia preview na Vercelu wstrzykują pasek komentarzy (vercel.live) — dozwolony TYLKO tam, produkcja bez zmian.
+const isPreview = process.env.VERCEL_ENV === 'preview';
+const live = (...src) => (isPreview ? ` ${src.join(' ')}` : '');
 
 // CSP bez nonce (strony są statyczne — nonce wymusiłby renderowanie dynamiczne).
 // frame-src 'none' — strona nie osadza żadnych ramek (podgląd demo wyłączony: strony demo blokują osadzanie).
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' blob: data:",
-  "font-src 'self'",
-  "connect-src 'self'",
-  "frame-src 'none'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}${live('https://vercel.live')}`,
+  `style-src 'self' 'unsafe-inline'${live('https://vercel.live')}`,
+  `img-src 'self' blob: data:${live('https://vercel.live', 'https://vercel.com')}`,
+  `font-src 'self'${live('https://vercel.live', 'https://assets.vercel.com')}`,
+  `connect-src 'self'${live('https://vercel.live', 'wss://ws-us3.pusher.com')}`,
+  isPreview ? 'frame-src https://vercel.live' : "frame-src 'none'",
   "media-src 'self'",
   "worker-src 'self'",
   "manifest-src 'self'",

@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/lib/metadata';
+import { INDEXABLE, SITE_URL } from '@/lib/metadata';
 
 export default function robots(): MetadataRoute.Robots {
+  // wdrożenia preview: całkowity zakaz indeksowania (produkcja: normalne reguły + sitemapa)
+  if (!INDEXABLE) return { rules: { userAgent: '*', disallow: '/' } };
   return {
     rules: {
       userAgent: '*',
