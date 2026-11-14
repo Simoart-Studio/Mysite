@@ -1,0 +1,24 @@
+== /opengraph-image
+HTTP/2 200 
+content-type: image/png
+x-matched-path: /opengraph-image
+x-vercel-cache: HIT
+x-vercel-id: iad1::zdjfv-1793963620359-6230be62fec2
+== /works/travelpoint/opengraph-image
+HTTP/2 200 
+content-type: image/png
+x-matched-path: /works/travelpoint/opengraph-image
+x-vercel-cache: PRERENDER
+x-vercel-id: iad1::r6r6f-1793963620847-2736f25394b6
+== /works/xyz-nie-ma/opengraph-image
+HTTP/2 500 
+content-type: text/html; charset=utf-8
+x-matched-path: /500
+x-vercel-cache: MISS
+x-vercel-id: iad1::g8c2f-1793963621176-964bfb901438
+== /_next/image?url=%2Fprojects%2Fbuds%2Fcover.webp&w=640&q=75
+HTTP/2 200 
+content-type: image/avif
+x-matched-path: /projects/buds/cover.webp
+x-vercel-cache: MISS
+x-vercel-id: iad1::js46z-1793963622491-ad3646d773f5

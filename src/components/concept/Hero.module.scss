@@ -1,0 +1,120 @@
+.hero {
+  --p: 0;
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(18px, 3vw, 36px);
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 120px 16px 140px;
+  text-align: center;
+}
+
+.title { font-weight: 400; line-height: 1; }
+
+.word {
+  display: flex;
+  justify-content: center;
+  font-size: clamp(3.6rem, 16.5vw, 17rem);
+  @media (max-width: 599px) { font-size: 19.5vw; }
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  white-space: nowrap;
+  opacity: calc(1 - var(--p) * 1.6);
+}
+
+.l {
+  display: inline-block;
+  font-weight: calc(400 + var(--k) * 300);
+  color: color-mix(in oklab, #ECEFEA, var(--c) calc(var(--k) * 100%));
+  transform: translate3d(0, calc(var(--p) * var(--sp) * -1.6px), 0);
+  transition: --k 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+/* Bez kursora (dotyk): fala koloru i wagi przechodzi przez litery sama */
+.hero:not(.manual) .l {
+  animation: wave 5.6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.32s + 1.6s);
+}
+
+@keyframes wave {
+  0%, 30%, 100% { --k: 0; }
+  12% { --k: 1; }
+}
+
+.li {
+  display: inline-block;
+  animation: rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i) * 70ms + 120ms);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.45em) scale(0.92); filter: blur(14px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.1vw, 0.85rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(236 239 234 / 0.62);
+  opacity: calc(1 - var(--p) * 2.4);
+  animation: fade 1.2s ease 0.9s backwards;
+}
+
+.rule {
+  width: clamp(28px, 6vw, 72px);
+  height: 1px;
+  background: currentColor;
+}
+
+.owner {
+  position: absolute;
+  left: clamp(16px, 4vw, 48px);
+  bottom: 32px;
+  font-size: 0.8125rem;
+  color: rgb(236 239 234 / 0.45);
+  animation: fade 1.2s ease 1.2s backwards;
+}
+
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  width: 1px;
+  height: 64px;
+  overflow: hidden;
+  background: rgb(236 239 234 / 0.14);
+  opacity: calc(1 - var(--p) * 4);
+  animation: fade 1.2s ease 1.4s backwards;
+
+  i {
+    position: absolute;
+    inset: 0;
+    background: #ECEFEA;
+    transform-origin: top;
+    animation: drop 2.2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+  }
+}
+
+@keyframes drop {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  45%  { transform: scaleY(1); transform-origin: top; }
+  55%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .li, .meta, .owner, .cue { animation: none; }
+  .cue i { animation: none; transform: none; }
+  .hero:not(.manual) .l { animation: none; }
+  .l { transform: none; }
+}

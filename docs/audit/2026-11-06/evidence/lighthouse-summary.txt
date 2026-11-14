@@ -1,0 +1,5 @@
+https://sp-flow.vercel.app/polityka-prywatnosci | 12.6.1 mobile | Performance 98, Accessibility 100, Best Practices 100, SEO 100 | FCP 0.9 s | LCP 2.3 s | TBT 80 ms | CLS 0 | total 433 KB, script 246 KB, font 131 KB
+https://sp-flow.vercel.app/works/travelpoint | 12.6.1 mobile | Performance 99, Accessibility 100, Best Practices 100, SEO 100 | FCP 0.9 s | LCP 2.1 s | TBT 50 ms | CLS 0 | total 463 KB, script 256 KB, font 131 KB
+https://sp-flow.vercel.app/works | 12.6.1 mobile | Performance 96, Accessibility 100, Best Practices 100, SEO 100 | FCP 0.9 s | LCP 2.7 s | TBT 100 ms | CLS 0 | total 522 KB, script 266 KB, font 131 KB
+https://sp-flow.vercel.app/ | 12.6.1 mobile | Performance 86, Accessibility 100, Best Practices 100, SEO 100 | FCP 1.8 s | LCP 3.2 s | TBT 160 ms | CLS 0 | total 480 KB, script 240 KB, font 131 KB
+LCP element (/): h1#hero-h1 z animacją wejścia (animation-delay 0.08s)

@@ -1,0 +1,39 @@
+.section {
+  padding-block: var(--s-16) var(--s-24);
+  overflow-x: clip;
+
+  @include respond-to('mobile') { padding-block: var(--s-10) var(--s-16); }
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-10);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-6);
+}
+
+.headline {
+  font-size: var(--fs-h2);
+  color: var(--ink);
+}
+
+
+
+.github {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+
+  a {
+    @include text-link;
+    color: var(--ink);
+    font-weight: 500;
+  }
+}

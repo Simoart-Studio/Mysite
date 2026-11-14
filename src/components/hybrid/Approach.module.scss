@@ -1,0 +1,53 @@
+.approach {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sekcja czeka przypięta na ekranie, aż doleci (długość lotu = .spacer) */
+.pin {
+  position: sticky;
+  top: 0;
+  overflow-x: clip;
+
+  .off & { position: static; }
+}
+
+/* Po wylądowaniu sekcja wypełnia ekran — „środek viewportu w normalnym rozmiarze” */
+.plane > * {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.armed:not(.landed) .plane {
+  transform-origin: 50% 50vh;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  /* w locie: cienki kontur i poświata — sylwetka sekcji czytelna na ciemnym tle */
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 1px rgb(236 239 234 / 0.1),
+    0 0 60px -10px rgb(168 238 106 / 0.18),
+    0 60px 120px -40px rgb(0 0 0 / 0.6);
+}
+
+/*
+ * Wejściem treści jest tu sam lot — globalne odsłanianie [data-reveal] (opacity 0 + blur do czasu
+ * IntersectionObservera) byłoby zbędne, kosztowne w warstwie 3D i ryzykowne: gdyby element nie został
+ * odsłonięty, przyleciałaby pusta ramka. Specyficzność (0,3,0) > html.js [data-reveal] (0,2,1).
+ */
+.approach .plane :global([data-reveal]) {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition: none;
+}
+
+.spacer {
+  height: 130vh;
+  @media (max-width: 699px) { height: 100vh; }
+
+  .off & { display: none; }
+}

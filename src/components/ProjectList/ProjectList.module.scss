@@ -1,0 +1,271 @@
+/* ── Siatka projektów ── */
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-10) var(--s-6);
+
+  @media (min-width: 640px)  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 1024px) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-12) var(--s-8); }
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  color: var(--ink);
+  border-radius: var(--r-lg);
+  outline: none;
+
+  &:focus-visible .media { @include focus-ring; outline-offset: 4px; }
+}
+
+/* ── Podgląd ── */
+.frame {
+  position: relative;
+  display: block;
+}
+
+.media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  isolation: isolate;
+  background: #E6EBDF;
+  border-radius: var(--r-lg);
+  box-shadow: 0 0 0 1px rgb(14 29 21 / 0.08), 0 18px 36px -26px rgb(14 29 21 / 0.45);
+}
+
+.img {
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 1.1s var(--ease-out), filter 0.5s var(--ease-out);
+
+  /* do końca składania obraz zastępują kawałki mozaiki */
+  :global(html.js) .media:not(.whole) & { opacity: 0; }
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-dim);
+}
+
+/* ── Mozaika ── */
+.mosaic {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  :global(html:not(.js)) &,
+  .whole & { display: none; }
+}
+
+.piece {
+  position: absolute;
+  left: calc(var(--c) * 100% / 5);
+  top: calc(var(--r) * 100% / 4);
+  /* 1 px zakładki — bez włoskowatych szczelin na granicach ułamków piksela */
+  width: calc(100% / 5 + 1px);
+  height: calc(100% / 4 + 1px);
+  overflow: hidden;
+  opacity: 0;
+  transform: translate(var(--x), var(--y)) rotate(var(--rot)) scale(0.78);
+  transition:
+    transform 0.95s cubic-bezier(0.18, 0.8, 0.16, 1) calc(var(--d) + var(--td, 0ms)),
+    opacity 0.45s var(--ease-out) calc(var(--d) + var(--td, 0ms));
+  will-change: transform, opacity;
+
+  .assembling & {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Każdy kawałek pokazuje swój wycinek pełnego obrazu (jak object-fit: cover, góra do środka) */
+.pieceImg {
+  position: absolute;
+  /* przesunięcie o c kawałków; kawałek ma +1 px zakładki, więc odejmujemy ją c razy */
+  left: calc(var(--c) * (1px - 100%));
+  top: calc(var(--r) * (1px - 100%));
+  width: calc(500% - 5px);   /* = pełna szerokość obrazu mimo zakładki kawałka */
+  height: calc(400% - 4px);
+  background-size: cover;
+  background-position: top center;
+}
+
+/* ── Najechanie: przyciemnienie i najważniejsze informacje ── */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* mocniejsze przyciemnienie: tekst nie może zlewać się z obrazem pod spodem */
+  background:
+    linear-gradient(to top, rgb(8 16 12 / 0.94) 0%, rgb(8 16 12 / 0.82) 45%, rgb(8 16 12 / 0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out);
+  pointer-events: none;
+}
+
+.reveal {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: clamp(18px, 6%, 28px);
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s var(--ease-out), transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.revealName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6), 0 4px 14px rgb(0 0 0 / 0.5);
+}
+
+.revealWhat {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 36ch;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.7);
+}
+
+.revealCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s-2);
+  padding: 7px 12px 7px 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--on-mint);
+  background: var(--mint);
+  border-radius: var(--r-pill);
+}
+
+@media (hover: hover) {
+  .tile:hover .whole .img,
+  .tile:focus-visible .whole .img { transform: scale(1.04); filter: blur(2px) saturate(0.7); }
+
+  .tile:hover .shade,
+  .tile:focus-visible .shade { opacity: 1; }
+
+  .tile:hover .reveal,
+  .tile:focus-visible .reveal { opacity: 1; transform: none; transition-delay: 0.05s; }
+}
+
+/* ── Mini telefon przyklejony w rogu podglądu ── */
+.phone {
+  position: absolute;
+  z-index: 4;
+  right: 3%;
+  bottom: 6%;
+  width: 16%;
+  aspect-ratio: 9 / 19;
+  padding: 3px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #3A403D, #0B0D0C 40%, #1E2321);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.14),
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 18px 30px -10px rgb(0 0 0 / 0.75),
+    0 6px 10px -4px rgb(0 0 0 / 0.5);
+  transform: translateY(24px) rotate(10deg) scale(0.6);
+  opacity: 0;
+  transition:
+    transform 0.9s linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.099 24.3%, 1.108 26%, 1.104, 1.09 30.6%, 1.035 37.1%, 1.008 41.2%, 0.99 45.9%, 0.985 49.4%, 0.999 61.1%, 1.002 70%, 1),
+    opacity 0.4s ease;
+  pointer-events: none;
+
+  /* wskakuje, gdy mozaika się złoży */
+  .frame:has(.whole) & { opacity: 1; transform: rotate(5deg); transition-delay: 0.15s; }
+  :global(html:not(.js)) & { opacity: 1; transform: rotate(5deg); }
+
+  /* boczne przyciski */
+  &::before {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 22%;
+    width: 2px;
+    height: 12%;
+    border-radius: 2px;
+    background: #2A302D;
+  }
+}
+
+.phoneScreen {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 11px;
+  background: #0B0D0C;
+}
+
+.phoneImg { object-fit: cover; object-position: top; }
+
+.island {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 30%;
+  height: 6px;
+  border-radius: 6px;
+  background: #050606;
+  transform: translateX(-50%);
+}
+
+@media (hover: hover) {
+  .tile:hover .frame:has(.whole) .phone { transform: translateY(-8px) rotate(0deg) scale(1.06); transition-delay: 0s; }
+}
+
+/* ── Podpis pod podglądem ── */
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-inline: 2px;
+}
+
+.name {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.kind {
+  flex-shrink: 0;
+  font-size: var(--fs-small);
+  color: var(--color-text);
+  opacity: 0.92;
+}
+
+/* tekst w oknie omija mini telefon w rogu */
+.frame:has(.phone) .reveal { padding-right: 24%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .img, .shade, .reveal { transition: none; }
+  .tile:hover .whole .img { transform: none; }
+}

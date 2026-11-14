@@ -1,0 +1,608 @@
+{
+  "$comment": "Ręczne nadpisania. Mają pierwszeństwo przed danymi z GitHuba (projects.json). Kolejność w 'order' = kolejność kart od wierzchu talii. Puste pole lub jego brak = 'Do uzupełnienia' na stronie. 'hidden': true ukrywa projekt.",
+  "user": "kameleon1312",
+  "order": [
+    "Simoart-Studio/Hydro",
+    "BarberSpace",
+    "Fancyshop",
+    "TravelPoint",
+    "Pawflo",
+    "Taskiner",
+    "Buds---2D-freaky-game"
+  ],
+  "projects": {
+    "Simoart-Studio/Hydro": {
+      "slug": "hydro",
+      "name": "HYDRO",
+      "status": "Wdrożony",
+      "labels": [
+        "klient"
+      ],
+      "tagline": "Strona, z której klient w kilka sekund dowie się, co firma robi, i od razu zadzwoni po montaż.",
+      "kind": "Strona firmowa",
+      "demoUrl": "https://hydrokotly.pl",
+      "stack": [
+        "Astro",
+        "TypeScript",
+        "CSS",
+        "Cloudflare Pages"
+      ],
+      "stackFull": [
+        "Astro (SSG)",
+        "TypeScript (strict)",
+        "Czysty CSS",
+        "Fonty self-hosted (@fontsource)",
+        "Cloudflare Pages",
+        "Cloudflare Workers (formularz)"
+      ],
+      "forWho": "Firma instalacyjna z Trójmiasta i Tczewa: pompy ciepła, kotły, instalacje hydrauliczne i pomoc w dotacjach.",
+      "problem": "Klient szukający instalatora chce szybko sprawdzić, czy firma zrobi jego instalację i czy pomoże w dotacji, a potem od razu zadzwonić.",
+      "solution": "Przejrzysta strona z ofertą, wyjaśnieniem dotacji i realizacjami. Telefony do instalatorów są pod ręką od pierwszego ekranu, a zapytanie można wysłać formularzem.",
+      "benefits": [
+        "Telefon do firmy jednym dotknięciem, prosto ze strony",
+        "Oferta i dotacje wyjaśnione prostym językiem",
+        "Szybka strona na własnej domenie, przygotowana pod Google"
+      ],
+      "scope": "Front-end, wdrożenie na Cloudflare Pages z domeną klienta, SEO techniczne (canonical, sitemap, JSON-LD), bezpieczeństwo i monitoring.",
+      "effect": "Strona bez backendu i bazy danych. CI sprawdza typy, lint, zależności i build, a test dymny sprawdza stronę na żywo po każdym wdrożeniu i co 30 minut.",
+      "challenge": {
+        "title": "CSP na stronie statycznej z analityką",
+        "body": "Astro wstawia do każdej strony CSP z hashami skryptów i stylów, a nagłówki, których meta nie obsłuży, ustawia plik _headers. Tag Google wczytuje się dopiero po zgodzie odwiedzającego, a jego hosty są dopisane do CSP."
+      },
+      "limitations": [],
+      "thumbnail": {
+        "src": "/projects/hydro/cover.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      "screenshots": [
+        {
+          "src": "/projects/hydro/cover.webp",
+          "width": 1600,
+          "height": 1000,
+          "device": "desktop",
+          "alt": "HYDRO: strona główna, widok desktop"
+        },
+        {
+          "src": "/projects/hydro/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "HYDRO: sekcja główna z telefonami do instalatorów"
+        },
+        {
+          "src": "/projects/hydro/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "HYDRO: widok na telefonie"
+        }
+      ],
+      "embed": false
+    },
+    "TravelPoint": {
+      "slug": "travelpoint",
+      "name": "TravelPoint",
+      "status": "W rozwoju",
+      "labels": [
+        "projekt własny"
+      ],
+      "demoUrl": "https://travelpointdemo-web.vercel.app",
+      "embed": true,
+      "tagline": "Społeczność podróżników, którzy dzielą się miejscami spoza przewodników.",
+      "kind": "Aplikacja społecznościowa",
+      "stack": [
+        "Next.js 15",
+        "React Native",
+        "Fastify",
+        "PostgreSQL"
+      ],
+      "stackFull": [
+        "Next.js 15",
+        "React 19",
+        "Expo 54 / React Native",
+        "Expo Router",
+        "TanStack Query",
+        "Zustand",
+        "Fastify 5",
+        "Prisma",
+        "PostgreSQL / PostGIS",
+        "Supabase",
+        "Socket.IO",
+        "Three.js",
+        "Tailwind",
+        "Zod (wspólna walidacja)",
+        "GitHub Actions"
+      ],
+      "forWho": "Podróżnicy, którzy szukają miejsc poza utartym szlakiem i chcą dzielić się nimi z zaufanymi osobami.",
+      "problem": "Popularne aplikacje pokazują te same oblegane miejsca, a dzielenie się sekretnym spotem z każdym bywa ryzykowne.",
+      "solution": "Serwis z mapą, magazynem i forum oraz prywatna aplikacja na telefon: miejsca ze zdjęciami, zamknięte grupy, wspólne wyprawy i wiadomości.",
+      "benefits": [
+        "Społeczność, która sama tworzy treści",
+        "Kontrola nad tym, kto widzi które miejsca",
+        "Jedno doświadczenie na stronie i w telefonie"
+      ],
+      "scope": "Projekt systemu i interfejsu (design system Terra Mare), aplikacja webowa, aplikacja mobilna, API i baza danych.",
+      "effect": "Monorepo z trzema aplikacjami (web, mobile, API) i wspólnymi pakietami: motyw, typy, walidacja, geo. CI sprawdza typy, lint, testy API, build i sekrety.",
+      "challenge": {
+        "title": "Prywatność lokalizacji",
+        "body": "Lokalizacja jest domyślnie wyłączona. Publiczne współrzędne są rozmywane o co najmniej 500 m, dokładne położenie zablokowanych miejsc nigdy nie trafia do klienta bez uprawnień, a ze zdjęć usuwane są metadane EXIF. Kontrola dostępu działa wyłącznie po stronie serwera."
+      },
+      "limitations": [
+        "Projekt w trakcie rozwoju: płatności i publikacja w sklepach nie są jeszcze skonfigurowane.",
+        "Aplikacja mobilna nie ma jeszcze testów automatycznych."
+      ],
+      "thumbnail": {
+        "src": "/projects/travelpoint/cover.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      "screenshots": [
+        {
+          "src": "/projects/travelpoint/cover.webp",
+          "width": 1600,
+          "height": 1000,
+          "device": "desktop",
+          "alt": "TravelPoint: strona główna z globusem, widok desktop"
+        },
+        {
+          "src": "/projects/travelpoint/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "TravelPoint: strona główna na telefonie"
+        }
+      ]
+    },
+    "Fancyshop": {
+      "slug": "fancyshop",
+      "name": "FancyShop",
+      "status": "Wdrożony",
+      "labels": [
+        "projekt własny",
+        "demo"
+      ],
+      "tagline": "Sklep internetowy, w którym klient bez przeszkód przechodzi od produktu do zamówienia.",
+      "kind": "Sklep internetowy",
+      "stack": [
+        "React 19",
+        "TypeScript",
+        "Zustand",
+        "Framer Motion"
+      ],
+      "stackFull": [
+        "React 19",
+        "TypeScript",
+        "React Router 7",
+        "Zustand (persist)",
+        "Framer Motion",
+        "SCSS",
+        "Vite",
+        "Lenis"
+      ],
+      "forWho": "Małe marki modowe i lifestylowe, które chcą sprzedawać online.",
+      "problem": "Klienci porzucają zakupy, gdy szukanie produktu i zamawianie jest zagmatwane, zwłaszcza na telefonie.",
+      "solution": "Sklep z katalogiem, wyszukiwaniem, ulubionymi i koszykiem oraz prostym zamówieniem w trzech krokach. Kolejne strony otwierają się płynnie, bez czekania.",
+      "benefits": [
+        "Krótka droga od produktu do zamówienia",
+        "Koszyk i ulubione czekają na klienta, gdy wróci",
+        "Wyrazisty wygląd, który buduje markę"
+      ],
+      "scope": "Projekt interfejsu, front-end, architektura stanu (koszyk, ulubione, motyw).",
+      "effect": "Działające demo z 7 widokami: start, katalog, produkt, ulubione, koszyk, checkout i strona 404. Koszyk i ulubione zostają po odświeżeniu strony.",
+      "challenge": {
+        "title": "Dane z obcego API",
+        "body": "Produkty przychodzą z Fake Store API w jego własnym formacie. Napisałem warstwę, która normalizuje odpowiedź do jednego typu Product i przerywa zbędne zapytania (AbortSignal). Komponenty nie wiedzą, skąd pochodzą dane."
+      },
+      "limitations": [
+        "Płatność jest symulowana. Formularz niczego nie obciąża.",
+        "Produkty pochodzą z publicznego Fake Store API (dane testowe)."
+      ],
+      "thumbnail": {
+        "src": "/projects/fancyshop/cover.webp",
+        "width": 1600,
+        "height": 861
+      },
+      "screenshots": [
+        {
+          "src": "/projects/fancyshop/cover.webp",
+          "width": 1600,
+          "height": 861,
+          "device": "desktop",
+          "alt": "FancyShop: strona główna, widok desktop"
+        },
+        {
+          "src": "/projects/fancyshop/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "FancyShop: sekcja hero, widok desktop"
+        },
+        {
+          "src": "/projects/fancyshop/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "FancyShop: strona główna na telefonie"
+        }
+      ],
+      "embed": true
+    },
+    "Pawflo": {
+      "slug": "pawflo",
+      "name": "Pawflo",
+      "status": "W rozwoju",
+      "labels": [
+        "projekt własny"
+      ],
+      "demoUrl": "https://pawflo.vercel.app",
+      "embed": true,
+      "tagline": "Wszystko dla psa w jednej aplikacji: nowe psie znajomości, zdrowie i usługi w okolicy.",
+      "kind": "Aplikacja mobilna",
+      "stack": [
+        "React Native",
+        "Next.js 14",
+        "Fastify",
+        "PostgreSQL"
+      ],
+      "stackFull": [
+        "Expo / React Native",
+        "Expo Router",
+        "Next.js 14",
+        "Tailwind",
+        "Framer Motion",
+        "Fastify",
+        "Prisma",
+        "PostgreSQL",
+        "Zod",
+        "pnpm workspaces"
+      ],
+      "forWho": "Właściciele psów, którzy chcą mieć towarzystwo dla psa, jego zdrowie i lokalne usługi w jednym miejscu.",
+      "problem": "Spotkania z innymi psami, szczepienia, wizyty i szukanie weterynarza to zwykle kilka aplikacji i notatek.",
+      "solution": "Jedna aplikacja w trzech częściach: dopasowania psich znajomości z czatem, panel zdrowia psa i mapa weterynarzy, groomerów, sklepów i parków. Do tego strona produktu z cennikiem.",
+      "benefits": [
+        "Jedno miejsce zamiast kilku aplikacji",
+        "Historia zdrowia psa zawsze pod ręką",
+        "Gotowa strona, która sprzedaje aplikację"
+      ],
+      "scope": "Projekt interfejsu i design systemu, aplikacja mobilna, landing, API.",
+      "effect": "Aplikacja mobilna z rejestracją, trzyetapowym onboardingiem psa i zakładkami MachDog, PawPanel, PawMap, dopasowania i profil. Strona produktu w Next.js.",
+      "challenge": {
+        "title": "Bezpieczeństwo od pierwszego commita",
+        "body": "Dane o zwierzętach i ich właścicielach są wrażliwe, więc walidacja działa po obu stronach na wspólnych schematach Zod, a wymagania RODO i zasady logowania są częścią architektury od początku, a nie dodatkiem."
+      },
+      "limitations": [
+        "MVP w trakcie budowy: aplikacja nie jest jeszcze w sklepach."
+      ],
+      "thumbnail": {
+        "src": "/projects/pawflo/cover.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      "screenshots": [
+        {
+          "src": "/projects/pawflo/cover.webp",
+          "width": 1600,
+          "height": 1000,
+          "device": "desktop",
+          "alt": "Pawflo: hero strony produktu, widok desktop"
+        },
+        {
+          "src": "/projects/pawflo/features.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "Pawflo: trzy moduły aplikacji"
+        },
+        {
+          "src": "/projects/pawflo/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "Pawflo: strona produktu na telefonie"
+        }
+      ]
+    },
+    "BarberSpace": {
+      "slug": "barberspace",
+      "name": "BarberSpace",
+      "status": "Wdrożony",
+      "labels": [
+        "projekt własny",
+        "demo"
+      ],
+      "tagline": "Strona salonu, która zamienia odwiedziny w rezerwację wizyty.",
+      "kind": "Strona firmowa",
+      "stack": [
+        "React 19",
+        "TypeScript",
+        "SCSS Modules",
+        "EmailJS"
+      ],
+      "stackFull": [
+        "React 19",
+        "TypeScript",
+        "SCSS Modules (własne tokeny)",
+        "Vite",
+        "EmailJS",
+        "Lenis",
+        "vite-imagetools"
+      ],
+      "forWho": "Salony barberskie i beauty, które chcą przyjmować rezerwacje online.",
+      "problem": "Salon premium chce, żeby strona oddawała charakter miejsca i przekonywała do umówienia wizyty, zamiast wyglądać jak szablon.",
+      "solution": "Elegancka strona z usługami, cennikiem, galerią, zespołem i opiniami. Z każdego miejsca jednym kliknięciem otwiera się formularz rezerwacji.",
+      "benefits": [
+        "Rezerwacje przez całą dobę, bez odbierania telefonu",
+        "Wizerunek salonu premium od pierwszego ekranu",
+        "Wygodna strona na telefonie, tam gdzie klienci jej szukają"
+      ],
+      "scope": "Projekt graficzny, front-end, SEO techniczne, optymalizacja obrazów.",
+      "effect": "Obrazy zmniejszone z 9,5 MB do ok. 1 MB (WebP, vite-imagetools). Pełne SEO: Open Graph, JSON-LD HairSalon, sitemap.",
+      "challenge": {
+        "title": "Dostępny panel rezerwacji",
+        "body": "Panel wysuwa się z boku, więc musi trzymać fokus i blokować przewijanie tła. Zrobiłem pułapkę fokusu, blokadę scrolla i stany wysyłki (wysyłanie, sukces, błąd). Logika formularza siedzi w osobnym hooku, a animacje JS wyłącza prefers-reduced-motion."
+      },
+      "limitations": [
+        "Projekt koncepcyjny: salon, zespół i opinie są przykładowe.",
+        "Rezerwacja trafia e-mailem przez EmailJS. Nie ma kalendarza wolnych terminów."
+      ],
+      "thumbnail": {
+        "src": "/projects/barberspace/cover.webp",
+        "width": 1600,
+        "height": 867
+      },
+      "screenshots": [
+        {
+          "src": "/projects/barberspace/cover.webp",
+          "width": 1600,
+          "height": 867,
+          "device": "desktop",
+          "alt": "BarberSpace: strona główna, widok desktop"
+        },
+        {
+          "src": "/projects/barberspace/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "BarberSpace: hero z przyciskiem rezerwacji"
+        },
+        {
+          "src": "/projects/barberspace/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "BarberSpace: widok na telefonie"
+        }
+      ],
+      "embed": true
+    },
+    "ai-language-teacher": {
+      "slug": "lingua",
+      "name": "LINGUA",
+      "status": "Wdrożony",
+      "labels": [
+        "projekt własny"
+      ],
+      "tagline": "Nauka angielskiego i hiszpańskiego: rozmowa z nauczycielem AI i fiszki, które same się układają.",
+      "kind": "Aplikacja edukacyjna z AI",
+      "stack": [
+        "Next.js 16",
+        "TypeScript",
+        "Tailwind CSS 4",
+        "Groq AI"
+      ],
+      "stackFull": [
+        "Next.js 16",
+        "React 19",
+        "TypeScript 5",
+        "Tailwind CSS 4",
+        "Framer Motion",
+        "Groq SDK (llama-3.3-70b)",
+        "Web Speech API",
+        "PWA"
+      ],
+      "forWho": "Dla polskojęzycznych uczniów na poziomach od A0 do C2.",
+      "problem": "Rozmowa w obcym języku i powtarzanie słówek to zwykle dwie osobne aplikacje. Słowa z rozmowy giną, zanim trafią do powtórek.",
+      "solution": "Konwersacje z nauczycielem AI dopasowanym do poziomu. Słówka z rozmów trafiają automatycznie do fiszek z powtórkami SM-2. Do tego tryb głosowy, statystyki, passa i XP. Interfejs po polsku, aplikacja instaluje się jako PWA.",
+      "scope": "Projekt interfejsu, front-end, integracja z modelem językowym, logika powtórek.",
+      "effect": "Działająca aplikacja PWA z czterema modułami: rozmowa, fiszki, statystyki i ustawienia.",
+      "challenge": {
+        "title": "Od rozmowy do powtórki",
+        "body": "Słowa z rozmowy z AI zapisują się jako fiszki, a terminy powtórek wylicza algorytm SM-2. Uczeń nie musi niczego przepisywać."
+      },
+      "limitations": [
+        "Postępy są zapisywane w przeglądarce (LocalStorage). Nie ma konta ani synchronizacji między urządzeniami.",
+        "Tryb głosowy zależy od obsługi Web Speech API w przeglądarce."
+      ],
+      "thumbnail": {
+        "src": "/projects/lingua/thumb.webp",
+        "width": 640,
+        "height": 400
+      },
+      "screenshots": [
+        {
+          "src": "/projects/lingua/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "LINGUA: panel główny, widok desktop"
+        },
+        {
+          "src": "/projects/lingua/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "LINGUA: panel główny na telefonie"
+        }
+      ],
+      "embed": true,
+      "hidden": true
+    },
+    "Taskiner": {
+      "slug": "taskiner",
+      "name": "Taskiner",
+      "status": "Wdrożony",
+      "labels": [
+        "projekt własny"
+      ],
+      "tagline": "Lista zadań, która sama podpowiada, co zrobić najpierw, także bez internetu.",
+      "kind": "Aplikacja na telefon",
+      "stack": [
+        "React 19",
+        "TypeScript",
+        "Zustand",
+        "PWA"
+      ],
+      "stackFull": [
+        "React 19",
+        "TypeScript",
+        "Zustand",
+        "SCSS",
+        "Framer Motion",
+        "Vite",
+        "Service Worker",
+        "Vercel"
+      ],
+      "forWho": "Osoby, które planują dzień na telefonie i chcą widzieć priorytety, a nie tylko listę.",
+      "problem": "Lista zadań szybko rośnie i trudno ocenić, co jest pilne, a co ważne. Nawyk planowania łatwo porzucić.",
+      "solution": "Aplikacja sama układa zadania według pilności i ważności, przypomina o terminach i podsumowuje tydzień. Instaluje się na telefonie i komputerze jak zwykła aplikacja.",
+      "benefits": [
+        "Jasne priorytety zamiast długiej listy",
+        "Działa także bez internetu",
+        "Przypomnienia, które pomagają utrzymać nawyk"
+      ],
+      "scope": "Projekt interfejsu, front-end, PWA, powiadomienia.",
+      "effect": "Aplikacja instaluje się na telefonie i komputerze, działa offline i aktualizuje się sama.",
+      "challenge": {
+        "title": "Offline-first",
+        "body": "Stan żyje w Zustand z zapisem w LocalStorage, a service worker trzyma aplikację w cache. Po utracie sieci pojawia się baner i aplikacja dalej działa. Nowa wersja instaluje się automatycznie."
+      },
+      "limitations": [
+        "Dane są tylko w przeglądarce. Nie ma synchronizacji między urządzeniami (jest eksport i import JSON)."
+      ],
+      "thumbnail": {
+        "src": "/projects/taskiner/thumb.webp",
+        "width": 640,
+        "height": 400
+      },
+      "screenshots": [
+        {
+          "src": "/projects/taskiner/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "Taskiner: lista zadań, widok desktop"
+        },
+        {
+          "src": "/projects/taskiner/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "Taskiner: lista zadań na telefonie"
+        }
+      ],
+      "embed": true
+    },
+    "Buds---2D-freaky-game": {
+      "slug": "buds",
+      "name": "Buds",
+      "status": "W rozwoju",
+      "labels": [
+        "projekt własny"
+      ],
+      "demoUrl": "https://buds-game.vercel.app",
+      "embed": false,
+      "tagline": "Gra RPG na telefon z humorem: własna postać, miasto do odkrycia i pojedynki.",
+      "kind": "Gra mobilna",
+      "stack": [
+        "Unity 6",
+        "Next.js 15",
+        "Hono",
+        "Supabase"
+      ],
+      "stackFull": [
+        "Unity 6 (URP 2D)",
+        "C#",
+        "Next.js 15",
+        "Hono",
+        "Supabase / PostgreSQL",
+        "WebSocket",
+        "Zod",
+        "pnpm workspaces"
+      ],
+      "forWho": "Gracze na telefonie i komputerze, którzy lubią spokojne RPG z humorem.",
+      "problem": "Wiele gier mobilnych nagradza płacenie zamiast umiejętności, a postać w grze i na stronie wygląda inaczej.",
+      "solution": "Świat z pięcioma dzielnicami, mieszkańcami, zadaniami, pojedynkami i ukrytymi skrytkami. Postać tworzy się raz i ta sama pojawia się w grze i na stronie.",
+      "benefits": [
+        "Długie godziny zabawy w jednym świecie",
+        "Uczciwe pojedynki bez przewagi za pieniądze",
+        "Jedno konto na telefonie i komputerze"
+      ],
+      "scope": "Projekt gry i grafiki, gra w Unity, strona z kreatorem postaci, API i baza danych.",
+      "effect": "Grywalna wersja z wczesnym dostępem na Androida i sterowaniem na telefonie (joystick) i klawiaturze.",
+      "challenge": {
+        "title": "Jedna postać, dwa światy",
+        "body": "Wygląd postaci generuje wspólny pakiet wektorowy, z którego korzysta i strona, i gra. Dzięki temu bud stworzony w przeglądarce wygląda w grze dokładnie tak samo."
+      },
+      "limitations": [
+        "Wczesny dostęp: gra jest w trakcie rozwoju."
+      ],
+      "thumbnail": {
+        "src": "/projects/buds/cover.webp",
+        "width": 1200,
+        "height": 521
+      },
+      "screenshots": [
+        {
+          "src": "/projects/buds/cover.webp",
+          "width": 1200,
+          "height": 521,
+          "device": "desktop",
+          "alt": "Buds: tropikalne Las Palmas"
+        },
+        {
+          "src": "/projects/buds/los-karkos.webp",
+          "width": 1200,
+          "height": 521,
+          "device": "desktop",
+          "alt": "Buds: dzielnica Los Karkos"
+        },
+        {
+          "src": "/projects/buds/wnetrze.webp",
+          "width": 1200,
+          "height": 521,
+          "device": "desktop",
+          "alt": "Buds: wnętrze kawiarni"
+        },
+        {
+          "src": "/projects/buds/ekwipunek.webp",
+          "width": 1200,
+          "height": 521,
+          "device": "desktop",
+          "alt": "Buds: ekwipunek postaci"
+        },
+        {
+          "src": "/projects/buds/mapa.webp",
+          "width": 1200,
+          "height": 521,
+          "device": "desktop",
+          "alt": "Buds: mapa dzielnicy"
+        }
+      ]
+    },
+    "SL": {
+      "slug": "sl",
+      "name": "SL",
+      "status": "Wdrożony",
+      "labels": [
+        "projekt własny"
+      ],
+      "demoUrl": "https://sweetlove-sand.vercel.app",
+      "embed": true,
+      "stack": [
+        "TypeScript"
+      ],
+      "hidden": true
+    }
+  }
+}

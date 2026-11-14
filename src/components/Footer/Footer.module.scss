@@ -1,0 +1,84 @@
+.footer {
+  padding-block: var(--s-8) var(--s-8);
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-8);
+  padding: var(--s-6) var(--s-8);
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-pill);
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: var(--r-xl);
+  }
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--s-6);
+
+  a {
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color var(--dur-fast) var(--ease-out);
+
+    &:hover { color: var(--green-ink); }
+    &:focus-visible { @include focus-ring; }
+  }
+}
+
+.mail {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--green-ink);
+
+  &:hover { text-decoration: underline; text-underline-offset: 3px; }
+  &:focus-visible { @include focus-ring; }
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-inline: var(--s-8);
+  font-size: 0.8125rem;
+  color: var(--color-text-dim);
+
+  @media (max-width: 900px) { padding-inline: var(--s-2); }
+}
+
+.links {
+  display: flex;
+  gap: var(--s-6);
+
+  a:hover { color: var(--ink); }
+}
+
+.logoImg {
+  width: auto;
+  height: 60px;
+}

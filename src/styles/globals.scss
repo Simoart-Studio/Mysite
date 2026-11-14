@@ -1,0 +1,548 @@
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin-pl.woff2') format('woff2');
+  /* Tylko polskie znaki spoza Latin-1 (5 KB zamiast 85 KB pełnego latin-ext) */
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+  size-adjust: 107.12%;
+}
+
+:root {
+  
+  --white:     #FFFFFF;
+  --cream:     #F6F4EC;
+  --cream-2:   #ECEADF;
+  --ink:       #0E1D15;   
+  --ink-2:     #1B2D23;
+  --green:     #0E8048;   
+  --green-ink: #0B6A3B;
+  --mint:      #A8EE6A;   
+  --mint-soft: #E0F6CB;
+  --green-line: rgb(14 128 72 / 0.35);   
+
+  
+  --sand-50:   var(--white);
+  --sand-100:  var(--cream);
+  --sand-200:  var(--cream-2);
+  --sand-300:  #DCDCD0;
+  --clay:      var(--green);
+  --clay-ink:  var(--green-ink);
+  --clay-soft: var(--mint-soft);
+  --sage:      #5E8F4A;
+  --sage-soft: #E3EADF;
+  --ochre:     #8FCB5C;
+  --ochre-soft:#EEF5DE;
+  --rose-soft: #EFF1E9;
+  --espresso:  var(--ink);
+  --cocoa:     #4D5951;
+
+  
+  --color-bg:           var(--cream);
+  --color-bg-raised:    var(--white);
+  --color-text:         var(--ink);
+  --color-text-muted:   #4A5850;   
+  --color-text-dim:     #5F6D65;   
+  --color-border:       #E2E1D5;
+  --color-border-hi:    #C9CCBE;
+  --color-accent:       var(--green);
+
+  
+  --font-sans: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --fs-hero:    clamp(2.75rem, 6.4vw, 5.25rem);
+  --fs-h1:      clamp(2.25rem, 4.6vw, 3.5rem);
+  --fs-h2:      clamp(2rem, 4.2vw, 3.25rem);
+  --fs-h3:      1.375rem;
+  --fs-lead:    1.125rem;
+  --fs-body:    1rem;
+  --fs-small:   0.875rem;
+  --fs-label:   0.8125rem;
+
+  --lh-hero:    1.02;
+  --lh-heading: 1.06;
+  --lh-body:    1.6;
+  --lh-tight:   1.05;
+
+  --tracking-hero:    -0.045em;
+  --tracking-heading: -0.04em;
+  --tracking-body:    -0.006em;
+  --tracking-label:    0;
+
+  
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+  --s-32: 128px;
+
+  
+  --r-sm:   10px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-xl:   28px;
+  --r-pill: 999px;
+
+  
+  --shadow-sm:   0 1px 2px rgb(21 32 26 / 0.05), 0 2px 8px -4px rgb(21 32 26 / 0.08);
+  --shadow-md:   0 12px 32px -16px rgb(21 32 26 / 0.22);
+  --shadow-lg:   0 32px 64px -28px rgb(21 32 26 / 0.32);
+
+  
+  --max-width:  1180px;
+  --nav-height: 88px;
+  --gutter:     clamp(20px, 5vw, 48px);
+
+  
+  --ease-out:     cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:     180ms;
+  --dur-base:     320ms;
+  --dur-slow:     600ms;
+}
+
+/* Tła sekcji: jedno pudrowe tło strony, sekcje to półprzezroczyste warstwy na nim */
+:root {
+  --bg-mint: #EAF6DD;
+  --on-mint: var(--ink); /* tekst na miętowym tle */
+  --powder:  #EEF3E6;                    /* baza: krem z lekką zielenią */
+  --sec-a:   rgb(255 255 255 / 0);       /* sekcja „odkryta” — widać puder */
+  --sec-b:   rgb(255 255 255 / 0.42);    /* sekcja „za mgiełką” — jaśniejsza */
+}
+.bg-cream { background-color: var(--sec-a); }
+.bg-white { background-color: var(--sec-b); }
+.bg-mint  { background-color: var(--bg-mint); }
+
+.section-light {
+  --color-bg:        var(--cream-2);
+  --color-bg-raised: var(--white);
+
+  background-color: var(--cream-2);
+  color: var(--color-text);
+}
+
+.section-dark {
+  --color-bg:         var(--ink);
+  --color-bg-raised:  var(--ink-2);
+  --color-text:       #F3F5EF;
+  --color-text-muted: #C9D1C8;
+  --color-text-dim:   #A3AEA5;
+  --color-border:     #2E3C34;
+  --color-border-hi:  #44544A;
+  --color-accent:     var(--mint);
+
+  background-color: var(--ink);
+  color: var(--color-text);
+}
+
+/* Słowo-klucz osiadające z pyłu (komponent Dust) */
+.dust {
+  position: relative;
+  display: inline-block;
+  color: var(--green-ink);
+}
+
+.dust__text {
+  display: inline-block;
+}
+
+/* Do końca procesu słowo widać tylko na płótnie; podmiana na tekst następuje w jednej klatce */
+html.js .dust:not(.is-done) .dust__text {
+  opacity: 0;
+}
+
+.dust__canvas {
+  position: absolute;
+  max-width: none; /* globalne `canvas { max-width: 100% }` ścisnęłoby płótno do szerokości słowa */
+  pointer-events: none;
+}
+
+.section-dark .dust { color: var(--mint); }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.6); }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  
+  scroll-padding-top: calc(var(--nav-height) + 16px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  
+  overflow-x: clip;
+  background-color: var(--powder);
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+section[id] { scroll-margin-top: calc(var(--nav-height) + 16px); }
+
+body {
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-heading);
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+
+  @media (hover: none), (pointer: coarse) {
+    cursor: pointer;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: #CDD0C3; border-radius: 8px; }
+
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: var(--s-4);
+  z-index: 9999;
+  padding: var(--s-3) var(--s-6);
+  background: var(--espresso);
+  color: var(--sand-50);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  border-radius: var(--r-pill);
+
+  &:focus { top: var(--s-4); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* wjazd przy przewijaniu: tylko opacity + transform (bez filter: blur — każdy rozmyty element to drogi
+   w malowaniu filtrowany layer, a przy starcie strony czeka ich kilkanaście naraz) */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px) scale(0.985);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    transform: none;
+    transition: opacity 0.3s linear;
+  }
+}
+
+.btn {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--white);
+  --btn-icon-bg: var(--mint);
+  --btn-icon-fg: var(--on-mint);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 6px 6px 6px 22px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+
+  &:hover { box-shadow: var(--shadow-md); }
+  &:active { transform: scale(0.98); }
+  &:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+  &:disabled, &[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+}
+
+.btn__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--btn-icon-fg);
+  background: var(--btn-icon-bg);
+  transition: transform var(--dur-base) var(--ease-spring);
+
+  svg { width: 18px; height: 18px; }
+
+  .btn:hover & { transform: rotate(45deg) scale(1.06); }
+}
+
+.btn--green {
+  --btn-bg: var(--mint);
+  --btn-fg: var(--on-mint);
+  --btn-icon-bg: var(--ink);
+  --btn-icon-fg: var(--mint);
+}
+
+.btn--dark {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--white);
+}
+
+.btn--light {
+  --btn-bg: var(--white);
+  --btn-fg: var(--ink);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-text);
+  --btn-icon-bg: var(--color-text);
+  --btn-icon-fg: var(--color-bg);
+  border-color: var(--color-border-hi);
+
+  &:hover { border-color: var(--color-text); box-shadow: none; }
+}
+
+.btn--plain { padding: 6px 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover .btn__icon { transform: none; }
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--r-xl);
+}
+
+
+
+/* ── Puder: miękkie zielone odbicia światła i drobne ziarno pod całą stroną ── */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  inset: -12%;
+  background:
+    radial-gradient(38% 34% at 16% 14%, rgb(168 238 106 / 0.24), transparent 70%),
+    radial-gradient(42% 36% at 84% 22%, rgb(255 255 255 / 0.75), transparent 72%),
+    radial-gradient(46% 42% at 72% 82%, rgb(94 143 74 / 0.13), transparent 70%),
+    radial-gradient(40% 40% at 12% 78%, rgb(224 246 203 / 0.7), transparent 72%),
+    radial-gradient(30% 26% at 48% 50%, rgb(255 255 255 / 0.35), transparent 75%);
+  animation: powderDrift 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+body::after {
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes powderDrift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-3%, 2.5%, 0) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Koncepcja (/koncepcja): jedno ciemne tło zamiast pudru ── */
+@property --k { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --w { syntax: '<number>'; inherits: true; initial-value: 400; }
+@property --mx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --my { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+
+html:has([data-concept]) {
+  background-color: #060807;
+  color-scheme: dark;
+  scroll-padding-top: 0;
+}
+html:has([data-concept]) body { color: #ECEFEA; }
+html:has([data-concept]) body::before,
+html:has([data-concept]) body::after { display: none; }
+html:has([data-concept]) ::selection { background: #86C24A; color: #060807; }
+html:has([data-concept]) :focus-visible { outline-color: #A8EE6A; }
+
+/* ── Hybryda (/hybryda): wcześniejsze sekcje na jednym ciemnym tle koncepcji ── */
+html:has([data-hybrid]) {
+  --white:     #0F1412;
+  --cream:     #0A0D0C;
+  --cream-2:   #141A17;
+  --ink:       #ECEFEA;
+  --ink-2:     #D9DFD6;
+  --green:     #86C24A;
+  --green-ink: #A8EE6A;
+  --mint-soft: rgb(168 238 106 / 0.12);
+  --green-line: rgb(168 238 106 / 0.3);
+  --on-mint:   #0E1D15;
+  --bg-mint:   rgb(168 238 106 / 0.08);
+
+  --sand-300:  #2A312D;
+  --sage:      #86C24A;
+  --sage-soft: rgb(134 194 74 / 0.12);
+  --ochre-soft: rgb(244 183 64 / 0.1);
+  --rose-soft: rgb(255 255 255 / 0.04);
+  --cocoa:     #A3AEA5;
+
+  --color-bg:         #0A0D0C;
+  --color-bg-raised:  #0F1412;
+  --color-text:       #ECEFEA;
+  --color-text-muted: #B4BEB6;
+  --color-text-dim:   #8E9A92;
+  --color-border:     rgb(255 255 255 / 0.08);
+  --color-border-hi:  rgb(255 255 255 / 0.18);
+  --color-accent:     #A8EE6A;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 8px -4px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 16px 36px -18px rgb(0 0 0 / 0.7);
+  --shadow-lg: 0 32px 64px -28px rgb(0 0 0 / 0.8);
+
+  --powder: #060807;
+  --sec-a:  transparent;
+  --sec-b:  transparent;
+  --surface-dark: #111714;
+}
+
+html:has([data-hybrid]) .btn--green { --btn-icon-bg: #0E1D15; --btn-icon-fg: #A8EE6A; }
+
+html:has([data-hybrid]) .section-dark {
+  --color-bg:        #0F1412;
+  --color-bg-raised: #161C19;
+  --color-border:    rgb(255 255 255 / 0.08);
+  --color-border-hi: rgb(255 255 255 / 0.16);
+  background-color: rgb(255 255 255 / 0.03);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+
+/* hybryda bez numeracji: kroki kontaktu jako punkty */
+html:has([data-hybrid]) .contact-steps li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin: 8px 8px 0;
+}
+
+/*
+ * Sekcje daleko pod zgięciem: przeglądarka pomija ich styl, układ i malowanie, dopóki użytkownik się nie
+ * zbliży (mniej pracy przy starcie na słabszych telefonach). Tylko proste sekcje — bez przypiętych efektów
+ * przewijania, które mierzą układ, i bez sekcji kontaktu (cel kotwic, dokładne przewijanie).
+ * `auto` w contain-intrinsic-size: po pierwszym wyrenderowaniu przeglądarka pamięta prawdziwą wysokość.
+ */
+#zasady,
+#process,
+#opinie,
+footer[role='contentinfo'] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
