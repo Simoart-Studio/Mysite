@@ -240,7 +240,7 @@
 
   .select { padding-right: 38px; background-position: right 12px center; background-size: 14px; }
   .textarea { min-height: 104px; }
-  .hint, .error { font-size: 0.71875rem; }
+  .hint, .error { font-size: 0.75rem; } // min. 12 px na telefonie
   .fileRow { margin-top: -4px; }
   .fileBtn { font-size: 0.8125rem; }
 

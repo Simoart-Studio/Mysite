@@ -154,6 +154,24 @@
   }
 }
 
+/* szkło jako przycisk: kliknięcie/dotknięcie odsłania treść bez przewijania */
+.reveal {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: block;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible { outline: 2px solid #A8EE6A; outline-offset: -6px; }
+
+  /* treść odsłonięta (przewijaniem lub kliknięciem): przycisk znika, klikalna jest treść pod nim */
+  .open & { visibility: hidden; pointer-events: none; }
+}
+
 /* tekst wjeżdża z prawej z poślizgiem (pozycję ustawia JS) */
 .text {
   position: absolute;
@@ -170,6 +188,7 @@
 }
 
 .title {
+  outline: none; // fokus ustawiany programowo po odsłonięciu (tabIndex -1) — bez ramki
   font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 600;
   line-height: 1.05;
@@ -194,3 +213,4 @@
   .sticker { width: 92%; }
   .text { width: 88%; gap: 12px; }
 }
+

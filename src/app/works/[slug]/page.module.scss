@@ -22,6 +22,9 @@
 
 .crumbs a {
   @include text-link;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; // pole dotyku (WCAG 2.5.8, wytyczne mobilne) — wygląd bez zmian
   font-size: var(--fs-small);
   color: var(--color-text-muted);
 
@@ -32,7 +35,7 @@
 
 .status {
   padding: 3px 9px;
-  font-size: 0.6875rem;
+  font-size: 0.75rem; // min. 12 px — czytelne na telefonie
   letter-spacing: 0.04em;
   text-transform: uppercase;
   border-radius: var(--r-pill);
@@ -42,7 +45,7 @@
 
 .tag {
   padding: 3px 8px;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   border-radius: var(--r-pill);
   background: var(--sand-200);
   color: var(--cocoa);
@@ -131,8 +134,10 @@
 
 .pager {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s-4);
+
+  @media (max-width: 479px) { grid-template-columns: minmax(0, 1fr); }
 }
 
 .pagerLink {
@@ -142,6 +147,8 @@
   padding: var(--s-6);
   border-radius: var(--r-lg);
   background: var(--sand-50);
+  min-width: 0;
+  overflow-wrap: anywhere; // długa nazwa projektu zawija się zamiast wychodzić poza ekran
   font-family: var(--font-display);
   font-size: 1.25rem;
   transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out);

@@ -19,6 +19,9 @@ const smooth = (a: number, b: number, v: number) => { const t = clamp01((v - a) 
  * Płynność: z przewijaniem zmieniają się wyłącznie transform/opacity sześciu elementów (kompozytor GPU),
  * rozmycie to raz wymalowana kopia naklejki przenikana kryciem; obsługa przewijania działa tylko, gdy sekcja
  * jest w pobliżu ekranu, i nie zapisuje stylów, jeśli postęp się nie zmienił.
+ *
+ * Odsłonięcie bez przewijania: kliknięcie/dotknięcie szkła (prawdziwy przycisk — działa też z klawiatury)
+ * przeprowadza to samo przejście krótką animacją. Po opuszczeniu sekcji stan wraca do sterowania przewijaniem.
  */
 export function GlassAbout() {
   const ref = useRef<HTMLElement>(null);
@@ -29,6 +32,7 @@ export function GlassAbout() {
   const sheen = useRef<HTMLElement>(null);
   const frost = useRef<HTMLSpanElement>(null);
   const streak = useRef<HTMLElement>(null);
+  const reveal = useRef<() => void>(() => {});
 
   useEffect(() => {
     const sec = ref.current, el = text.current;
@@ -48,7 +52,12 @@ export function GlassAbout() {
       fr.style.opacity = Math.max(0.001, f).toFixed(4);
       sn.style.transform = `translateX(${(-70.8 + f * 86.2).toFixed(2)}%)`;
       sk.style.transform = `translateX(${(-30 + f * 60).toFixed(2)}%)`;
+      // treść odsłonięta → przycisk-szkło znika (klikalny staje się przycisk „Porozmawiajmy”); klasa zmienia się
+      // tylko przy przekroczeniu progu, więc nie przelicza stylów co klatkę
+      const open = f > 0.5;
+      if (open !== isOpen) { isOpen = open; sec.classList.toggle(styles.open!, open); }
     };
+    let isOpen = false;
 
     if (prefersReducedMotion()) {
       glass(1);
@@ -57,12 +66,33 @@ export function GlassAbout() {
       return;
     }
     let raf = 0, target = 1, x = 1, v = 0;
+    // odsłonięcie kliknięciem: forced = stan końcowy niezależnie od przewijania; tween = płynne dojście do f = 1
+    let forced = false, tweenRaf = 0;
     const read = () => {
       const r = sec.getBoundingClientRect();
       const p = clamp01(-r.top / Math.max(1, r.height - window.innerHeight));
-      glass(smooth(0.22, 0.62, p));             // zmatowienie szkła
-      target = 1 - smooth(0.18, 0.55, p);       // 1 = tekst poza sceną, 0 = na miejscu
+      if (!forced) {
+        glass(smooth(0.22, 0.62, p));           // zmatowienie szkła
+        target = 1 - smooth(0.18, 0.55, p);     // 1 = tekst poza sceną, 0 = na miejscu
+      }
       if (!raf) raf = requestAnimationFrame(tick);
+    };
+    reveal.current = () => {
+      if (forced) return;
+      forced = true;
+      const from = Math.max(0, lastF), t0 = performance.now(), dur = 750;
+      const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur);
+        glass(from + (1 - from) * ease(k));
+        tweenRaf = k < 1 ? requestAnimationFrame(step) : 0;
+      };
+      cancelAnimationFrame(tweenRaf);
+      tweenRaf = requestAnimationFrame(step);
+      target = 0;                               // tekst wjeżdża tą samą sprężyną co przy przewijaniu
+      if (!raf) raf = requestAnimationFrame(tick);
+      // fokus na nagłówek odsłoniętej treści (przycisk znika — fokus nie może zostać na nim)
+      el.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
     };
     const tick = () => {
       // sprężyna: tekst dojeżdża z poślizgiem i lekko przestrzeliwuje
@@ -81,13 +111,16 @@ export function GlassAbout() {
       if (near && !listening) window.addEventListener('scroll', read, { passive: true });
       if (!near && listening) window.removeEventListener('scroll', read);
       listening = near;
+      // sekcja daleko poza ekranem: odsłonięcie kliknięciem wygasa — następnym razem znów steruje przewijanie
+      if (!near && forced) { forced = false; cancelAnimationFrame(tweenRaf); }
       read();
     }, { rootMargin: '25% 0px' });
     io.observe(sec);
     window.addEventListener('resize', read);
     read();
     return () => {
-      io.disconnect(); cancelAnimationFrame(raf);
+      reveal.current = () => {};
+      io.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(tweenRaf);
       window.removeEventListener('scroll', read); window.removeEventListener('resize', read);
     };
   }, []);
@@ -117,8 +150,11 @@ export function GlassAbout() {
           <span ref={frost} className={styles.frost} aria-hidden="true" />
           <span className={styles.glass} aria-hidden="true"><i ref={streak} /></span>
 
-          <div ref={text} className={styles.text}>
-            <h2 id="about-title" className={styles.title}>Miło Cię <Dust>poznać.</Dust></h2>
+          {/* szkło jako przycisk: kliknięcie/dotknięcie odsłania treść bez przewijania */}
+          <button type="button" className={styles.reveal} onClick={() => reveal.current()} aria-controls="about-content" aria-label="Odsłoń: Miło Cię poznać" />
+
+          <div ref={text} id="about-content" className={styles.text}>
+            <h2 id="about-title" className={styles.title} tabIndex={-1}>Miło Cię <Dust>poznać.</Dust></h2>
             <p className={styles.hello}>Cześć, jestem Szymon.</p>
             <p className={styles.body}>
               Prowadzę {BRAND}. Sam projektuję i koduję strony, sklepy i aplikacje dla firm.
