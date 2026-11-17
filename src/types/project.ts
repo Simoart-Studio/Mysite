@@ -22,12 +22,14 @@ export interface Project {
   status:        ProjectStatus;
   labels:        ProjectLabel[];
   tagline:       string | null;
+  kind:          string | null; // krótko: czym jest projekt (np. „Sklep internetowy”)
   stack:         string[];
   stackFull:     string[];
   languages:     { name: string; percent: number }[];
   forWho:        string | null;
   problem:       string | null;
   solution:      string | null;
+  benefits:      string[];      // co zyskuje klient (język korzyści, nie technologii)
   scope:         string | null;
   effect:        string | null;
   challenge:     ProjectChallenge | null;

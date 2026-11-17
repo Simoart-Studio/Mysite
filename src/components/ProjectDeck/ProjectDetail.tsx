@@ -11,7 +11,7 @@ import { AnimatePresence, m, useReducedMotion } from 'framer-motion';
 import type { Project, ProjectImage } from '@/types/project';
 import { TODO } from '@/lib/projects';
 import { lockScroll } from '@/lib/scrollLock';
-import { ArrowLeft, ArrowRight, Play, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { CaseStudyBody, ProjectLinks } from './CaseStudyBody';
 import styles from './ProjectDetail.module.scss';
 
@@ -47,7 +47,6 @@ export function ProjectDetail({
   const [tab, setTab] = useState<Tab>('opis');
   const [visible, setVisible] = useState(true);
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const [preview, setPreview] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -68,7 +67,6 @@ export function ProjectDetail({
   const go = useCallback((dir: 1 | -1) => {
     setIndex((i) => (i + dir + n) % n);
     setTab('opis');
-    setPreview(false);
     setLightbox(null);
     scrollRef.current?.scrollTo({ top: 0 });
   }, [n]);
@@ -227,37 +225,7 @@ export function ProjectDetail({
                   </div>
                 )}
 
-                {project.demoUrl && project.embed && (
-                  <div className={styles.preview}>
-                    <div className={styles.previewHead}>
-                      <p className={styles.previewLabel}>Na żywo</p>
-                      <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className={styles.previewExt}>
-                        {new URL(project.demoUrl).host} ↗
-                      </a>
-                    </div>
-                    {preview ? (
-                      <iframe
-                        src={project.demoUrl}
-                        title={`Podgląd na żywo: ${project.name}`}
-                        className={styles.iframe}
-                        loading="lazy"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className={styles.previewIdle}>
-                        <button
-                          type="button"
-                          className={styles.previewBtn}
-                          onClick={() => setPreview(true)}
-                          aria-label={`Uruchom podgląd na żywo: ${project.name}`}
-                        >
-                          <Play size={26} aria-hidden="true" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
+                {/* Podgląd w ramce wyłączony: strony demo blokują osadzanie (X-Frame-Options / frame-ancestors). Link do demo jest w nagłówku. */}
               </div>
             </div>
           </m.div>

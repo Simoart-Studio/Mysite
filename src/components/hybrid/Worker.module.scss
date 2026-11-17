@@ -1,0 +1,309 @@
+/*
+ * Oś czasu sceny (--scene = 7 s, start po --scene-delay; zmienne ustawia HeroStudio na .copy):
+ *   0    – 28.6%  wejście (krok 0.64 s), na końcu wytracanie prędkości i skracanie kroków
+ *   28.6 – 34.3%  zatrzymanie: młot opada grotem na ziemię, przysiad
+ *   34.3 – 62.9%  wiercenie 2 s: drgania, rytmiczne dociskanie co 0.5 s, pył, odpryski, pęknięcie
+ *   62.9%         pudełko wyskakuje z dziury (--scene-pop w HeroStudio)
+ *   62.9 – 71.4%  odskok z zaskoczeniem, spojrzenie na pudełko, młot z powrotem do noszenia
+ *   71.4 – 100%   rozpędzenie i odejście w prawo
+ *
+ * Intencja ruchu to zarejestrowane właściwości animowane na .worker; stawy mają zapętlone cykle
+ * skalowane tymi wartościami — przejścia (chód → postój → praca → chód) są płynne, bez przeskoków.
+ */
+@property --walk   { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --amp    { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --lean   { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --tilt   { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --crouch { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --look   { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+$soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+$step: 0.64s; // pełny cykl kroku (dwa kroki)
+
+/* pas nad nagłówkiem: „podłoże” = dolna krawędź ikony; pełna szerokość ekranu (hero ma overflow-x: clip) */
+.lane {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: 0;
+  width: 100vw;
+  height: 130px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* grot (x = 66 ze 110 jednostek przy szer. 104 px → 62.4 px) staje dokładnie nad środkiem ikony */
+.worker {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 62.4px);
+  width: 104px;
+  animation: trip var(--scene, 7s) linear var(--scene-delay, 0.8s) both;
+}
+
+@keyframes trip {
+  /* wejście: stała prędkość zgodna z krokiem, potem łagodne hamowanie */
+  0%      { transform: translateX(-70vw); --walk: 1; --lean: 5; --tilt: 16; --crouch: 0; --amp: 0; --look: 0; }
+  24%     { transform: translateX(-5.8vw); --walk: 1; --lean: 5; --tilt: 16; animation-timing-function: cubic-bezier(0.33, 0.66, 0.66, 1); }
+  28.6%   { transform: translateX(0); --walk: 0; --lean: 2; --tilt: 14; --crouch: 0; animation-timing-function: $soft; }
+  /* młot opada na ziemię, przysiad */
+  32%     { --tilt: -3; --crouch: 1; --lean: 5; animation-timing-function: $soft; }
+  34.3%   { --tilt: 0; --crouch: 1; --lean: 3; --amp: 0; }
+  /* wiercenie: drgania + dociskanie ciężarem co 0.5 s */
+  35.6%   { --amp: 1; }
+  37.9%   { --lean: 7; }
+  41.4%   { --lean: 3; }
+  45%     { --lean: 7; }
+  48.6%   { --lean: 3; }
+  52.1%   { --lean: 7; }
+  55.7%   { --lean: 3; }
+  59.3%   { --lean: 7; }
+  62.3%   { --amp: 1; }
+  /* wyskok pudełka: odskok z zaskoczeniem i spojrzenie w dół na pudełko */
+  62.9%   { transform: translateX(0); --amp: 0; --lean: 4; --crouch: 1; --tilt: 0; --look: 0; animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1); }
+  65.5%   { transform: translateX(-14px); --lean: -9; --crouch: 0.2; --tilt: -12; --look: 16; }
+  /* młot z powrotem do noszenia, ruszenie */
+  69%     { transform: translateX(-14px); --lean: 2; --crouch: 0; --tilt: 16; --look: 10; --walk: 0; }
+  71.4%   { transform: translateX(-14px); --lean: 5; --look: 0; --walk: 1; animation-timing-function: cubic-bezier(0.33, 0, 0.66, 0.33); }
+  76%     { transform: translateX(calc(5.8vw - 14px)); --walk: 1; }
+  100%    { transform: translateX(80vw); --walk: 1; --lean: 5; --tilt: 16; --amp: 0; --look: 0; --crouch: 0; }
+}
+
+.svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* cień na podłożu — ugruntowuje postać */
+.shadow {
+  position: absolute;
+  left: 22%;
+  bottom: -3px;
+  width: 64%;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+}
+
+/* dwa uniesienia na cykl (najniżej przy postawieniu stopy) + drobne drgania ciała przy wierceniu */
+.bob {
+  display: block;
+  animation: bob calc($step / 2) ease-in-out infinite, shiver 0.06s steps(2) infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(calc(var(--walk) * 1.3px)); }
+  50%      { transform: translateY(calc(var(--walk) * -1.5px)); }
+}
+
+@keyframes shiver {
+  0%   { translate: calc(var(--amp) * 0.5px) calc(var(--amp) * -0.4px); }
+  100% { translate: calc(var(--amp) * -0.4px) calc(var(--amp) * 0.4px); }
+}
+
+/*
+ * Noga (twarzą w prawo; w SVG obrót dodatni = zgodnie z zegarem = do tyłu):
+ * udo wahadłem wokół biodra, podudzie zgina się w kolanie — najmocniej w fazie przenoszenia.
+ * W spoczynku (walk = 0) lekki rozkrok; przysiad dokłada ugięcie.
+ */
+.thigh {
+  --side: 1;
+  --rest: calc((1 - var(--walk)) * -9deg * var(--side) - var(--crouch) * 9deg);
+  transform-box: view-box;
+  transform-origin: 44px 66px;
+  animation: hip $step ease-in-out infinite;
+}
+.legBack { --side: -1; animation-delay: calc($step / -2); }
+.legBack .shin { animation-delay: calc($step / -2); }
+
+@keyframes hip {
+  0%, 100% { transform: rotate(calc(var(--walk) * -27deg + var(--rest))); }
+  50%      { transform: rotate(calc(var(--walk) * 24deg + var(--rest))); }
+}
+
+.shin {
+  --knee: calc(var(--crouch) * 17deg);
+  transform-box: view-box;
+  transform-origin: 44px 89px;
+  animation: knee $step linear infinite;
+}
+
+@keyframes knee {
+  0%, 100% { transform: rotate(calc(var(--walk) * 4deg + var(--knee))); }
+  15%      { transform: rotate(calc(var(--walk) * 15deg + var(--knee))); }
+  35%      { transform: rotate(calc(var(--walk) * 5deg + var(--knee))); }
+  55%      { transform: rotate(calc(var(--walk) * 32deg + var(--knee))); }
+  75%      { transform: rotate(calc(var(--walk) * 60deg + var(--knee))); }
+  92%      { transform: rotate(calc(var(--walk) * 12deg + var(--knee))); }
+}
+
+/* góra ciała: przysiad w dół, przechył wokół biodra */
+.upper {
+  transform: translateY(calc(var(--crouch) * 2.2px));
+}
+
+.torso {
+  transform-box: view-box;
+  transform-origin: 44px 66px;
+  transform: rotate(calc(var(--lean) * 1deg));
+}
+
+/* głowa: patrzy w dół na pudełko; kask podskakuje przy wierceniu */
+.head {
+  transform-box: view-box;
+  transform-origin: 47px 33px;
+  transform: rotate(calc(var(--look) * 1deg));
+  animation: helmet 0.09s steps(2) infinite;
+}
+
+@keyframes helmet {
+  0%   { translate: 0 calc(var(--amp) * -0.7px); }
+  100% { translate: 0 calc(var(--amp) * 0.5px); }
+}
+
+/* młot: obrót wokół chwytu, z korektą przechyłu tułowia — przy wierceniu stoi pionowo na grocie */
+.hammer {
+  transform-box: view-box;
+  transform-origin: 66px 45.4px;
+  transform: rotate(calc(var(--tilt) * -1deg - var(--lean) * 1deg));
+}
+
+/* kołysanie w rytm kroków */
+.sway {
+  transform-box: view-box;
+  transform-origin: 66px 45.4px;
+  animation: sway $step ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(calc(var(--walk) * 4deg)); }
+  50%      { transform: rotate(calc(var(--walk) * -4deg)); }
+}
+
+/* udar: szybkie podbicia całego młota */
+.buzz { animation: buzz 0.05s steps(2) infinite; }
+
+@keyframes buzz {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(calc(var(--amp) * -2.4px)); }
+}
+
+/* ── kolory ── */
+.pants { stroke: #2F4A68; stroke-width: 8; }
+.legBack .pants { stroke: #233850; }
+.boot { fill: #6B4A2C; }
+.legBack .boot { fill: #523821; }
+.sole { stroke: #241A12; stroke-width: 2.2; }
+.shirt { fill: #3A4440; }
+.vest { fill: #A8EE6A; }
+.reflect { stroke: #EEF3EE; stroke-width: 2.6; stroke-linecap: butt; opacity: 0.9; }
+.belt { fill: #5C4129; }
+.buckle { fill: none; stroke: #C9B07A; stroke-width: 1.1; }
+.skin { fill: #F0CBA6; }
+.ear { fill: #E2B48C; }
+.nose { stroke: #D9A47C; stroke-width: 1.8; }
+.stache { stroke: #5A3C28; stroke-width: 2.2; }
+.eye { fill: #141A17; }
+.brow { stroke: #5A3C28; stroke-width: 1.4; }
+.helmet { fill: #F4B740; }
+.shineHelmet { stroke: #FFE0A0; stroke-width: 1.6; opacity: 0.9; }
+.ridge { stroke: #D9962A; stroke-width: 1.4; }
+.brim { fill: #E3A332; }
+.sleeve, .sleeveBack { stroke: #3A4440; stroke-width: 5.6; }
+.sleeveBack { stroke: #2C3431; }
+.handle { stroke: #22282A; stroke-width: 4.4; }
+.casing { fill: #E2564A; }
+.ribs { stroke: #B23E35; stroke-width: 1.3; stroke-linecap: butt; }
+.gleam { fill: rgb(255 255 255 / 0.32); }
+.collar { fill: #2A2F2D; }
+.chisel { stroke: #B9C3BF; stroke-width: 3.2; }
+.chiselTip { fill: #B9C3BF; }
+.glove { fill: #D9A441; stroke: #B5832C; stroke-width: 0.9; }
+
+/* ── pył i odpryski spod grotu (krycie × --amp) ── */
+.debris {
+  position: absolute;
+  left: 62.4px;
+  bottom: 0;
+}
+
+.dust {
+  position: absolute;
+  left: -3.5px;
+  bottom: -2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #CFC8B8;
+  animation: puff 0.6s ease-out infinite;
+  animation-delay: calc(var(--i) * -0.12s);
+}
+
+@keyframes puff {
+  0%   { transform: translate(0, 0) scale(0.4); opacity: calc(var(--amp) * 0.85); }
+  100% { transform: translate(var(--dx), -18px) scale(1.7); opacity: 0; }
+}
+
+.chip {
+  position: absolute;
+  left: -1.5px;
+  bottom: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 0.5px;
+  background: #9A9284;
+  animation: chip 0.45s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  animation-delay: calc(var(--i) * -0.11s);
+}
+
+@keyframes chip {
+  0%   { transform: translate(0, 0) rotate(0); opacity: var(--amp); }
+  60%  { transform: translate(calc(var(--dx) * 0.8), var(--dy)) rotate(var(--r)); opacity: var(--amp); }
+  100% { transform: translate(var(--dx), calc(var(--dy) * 0.4)) rotate(var(--r)); opacity: 0; }
+}
+
+/* pęknięcie rysuje się w trakcie wiercenia, znika po wyskoku pudełka */
+.crack {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 120px;
+  margin-left: -60px;
+  overflow: visible;
+
+  path {
+    stroke: rgb(236 239 234 / 0.55);
+    stroke-width: 1.6;
+    stroke-dasharray: 90;
+    stroke-dashoffset: 90;
+    animation: crack var(--scene, 7s) linear var(--scene-delay, 0.8s) both;
+  }
+}
+
+@keyframes crack {
+  0%, 35%   { stroke-dashoffset: 90; opacity: 1; }
+  62%       { stroke-dashoffset: 0; opacity: 1; }
+  78%       { stroke-dashoffset: 0; opacity: 1; }
+  90%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* podmuch przy wyskoku */
+.burst {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 90px;
+  height: 18px;
+  margin-left: -45px;
+  border-radius: 50%;
+  border: 2px solid rgb(207 200 184 / 0.7);
+  opacity: 0;
+  animation: burst var(--scene, 7s) linear var(--scene-delay, 0.8s) both;
+}
+
+@keyframes burst {
+  0%, 62.6% { opacity: 0; transform: scale(0.2); }
+  63.6%     { opacity: 0.9; transform: scale(0.6); animation-timing-function: $soft; }
+  74%, 100% { opacity: 0; transform: scale(1.8); }
+}
+
+@media (min-width: 900px), (prefers-reduced-motion: reduce) {
+  .lane { display: none; }
+}

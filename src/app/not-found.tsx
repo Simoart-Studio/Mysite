@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { Nav } from '@/components/Nav/Nav';
-import { Footer } from '@/components/Footer/Footer';
+import { SiteShell } from '@/components/hybrid/SiteShell';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import styles from './not-found.module.scss';
 
@@ -12,8 +11,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <>
-      <Nav />
+    <SiteShell>
       <main id="main-content" className={styles.page} aria-labelledby="notfound-title">
         <div className={styles.card}>
           <p className={styles.code} aria-hidden="true">404</p>
@@ -25,7 +23,6 @@ export default function NotFound() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
+    </SiteShell>
   );
 }

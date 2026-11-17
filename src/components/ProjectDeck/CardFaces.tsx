@@ -13,7 +13,8 @@ function initials(name: string) {
   return name.replace(/[^A-Za-zÀ-ž0-9 ]/g, '').split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 }
 
-export function Thumb({ project, sizes = '340px' }: { project: Project; sizes?: string }) {
+/** `eager` — dla kafli widocznych od razu (pierwszy rząd), żeby nie opóźniać LCP. */
+export function Thumb({ project, sizes = '340px', eager = false }: { project: Project; sizes?: string; eager?: boolean }) {
   if (project.thumbnail) {
     return (
       <span className={styles.thumb}>
@@ -25,7 +26,8 @@ export function Thumb({ project, sizes = '340px' }: { project: Project; sizes?: 
           sizes={sizes}
           className={styles.thumbImg}
           draggable={false}
-          loading="lazy"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchPriority={eager ? 'high' : undefined}
         />
       </span>
     );
@@ -57,45 +59,12 @@ export function CardFront({ project }: { project: Project }) {
           {project.tagline ?? `Opis: ${TODO.toLowerCase()}`}
         </span>
         <span className={styles.frontFoot}>
-          <span className={styles.chips}>
-            {project.stack.slice(0, 3).map((t) => (
-              <span key={t} className={styles.chip}>{t}</span>
-            ))}
-          </span>
+          {project.kind && (
+            <span className={styles.chips}>
+              <span className={styles.chip}>{project.kind}</span>
+            </span>
+          )}
         </span>
-      </span>
-    </span>
-  );
-}
-
-const SCRAPS = [
-  { src: '/projects/collage/travelpoint.webp', w: 440, h: 330, cls: 'scrapA' },
-  { src: '/projects/collage/barberspace.webp', w: 440, h: 330, cls: 'scrapB' },
-  { src: '/projects/collage/buds.webp',        w: 440, h: 330, cls: 'scrapC' },
-  { src: '/projects/collage/pawflo.webp',      w: 440, h: 330, cls: 'scrapD' },
-  { src: '/projects/collage/fancyshop.webp',   w: 440, h: 330, cls: 'scrapE' },
-  { src: '/projects/collage/taskiner.webp',    w: 220, h: 275, cls: 'scrapF' },
-] as const;
-
-/** Rewers talii: kolaż wycinków z realizacji przyklejonych taśmą. */
-export function CardBack({ art = true }: { art?: boolean }) {
-  return (
-    <span className={styles.back}>
-      {art && <span className={styles.collage} aria-hidden="true">
-        {SCRAPS.map((sc) => (
-          <span key={sc.src} className={`${styles.scrap} ${styles[sc.cls]}`}>
-            <Image src={sc.src} alt="" width={sc.w} height={sc.h} sizes="180px" className={styles.scrapImg} loading="lazy" draggable={false} />
-          </span>
-        ))}
-        <span className={`${styles.tape} ${styles.tapeA}`} />
-        <span className={`${styles.tape} ${styles.tapeB}`} />
-        <span className={`${styles.tape} ${styles.tapeC}`} />
-      </span>}
-      <span className={styles.backLabel}>
-        <span className={styles.backTitle}>Projekty</span>
-      </span>
-      <span className={styles.backMark} aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </span>
     </span>
   );

@@ -2,6 +2,7 @@
   "$comment": "Ręczne nadpisania. Mają pierwszeństwo przed danymi z GitHuba (projects.json). Kolejność w 'order' = kolejność kart od wierzchu talii. Puste pole lub jego brak = 'Do uzupełnienia' na stronie. 'hidden': true ukrywa projekt.",
   "user": "kameleon1312",
   "order": [
+    "Simoart-Studio/Hydro",
     "BarberSpace",
     "Fancyshop",
     "TravelPoint",
@@ -10,6 +11,75 @@
     "Buds---2D-freaky-game"
   ],
   "projects": {
+    "Simoart-Studio/Hydro": {
+      "slug": "hydro",
+      "name": "HYDRO",
+      "status": "Wdrożony",
+      "labels": [
+        "klient"
+      ],
+      "tagline": "Strona, z której klient w kilka sekund dowie się, co firma robi, i od razu zadzwoni po montaż.",
+      "kind": "Strona firmowa",
+      "demoUrl": "https://hydrokotly.pl",
+      "stack": [
+        "Astro",
+        "TypeScript",
+        "CSS",
+        "Cloudflare Pages"
+      ],
+      "stackFull": [
+        "Astro (SSG)",
+        "TypeScript (strict)",
+        "Czysty CSS",
+        "Fonty self-hosted (@fontsource)",
+        "Cloudflare Pages",
+        "Cloudflare Workers (formularz)"
+      ],
+      "forWho": "Firma instalacyjna z Trójmiasta i Tczewa: pompy ciepła, kotły, instalacje hydrauliczne i pomoc w dotacjach.",
+      "problem": "Klient szukający instalatora chce szybko sprawdzić, czy firma zrobi jego instalację i czy pomoże w dotacji, a potem od razu zadzwonić.",
+      "solution": "Przejrzysta strona z ofertą, wyjaśnieniem dotacji i realizacjami. Telefony do instalatorów są pod ręką od pierwszego ekranu, a zapytanie można wysłać formularzem.",
+      "benefits": [
+        "Telefon do firmy jednym dotknięciem, prosto ze strony",
+        "Oferta i dotacje wyjaśnione prostym językiem",
+        "Szybka strona na własnej domenie, przygotowana pod Google"
+      ],
+      "scope": "Front-end, wdrożenie na Cloudflare Pages z domeną klienta, SEO techniczne (canonical, sitemap, JSON-LD), bezpieczeństwo i monitoring.",
+      "effect": "Strona bez backendu i bazy danych. CI sprawdza typy, lint, zależności i build, a test dymny sprawdza stronę na żywo po każdym wdrożeniu i co 30 minut.",
+      "challenge": {
+        "title": "CSP na stronie statycznej z analityką",
+        "body": "Astro wstawia do każdej strony CSP z hashami skryptów i stylów, a nagłówki, których meta nie obsłuży, ustawia plik _headers. Tag Google wczytuje się dopiero po zgodzie odwiedzającego, a jego hosty są dopisane do CSP."
+      },
+      "limitations": [],
+      "thumbnail": {
+        "src": "/projects/hydro/cover.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      "screenshots": [
+        {
+          "src": "/projects/hydro/cover.webp",
+          "width": 1600,
+          "height": 1000,
+          "device": "desktop",
+          "alt": "HYDRO: strona główna, widok desktop"
+        },
+        {
+          "src": "/projects/hydro/desktop.webp",
+          "width": 1280,
+          "height": 800,
+          "device": "desktop",
+          "alt": "HYDRO: sekcja główna z telefonami do instalatorów"
+        },
+        {
+          "src": "/projects/hydro/mobile.webp",
+          "width": 390,
+          "height": 844,
+          "device": "mobile",
+          "alt": "HYDRO: widok na telefonie"
+        }
+      ],
+      "embed": false
+    },
     "TravelPoint": {
       "slug": "travelpoint",
       "name": "TravelPoint",
@@ -19,7 +89,8 @@
       ],
       "demoUrl": "https://travelpointdemo-web.vercel.app",
       "embed": true,
-      "tagline": "Sieć dla podróżników, którzy szukają miejsc spoza przewodników: mapa, spoty, kręgi i dziennik wypraw.",
+      "tagline": "Społeczność podróżników, którzy dzielą się miejscami spoza przewodników.",
+      "kind": "Aplikacja społecznościowa",
       "stack": [
         "Next.js 15",
         "React Native",
@@ -43,9 +114,14 @@
         "Zod (wspólna walidacja)",
         "GitHub Actions"
       ],
-      "forWho": "Dla backpackerów, vanliferów i eksploratorów, którzy dzielą się miejscami tylko z tymi, którzy też tam dotarli.",
-      "problem": "Aplikacje podróżnicze pokazują te same, oblegane miejsca. A dzielenie się sekretnym spotem z dokładną lokalizacją bywa ryzykowne dla miejsca i dla autora.",
-      "solution": "Dwie części: publiczny serwis WORLD (magazyn, mapa, forum, dziennik) i prywatna aplikacja mobilna CORE. Spoty ze zdjęciami, reakcjami i weryfikacjami, kręgi i wyprawy, wiadomości w czasie rzeczywistym oraz ukryta warstwa miejsc odblokowywanych dostępem.",
+      "forWho": "Podróżnicy, którzy szukają miejsc poza utartym szlakiem i chcą dzielić się nimi z zaufanymi osobami.",
+      "problem": "Popularne aplikacje pokazują te same oblegane miejsca, a dzielenie się sekretnym spotem z każdym bywa ryzykowne.",
+      "solution": "Serwis z mapą, magazynem i forum oraz prywatna aplikacja na telefon: miejsca ze zdjęciami, zamknięte grupy, wspólne wyprawy i wiadomości.",
+      "benefits": [
+        "Społeczność, która sama tworzy treści",
+        "Kontrola nad tym, kto widzi które miejsca",
+        "Jedno doświadczenie na stronie i w telefonie"
+      ],
       "scope": "Projekt systemu i interfejsu (design system Terra Mare), aplikacja webowa, aplikacja mobilna, API i baza danych.",
       "effect": "Monorepo z trzema aplikacjami (web, mobile, API) i wspólnymi pakietami: motyw, typy, walidacja, geo. CI sprawdza typy, lint, testy API, build i sekrety.",
       "challenge": {
@@ -86,7 +162,8 @@
         "projekt własny",
         "demo"
       ],
-      "tagline": "Sklep online, w którym da się przejść całą ścieżkę zakupu: od katalogu do zamówienia.",
+      "tagline": "Sklep internetowy, w którym klient bez przeszkód przechodzi od produktu do zamówienia.",
+      "kind": "Sklep internetowy",
       "stack": [
         "React 19",
         "TypeScript",
@@ -103,9 +180,14 @@
         "Vite",
         "Lenis"
       ],
-      "forWho": "Projekt portfolio. Pokazuje, jak może działać sklep małej marki, zanim powstanie wersja produkcyjna.",
-      "problem": "Chciałem zbudować sklep, który działa jak prawdziwa platforma sprzedażowa. Nie wizytówkę, tylko pełną ścieżkę: katalog, wyszukiwarka, koszyk i zamówienie.",
-      "solution": "Katalog z kategoriami i sortowaniem, karta produktu, lista ulubionych, ostatnio oglądane, koszyk z edycją ilości i trzyetapowy checkout: dostawa, płatność, potwierdzenie. Przejścia między podstronami działają bez przeładowania.",
+      "forWho": "Małe marki modowe i lifestylowe, które chcą sprzedawać online.",
+      "problem": "Klienci porzucają zakupy, gdy szukanie produktu i zamawianie jest zagmatwane, zwłaszcza na telefonie.",
+      "solution": "Sklep z katalogiem, wyszukiwaniem, ulubionymi i koszykiem oraz prostym zamówieniem w trzech krokach. Kolejne strony otwierają się płynnie, bez czekania.",
+      "benefits": [
+        "Krótka droga od produktu do zamówienia",
+        "Koszyk i ulubione czekają na klienta, gdy wróci",
+        "Wyrazisty wygląd, który buduje markę"
+      ],
       "scope": "Projekt interfejsu, front-end, architektura stanu (koszyk, ulubione, motyw).",
       "effect": "Działające demo z 7 widokami: start, katalog, produkt, ulubione, koszyk, checkout i strona 404. Koszyk i ulubione zostają po odświeżeniu strony.",
       "challenge": {
@@ -155,7 +237,8 @@
       ],
       "demoUrl": "https://pawflo.vercel.app",
       "embed": true,
-      "tagline": "Aplikacja dla właścicieli psów: dopasowania psich znajomości, panel zdrowia i mapa usług w okolicy.",
+      "tagline": "Wszystko dla psa w jednej aplikacji: nowe psie znajomości, zdrowie i usługi w okolicy.",
+      "kind": "Aplikacja mobilna",
       "stack": [
         "React Native",
         "Next.js 14",
@@ -174,9 +257,14 @@
         "Zod",
         "pnpm workspaces"
       ],
-      "forWho": "Dla właścicieli psów w Polsce, którzy szukają towarzystwa dla psa i chcą mieć jego zdrowie oraz usługi w jednym miejscu.",
-      "problem": "Spotkania z innymi psami, historia szczepień i wizyt oraz szukanie weterynarza czy groomera to zwykle kilka różnych aplikacji i notatek.",
-      "solution": "Trzy moduły w jednej aplikacji: MachDog (przesuwanie kart, dopasowanie i czat po dopasowaniu), PawPanel (szczepienia, wizyty, waga, leki i alergie) i PawMap (weterynarze, groomerzy, sklepy, parki dla psów). Do tego landing z cennikiem i przewodnikiem.",
+      "forWho": "Właściciele psów, którzy chcą mieć towarzystwo dla psa, jego zdrowie i lokalne usługi w jednym miejscu.",
+      "problem": "Spotkania z innymi psami, szczepienia, wizyty i szukanie weterynarza to zwykle kilka aplikacji i notatek.",
+      "solution": "Jedna aplikacja w trzech częściach: dopasowania psich znajomości z czatem, panel zdrowia psa i mapa weterynarzy, groomerów, sklepów i parków. Do tego strona produktu z cennikiem.",
+      "benefits": [
+        "Jedno miejsce zamiast kilku aplikacji",
+        "Historia zdrowia psa zawsze pod ręką",
+        "Gotowa strona, która sprzedaje aplikację"
+      ],
       "scope": "Projekt interfejsu i design systemu, aplikacja mobilna, landing, API.",
       "effect": "Aplikacja mobilna z rejestracją, trzyetapowym onboardingiem psa i zakładkami MachDog, PawPanel, PawMap, dopasowania i profil. Strona produktu w Next.js.",
       "challenge": {
@@ -223,7 +311,8 @@
         "projekt własny",
         "demo"
       ],
-      "tagline": "Landing salonu barberskiego, w którym każda sekcja prowadzi do rezerwacji.",
+      "tagline": "Strona salonu, która zamienia odwiedziny w rezerwację wizyty.",
+      "kind": "Strona firmowa",
       "stack": [
         "React 19",
         "TypeScript",
@@ -239,9 +328,14 @@
         "Lenis",
         "vite-imagetools"
       ],
-      "forWho": "Projekt koncepcyjny dla salonu premium. Pokazuje, jak lokalna usługa może zbierać rezerwacje online.",
-      "problem": "Salon premium potrzebuje strony, która oddaje charakter miejsca i zamienia wizytę na stronie w rezerwację. Strona ma mieć własny charakter, a nie wyglądać jak szablon.",
-      "solution": "Styl editorial: ciepłe tło jak papier, głęboka czerwień jako akcent, mocna typografia. Sekcje usług, procesu, cennika, galerii, opinii, zespołu i FAQ. Każde CTA otwiera panel rezerwacji.",
+      "forWho": "Salony barberskie i beauty, które chcą przyjmować rezerwacje online.",
+      "problem": "Salon premium chce, żeby strona oddawała charakter miejsca i przekonywała do umówienia wizyty, zamiast wyglądać jak szablon.",
+      "solution": "Elegancka strona z usługami, cennikiem, galerią, zespołem i opiniami. Z każdego miejsca jednym kliknięciem otwiera się formularz rezerwacji.",
+      "benefits": [
+        "Rezerwacje przez całą dobę, bez odbierania telefonu",
+        "Wizerunek salonu premium od pierwszego ekranu",
+        "Wygodna strona na telefonie, tam gdzie klienci jej szukają"
+      ],
       "scope": "Projekt graficzny, front-end, SEO techniczne, optymalizacja obrazów.",
       "effect": "Obrazy zmniejszone z 9,5 MB do ok. 1 MB (WebP, vite-imagetools). Pełne SEO: Open Graph, JSON-LD HairSalon, sitemap.",
       "challenge": {
@@ -290,6 +384,7 @@
         "projekt własny"
       ],
       "tagline": "Nauka angielskiego i hiszpańskiego: rozmowa z nauczycielem AI i fiszki, które same się układają.",
+      "kind": "Aplikacja edukacyjna z AI",
       "stack": [
         "Next.js 16",
         "TypeScript",
@@ -350,7 +445,8 @@
       "labels": [
         "projekt własny"
       ],
-      "tagline": "Menedżer zadań, który podpowiada, co zrobić najpierw, i działa offline.",
+      "tagline": "Lista zadań, która sama podpowiada, co zrobić najpierw, także bez internetu.",
+      "kind": "Aplikacja na telefon",
       "stack": [
         "React 19",
         "TypeScript",
@@ -367,9 +463,14 @@
         "Service Worker",
         "Vercel"
       ],
-      "forWho": "Dla osób, które planują dzień na telefonie i chcą widzieć priorytety, a nie tylko listę.",
+      "forWho": "Osoby, które planują dzień na telefonie i chcą widzieć priorytety, a nie tylko listę.",
       "problem": "Lista zadań szybko rośnie i trudno ocenić, co jest pilne, a co ważne. Nawyk planowania łatwo porzucić.",
-      "solution": "Macierz Eisenhowera sama klasyfikuje zadania. Do tego terminy ze statusem, zadania cykliczne, podzadania, przeciąganie i swipe, passa dni, poranny rytuał i niedzielne podsumowanie tygodnia. Powiadomienia przypominają o terminach.",
+      "solution": "Aplikacja sama układa zadania według pilności i ważności, przypomina o terminach i podsumowuje tydzień. Instaluje się na telefonie i komputerze jak zwykła aplikacja.",
+      "benefits": [
+        "Jasne priorytety zamiast długiej listy",
+        "Działa także bez internetu",
+        "Przypomnienia, które pomagają utrzymać nawyk"
+      ],
       "scope": "Projekt interfejsu, front-end, PWA, powiadomienia.",
       "effect": "Aplikacja instaluje się na telefonie i komputerze, działa offline i aktualizuje się sama.",
       "challenge": {
@@ -411,7 +512,8 @@
       ],
       "demoUrl": "https://buds-game.vercel.app",
       "embed": false,
-      "tagline": "Mobilna gra RPG 2D o ziomkach z miasta: własna postać, pięć dzielnic, zadania i pojedynki.",
+      "tagline": "Gra RPG na telefon z humorem: własna postać, miasto do odkrycia i pojedynki.",
+      "kind": "Gra mobilna",
       "stack": [
         "Unity 6",
         "Next.js 15",
@@ -428,9 +530,14 @@
         "Zod",
         "pnpm workspaces"
       ],
-      "forWho": "Dla graczy na telefonie (Android) i komputerze, którzy lubią spokojne RPG z humorem i bez przewagi za pieniądze.",
-      "problem": "Chciałem gry, w której postać składa się samemu i wygląda tak samo w grze i na stronie, a portfel nie wygrywa pojedynków.",
-      "solution": "Kreator postaci w grze i na stronie, łączenie konta kodem z 6 znaków. Pięć dzielnic i wyspa startowa, 31 mieszkańców i 33 zadania, 22 przeciwników w turowych pojedynkach, ponad 100 przedmiotów, pojazdy i 27 ukrytych skrytek.",
+      "forWho": "Gracze na telefonie i komputerze, którzy lubią spokojne RPG z humorem.",
+      "problem": "Wiele gier mobilnych nagradza płacenie zamiast umiejętności, a postać w grze i na stronie wygląda inaczej.",
+      "solution": "Świat z pięcioma dzielnicami, mieszkańcami, zadaniami, pojedynkami i ukrytymi skrytkami. Postać tworzy się raz i ta sama pojawia się w grze i na stronie.",
+      "benefits": [
+        "Długie godziny zabawy w jednym świecie",
+        "Uczciwe pojedynki bez przewagi za pieniądze",
+        "Jedno konto na telefonie i komputerze"
+      ],
       "scope": "Projekt gry i grafiki, gra w Unity, strona z kreatorem postaci, API i baza danych.",
       "effect": "Grywalna wersja z wczesnym dostępem na Androida i sterowaniem na telefonie (joystick) i klawiaturze.",
       "challenge": {

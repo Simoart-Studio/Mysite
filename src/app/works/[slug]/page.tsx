@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { projects, getProject, TODO } from '@/lib/projects';
 import { pageMetadata } from '@/lib/metadata';
 import { buildProjectSchema } from '@/lib/schema';
-import { Nav } from '@/components/Nav/Nav';
-import { Footer } from '@/components/Footer/Footer';
+import { SiteShell } from '@/components/hybrid/SiteShell';
 import { CaseStudyBody } from '@/components/ProjectDeck/CaseStudyBody';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import styles from './page.module.scss';
@@ -29,8 +28,8 @@ export async function generateMetadata({
   return pageMetadata({
     title: `${p.name}: studium przypadku`,
     description: p.tagline
-      ? `${p.tagline} Problem, rozwiązanie, zakres prac i technologie projektu ${p.name}.`
-      : `Projekt ${p.name}: status ${p.status.toLowerCase()}, technologie ${p.stack.join(', ')}. Opis w przygotowaniu.`,
+      ? `${p.tagline} Dla kogo powstał projekt ${p.name}, z czym przyszedł klient i co zyskał.`
+      : `Projekt ${p.name}${p.kind ? `: ${p.kind.toLowerCase()}` : ''}. Opis w przygotowaniu.`,
     path: `/works/${p.slug}`,
   });
 }
@@ -49,9 +48,8 @@ export default async function CaseStudyPage({
   const next = projects[(idx + 1) % projects.length]!;
 
   return (
-    <>
+    <SiteShell>
       <JsonLd data={buildProjectSchema(p)} />
-      <Nav />
       <main id="main-content" className={styles.page}>
         <header className={styles.hero}>
           <nav aria-label="Okruszki" className={styles.crumbs}>
@@ -112,7 +110,6 @@ export default async function CaseStudyPage({
           </Link>
         </nav>
       </main>
-      <Footer />
-    </>
+    </SiteShell>
   );
 }

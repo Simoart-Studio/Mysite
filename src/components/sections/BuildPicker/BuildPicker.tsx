@@ -5,11 +5,14 @@ import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
 import { projects } from '@/lib/projects';
 import type { Project } from '@/types/project';
+import { Dust } from '@/components/Dust/Dust';
 import styles from './BuildPicker.module.scss';
 
 type Option = {
   id:       string;
   title:    string;
+  /** krótka etykieta zakładki na telefonie (5 kafelków w jednym rzędzie) */
+  short:    string;
   problem:  string;
   offer:    string;
   gets:     string[];
@@ -25,6 +28,7 @@ const OPTIONS: Option[] = [
   {
     id: 'strona',
     title: 'Strona firmowa',
+    short: 'Strona',
     problem: 'Klienci mnie nie znajdują albo nie wiedzą, czym się zajmuję.',
     offer: 'Strona, która w kilka sekund mówi, co robisz, i prowadzi do kontaktu.',
     gets: ['Projekt pod Twoją markę', 'Szybkość i SEO', 'Formularz lub rezerwacje'],
@@ -34,6 +38,7 @@ const OPTIONS: Option[] = [
   {
     id: 'sklep',
     title: 'Sklep internetowy',
+    short: 'Sklep',
     problem: 'Chcę sprzedawać online, a nie tylko przez telefon i wiadomości.',
     offer: 'Sklep z prostą ścieżką zakupu, wygodny na telefonie.',
     gets: ['Katalog i wyszukiwarka', 'Koszyk i zamówienie', 'Wersja mobilna od startu'],
@@ -43,6 +48,7 @@ const OPTIONS: Option[] = [
   {
     id: 'webapp',
     title: 'Aplikacja webowa',
+    short: 'Web app',
     problem: 'Mój zespół albo moi klienci tracą czas na ręczną robotę.',
     offer: 'Powtarzalny proces zamieniony w prostą aplikację w przeglądarce.',
     gets: ['Analiza procesu', 'Czytelny interfejs', 'Rozwój etapami'],
@@ -52,6 +58,7 @@ const OPTIONS: Option[] = [
   {
     id: 'mobile',
     title: 'Aplikacja na telefon',
+    short: 'Telefon',
     problem: 'Klienci mają mieć moją usługę pod ręką, w telefonie.',
     offer: 'Aplikacja PWA: instalowana z przeglądarki, działa offline.',
     gets: ['Android, iPhone, komputer', 'Tryb offline', 'Powiadomienia'],
@@ -61,6 +68,7 @@ const OPTIONS: Option[] = [
   {
     id: 'mvp',
     title: 'MVP lub prototyp',
+    short: 'MVP',
     problem: 'Mam pomysł i chcę go sprawdzić, zanim wydam więcej.',
     offer: 'Najmniejsza wersja, którą sprawdzisz na prawdziwych ludziach.',
     gets: ['Lista funkcji na start', 'Działający prototyp', 'Plan rozwoju'],
@@ -77,7 +85,7 @@ export function BuildPicker() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="build-title" className={styles.headline}>
-            Co chcesz <span className="hl">zbudować?</span>
+            Co chcesz <Dust>zbudować?</Dust>
           </h2>
         </header>
 
@@ -98,7 +106,8 @@ export function BuildPicker() {
                   />
                   <label htmlFor={`build-${o.id}`} className={styles.tab}>
                     <Icon size={17} strokeWidth={1.8} aria-hidden="true" />
-                    {o.title}
+                    <span className={styles.tabFull}>{o.title}</span>
+                    <span className={styles.tabShort} aria-hidden="true">{o.short}</span>
                   </label>
                 </span>
               );

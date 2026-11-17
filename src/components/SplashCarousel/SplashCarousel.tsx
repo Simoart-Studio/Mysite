@@ -12,7 +12,8 @@ const STEP_MS = 16;
 
 /** Dzieli tekst na słowa i litery; każda litera dostaje kolejny indeks animacji. */
 function SmokeText({ text, start, plain }: { text: string; start: number; plain: boolean }) {
-  if (plain) return <>{text}</>;
+  // tekst ozdobny (aria-hidden) rysowany z CSS — treść jest w HTML raz, w sr-only obok
+  if (plain) return <span className={styles.plain} data-text={text} />;
   const words = text.split(' ');
   const offsets = words.reduce<number[]>((acc, _w, i) => {
     acc.push(i === 0 ? start : acc[i - 1]! + words[i - 1]!.length + 1);
@@ -24,7 +25,7 @@ function SmokeText({ text, start, plain }: { text: string; start: number; plain:
         <Fragment key={wi}>
           <span className={styles.word}>
             {Array.from(w).map((ch, ci) => (
-              <span key={ci} className={styles.ch} style={{ ['--i' as string]: offsets[wi]! + ci }}>{ch}</span>
+              <span key={ci} className={styles.ch} data-ch={ch} style={{ ['--i' as string]: offsets[wi]! + ci }} />
             ))}
           </span>
           {wi < words.length - 1 && ' '}

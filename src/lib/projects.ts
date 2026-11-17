@@ -29,11 +29,13 @@ type Override = Partial<{
   status: ProjectStatus;
   labels: ProjectLabel[];
   tagline: string;
+  kind: string;
   stack: string[];
   stackFull: string[];
   forWho: string;
   problem: string;
   solution: string;
+  benefits: string[];
   scope: string;
   effect: string;
   challenge: ProjectChallenge;
@@ -75,7 +77,8 @@ function build(): Project[] {
     .map((repoName): Project | null => {
       const o: Override = projects[repoName] ?? {};
       if (o.hidden) return null;
-      const g: GithubRepo = byName.get(repoName.toLowerCase()) ?? { name: repoName };
+      // Wpis „Organizacja/Repo” → dane repo „Repo” (dane z GitHuba są kluczowane samą nazwą repo).
+      const g: GithubRepo = byName.get(repoName.split('/').pop()!.toLowerCase()) ?? { name: repoName };
       const isPrivate = g.private ?? true;
 
       const project: Project = {
@@ -86,12 +89,14 @@ function build(): Project[] {
         status:        o.status ?? (g.homepage || o.demoUrl ? 'Wdrożony' : 'Prototyp'),
         labels:        o.labels ?? ['projekt własny'],
         tagline:       o.tagline ?? g.description ?? null,
+        kind:          o.kind ?? null,
         stack:         (o.stack ?? g.readme?.stack ?? (g.primaryLanguage ? [g.primaryLanguage] : [])).slice(0, 4),
         stackFull:     o.stackFull ?? g.readme?.stack ?? [],
         languages:     g.languages ?? [],
         forWho:        o.forWho ?? null,
         problem:       o.problem ?? null,
         solution:      o.solution ?? null,
+        benefits:      o.benefits ?? [],
         scope:         o.scope ?? null,
         effect:        o.effect ?? null,
         challenge:     o.challenge ?? null,

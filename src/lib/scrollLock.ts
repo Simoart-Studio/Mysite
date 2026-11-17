@@ -30,11 +30,24 @@ function navOffset() {
   return (nav?.offsetHeight ?? 88) + 16;
 }
 
+/**
+ * Sekcje, których pozycji nie da się odczytać z getBoundingClientRect (np. przypięte i przekształcone
+ * w trakcie animacji przewijania), rejestrują tu własny punkt docelowy przewinięcia.
+ */
+const anchors = new Map<string, () => number>();
+export function registerAnchor(id: string, resolve: () => number) {
+  anchors.set(id, resolve);
+  return () => { if (anchors.get(id) === resolve) anchors.delete(id); };
+}
+
 function targetY(target: string | 0) {
   if (target === 0) return 0;
-  const el = document.getElementById(target.replace(/^#/, ''));
-  if (!el) return null;
+  const id = target.replace(/^#/, '');
   const max = document.documentElement.scrollHeight - window.innerHeight;
+  const custom = anchors.get(id);
+  if (custom) return Math.max(0, Math.min(max, Math.round(custom())));
+  const el = document.getElementById(id);
+  if (!el) return null;
   const y = el.getBoundingClientRect().top + window.scrollY - navOffset();
   return Math.max(0, Math.min(max, Math.round(y)));
 }

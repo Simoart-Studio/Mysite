@@ -4,6 +4,7 @@ import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { ArrowDown, ArrowRight, Check, Code2, HeartHandshake, MessagesSquare, PenTool, Rocket, UserRound, type LucideIcon } from 'lucide-react';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
+import { Dust } from '@/components/Dust/Dust';
 import styles from './Process.module.scss';
 
 type Step = {
@@ -102,7 +103,7 @@ export function Process() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="process-title" className={styles.headline}>
-            Dobry projekt.<br />Jasna <span className="hl">współpraca.</span>
+            Dobry projekt.{' '}<br />Jasna <Dust>współpraca.</Dust>
           </h2>
         </header>
 

@@ -69,7 +69,7 @@
 
   &:hover { color: var(--white); background: var(--ink); }
   .stepIcon { color: var(--mint); }
-  .stepArrow { background: var(--mint); color: var(--ink); }
+  .stepArrow { background: var(--mint); color: var(--on-mint); }
 }
 
 .stepIcon { color: var(--color-text-dim); }
@@ -109,7 +109,7 @@
   color: #F3F5EF;
   background:
     radial-gradient(70% 60% at 100% 0%, rgb(189 233 140 / 0.12), transparent 70%),
-    var(--ink);
+    var(--surface-dark, var(--ink));
   border-radius: var(--r-xl);
   animation: panelIn 0.4s var(--ease-out);
 
@@ -193,7 +193,7 @@
     height: 24px;
     border-radius: 50%;
     background: var(--mint);
-    color: var(--ink);
+    color: var(--on-mint);
   }
 }
 

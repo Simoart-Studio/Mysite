@@ -25,18 +25,7 @@
   color: var(--ink);
 }
 
-.deckArea {
-  position: relative;
-  padding: var(--s-10) var(--s-6) var(--s-8);
-  background: var(--cream);
-  border-radius: var(--r-xl);
 
-  @include respond-to('mobile') { padding: var(--s-6) var(--s-3) var(--s-6); }
-}
-
-.noJs {
-  :global(html.js) & { display: none; }
-}
 
 .github {
   font-size: var(--fs-small);

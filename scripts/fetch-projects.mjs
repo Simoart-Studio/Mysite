@@ -12,6 +12,9 @@
  *                   w projects.overrides.json.
  *   GITHUB_USER   — domyślnie wartość "user" z projects.overrides.json.
  *
+ * Repo z organizacji wpisuje się w overrides.order jako "Organizacja/Repo"
+ * (np. "Simoart-Studio/Hydro"); pozostałe nazwy dotyczą konta GITHUB_USER.
+ *
  * Zasady:
  *   - Pobieramy tylko repo wpisane w overrides.order (bez forków i archiwów).
  *   - Gdy któreś zapytanie się nie uda, zostawiamy pole z ostatniego poprawnego
@@ -181,9 +184,20 @@ async function main() {
   const repos = [];
   let failures = 0;
 
+  // Repo spoza konta użytkownika (np. organizacji) — wyszukiwanie user:… ich nie obejmuje.
+  const keyOf = (entry) => entry.split('/').pop().toLowerCase();
+  for (const entry of wanted.filter((w) => w.includes('/'))) {
+    try {
+      byName.set(keyOf(entry), await gh(`/repos/${entry}`));
+    } catch (e) {
+      if (e instanceof RateLimitError) throw e;
+      warn(`${entry}: ${e.message}`);
+    }
+  }
+
   for (const name of wanted) {
-    const meta = byName.get(name.toLowerCase());
-    const prev = prevByName.get(name.toLowerCase());
+    const meta = byName.get(keyOf(name));
+    const prev = prevByName.get(keyOf(name));
 
     if (!meta) {
       // Repo prywatne bez tokenu albo usunięte — zostaw poprzednie dane, jeśli są

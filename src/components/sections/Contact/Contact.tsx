@@ -1,6 +1,7 @@
 import { Mail, Phone, CalendarDays } from 'lucide-react';
 import { ContactForm } from '@/components/ContactForm/ContactForm';
 import { EMAIL, PHONE, CALENDLY_URL, phoneHref } from '@/data/config';
+import { Dust } from '@/components/Dust/Dust';
 import styles from './Contact.module.scss';
 
 const NEXT = [
@@ -9,13 +10,14 @@ const NEXT = [
   'Dostajesz zakres i wycenę do akceptacji.',
 ];
 
-export function Contact() {
+/** `title` — opcjonalny nagłówek zamiast domyślnego (np. w hybrydzie). */
+export function Contact({ title }: { title?: React.ReactNode } = {}) {
   return (
     <section id="contact" className={`${styles.section} bg-white`} aria-labelledby="contact-title">
       <div className={`${styles.inner} section-dark`}>
         <div className={styles.aside} data-reveal>
           <h2 id="contact-title" className={styles.headline}>
-            Porozmawiajmy o <span className="hl">projekcie.</span>
+            {title ?? <>Porozmawiajmy o <Dust>projekcie.</Dust></>}
           </h2>
           <p className={styles.lead}>
             Nie potrzebujesz gotowego briefu. Wystarczy kilka zdań.
@@ -23,7 +25,7 @@ export function Contact() {
 
           <div className={styles.block}>
             <p className={styles.blockTitle}>Co wydarzy się dalej?</p>
-            <ol className={styles.steps}>
+            <ol className={`${styles.steps} contact-steps`}>
               {NEXT.map((t) => <li key={t}>{t}</li>)}
             </ol>
           </div>

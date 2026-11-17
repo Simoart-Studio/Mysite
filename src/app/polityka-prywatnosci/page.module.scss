@@ -22,6 +22,9 @@
 }
 
 .back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; // pole dotyku — wygląd bez zmian
   @include text-link;
   align-self: flex-start;
   font-size: var(--fs-small);

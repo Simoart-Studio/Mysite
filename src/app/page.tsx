@@ -1,39 +1,34 @@
-import { Nav }          from '@/components/Nav/Nav';
-import { Footer }       from '@/components/Footer/Footer';
-import { Hero }         from '@/components/sections/Hero/Hero';
-import { Works }        from '@/components/sections/Works/Works';
-import { BuildPicker }  from '@/components/sections/BuildPicker/BuildPicker';
-import { Process }      from '@/components/sections/Process/Process';
-import { About }        from '@/components/sections/About/About';
-import { WhatIDo }      from '@/components/sections/WhatIDo/WhatIDo';
+import { Works } from '@/components/sections/Works/Works';
+import { BuildPicker } from '@/components/sections/BuildPicker/BuildPicker';
+import { WhatIDo } from '@/components/sections/WhatIDo/WhatIDo';
+import { Process } from '@/components/sections/Process/Process';
 import { Testimonials } from '@/components/sections/Testimonials/Testimonials';
-import { Contact }      from '@/components/sections/Contact/Contact';
-import { Wave }         from '@/components/Wave/Wave';
-import { projects }     from '@/lib/projects';
-import { buildProjectsListSchema } from '@/lib/schema';
+import { Contact } from '@/components/sections/Contact/Contact';
+import { Workshop } from '@/components/concept/Workshop';
+import { HeroStudio } from '@/components/hybrid/HeroStudio';
+import { FillWord } from '@/components/hybrid/FillWord';
+import { GlassAbout } from '@/components/hybrid/GlassAbout';
+import { Approach } from '@/components/hybrid/Approach';
+import { SiteShell } from '@/components/hybrid/SiteShell';
 import { JsonLd } from '@/components/JsonLd/JsonLd';
+import { projects } from '@/lib/projects';
+import { buildProjectsListSchema } from '@/lib/schema';
 
 export default function HomePage() {
   return (
-    <>
+    <SiteShell>
       <JsonLd data={buildProjectsListSchema(projects)} />
-      <Nav />
       <main id="main-content">
-        <Hero />
-        <Wave from="var(--cream)" to="var(--white)" shape={0} />
-        <Works />
-        <Wave from="var(--white)" to="var(--cream)" shape={1} />
-        <BuildPicker />
-        <Wave from="var(--cream)" to="var(--white)" shape={2} />
+        <HeroStudio />
+        <Works devices />
+        <Approach target="uslugi"><BuildPicker /></Approach>
+        <Workshop />
         <WhatIDo />
-        <Wave from="var(--white)" to="var(--cream)" shape={0} />
         <Process />
-        <Wave from="var(--cream)" to="var(--white)" shape={1} />
-        <About />
+        <GlassAbout />
         <Testimonials />
-        <Contact />
+        <Contact title={<FillWord text="Zaczynamy?" />} />
       </main>
-      <Footer />
-    </>
+    </SiteShell>
   );
 }

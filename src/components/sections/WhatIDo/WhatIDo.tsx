@@ -1,4 +1,5 @@
 import { SplashCarousel } from '@/components/SplashCarousel/SplashCarousel';
+import { Dust } from '@/components/Dust/Dust';
 import styles from './WhatIDo.module.scss';
 
 const PRINCIPLES = [
@@ -13,7 +14,7 @@ export function WhatIDo() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal>
           <h2 id="principles-title" className={styles.headline}>
-            Trzy <span className="hl">zasady.</span>
+            Trzy <Dust>zasady.</Dust>
           </h2>
         </header>
         <SplashCarousel slides={PRINCIPLES} label="Trzy zasady pracy" />

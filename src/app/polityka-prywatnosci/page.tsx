@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { pageMetadata } from '@/lib/metadata';
 import { BRAND, OWNER, EMAIL, ATTACHMENT_MAX_MB } from '@/data/config';
-import { Nav } from '@/components/Nav/Nav';
-import { Footer } from '@/components/Footer/Footer';
+import { SiteShell } from '@/components/hybrid/SiteShell';
 import styles from './page.module.scss';
 
 export const metadata: Metadata = pageMetadata({
@@ -17,8 +16,7 @@ const RETENTION_MONTHS = 12;
 
 export default function PrivacyPage() {
   return (
-    <>
-      <Nav />
+    <SiteShell>
       <main id="main-content" className={styles.page}>
         <article className={styles.article}>
           <Link href="/" className={styles.back}>← Strona główna</Link>
@@ -90,7 +88,6 @@ export default function PrivacyPage() {
           <p className={styles.meta}>Ostatnia aktualizacja: {UPDATED}.</p>
         </article>
       </main>
-      <Footer />
-    </>
+    </SiteShell>
   );
 }

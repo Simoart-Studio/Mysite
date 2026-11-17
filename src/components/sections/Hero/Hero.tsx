@@ -1,5 +1,6 @@
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
+import { Dust } from '@/components/Dust/Dust';
 import styles from './Hero.module.scss';
 
 export function Hero() {
@@ -8,7 +9,7 @@ export function Hero() {
       <div className={styles.inner}>
         <h1 id="hero-h1" className={`${styles.h1} ${styles.enter}`} style={{ animationDelay: '0.08s' }}>
           Tworzymy spójną wizję,<br />
-          wizje tworzą <span className={`hl ${styles.hlIn}`}>dzieło.</span>
+          wizje tworzą <Dust>dzieło.</Dust>
         </h1>
 
         <p className={`${styles.lead} ${styles.enter}`} style={{ animationDelay: '0.18s' }}>

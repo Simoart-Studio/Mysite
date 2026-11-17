@@ -49,7 +49,7 @@
     color: var(--white);
     background: var(--ink);
 
-    .icon { background: var(--mint); color: var(--ink); transform: rotate(45deg); }
+    .icon { background: var(--mint); color: var(--on-mint); transform: rotate(45deg); }
   }
 
   &:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }

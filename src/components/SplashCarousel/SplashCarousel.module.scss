@@ -143,6 +143,8 @@
 }
 
 .word { white-space: nowrap; }
+.ch::before { content: attr(data-ch); }
+.plain::before { content: attr(data-text); }
 
 /* Litery pozostają inline: brak transformacji, więc odstępy i kerning są identyczne jak w zwykłym tekście */
 .ch {

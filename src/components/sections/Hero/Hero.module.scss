@@ -58,16 +58,6 @@
   max-width: 18ch;
 }
 
-.hlIn {
-  animation: hlIn 1s var(--ease-out) 0.7s both;
-
-  @include reduced-motion { animation: none; }
-}
-
-@keyframes hlIn {
-  from { border-color: transparent; background-color: transparent; }
-  to   { border-color: var(--green-line); background-color: rgb(168 238 106 / 0.14); }
-}
 
 .lead {
   max-width: 40ch;

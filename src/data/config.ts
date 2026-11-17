@@ -1,6 +1,5 @@
 export const BRAND         = 'SimoArt studio';
 export const OWNER         = 'Szymon Pochopień';
-export const AVAILABILITY  = 'Q2 2026';
 export const GITHUB_URL    = 'https://github.com/kameleon1312';
 export const LINKEDIN_URL  = 'https://linkedin.com/in/szymon-pochopien';
 export const EMAIL         = 'szymon.pochopien01@gmail.com';

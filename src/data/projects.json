@@ -1,80 +1,42 @@
 {
   "$comment": "Plik generowany przez scripts/fetch-projects.mjs. Nie edytuj ręcznie — użyj projects.overrides.json.",
-  "generatedAt": "2026-11-03T11:08:27.095Z",
+  "generatedAt": "2026-11-11T14:59:05.340Z",
   "user": "kameleon1312",
   "repos": [
     {
-      "name": "TravelPoint",
-      "fullName": "kameleon1312/TravelPoint",
+      "name": "Hydro",
+      "fullName": "Simoart-Studio/Hydro",
       "available": true,
       "private": false,
       "description": null,
       "topics": [],
-      "homepage": "https://travelpointdemo-web.vercel.app",
-      "url": "https://github.com/kameleon1312/TravelPoint",
+      "homepage": "https://hydrokotly.pl",
+      "url": "https://github.com/Simoart-Studio/Hydro",
       "stars": 0,
-      "primaryLanguage": "TypeScript",
-      "createdAt": "2026-05-31T02:07:09Z",
-      "pushedAt": "2026-10-19T19:37:42Z",
-      "lastCommitAt": "2026-10-19T19:37:42Z",
-      "languages": [],
+      "primaryLanguage": "Astro",
+      "createdAt": "2026-11-04T17:27:07Z",
+      "pushedAt": "2026-11-11T11:23:57Z",
+      "lastCommitAt": "2026-11-11T11:23:52Z",
+      "languages": [
+        {
+          "name": "Astro",
+          "percent": 55.3
+        },
+        {
+          "name": "TypeScript",
+          "percent": 23
+        },
+        {
+          "name": "JavaScript",
+          "percent": 19.8
+        },
+        {
+          "name": "CSS",
+          "percent": 1.8
+        }
+      ],
       "readme": {
-        "summary": null,
-        "features": [],
-        "stack": []
-      }
-    },
-    {
-      "name": "Fancyshop",
-      "fullName": "kameleon1312/Fancyshop",
-      "available": true,
-      "private": false,
-      "description": null,
-      "topics": [],
-      "homepage": "https://fancyshop-iota.vercel.app",
-      "url": "https://github.com/kameleon1312/Fancyshop",
-      "stars": 0,
-      "primaryLanguage": "TypeScript",
-      "createdAt": "2025-12-06T19:47:21Z",
-      "pushedAt": "2026-05-25T12:55:58Z",
-      "lastCommitAt": "2026-05-25T12:55:58Z",
-      "languages": [],
-      "readme": {
-        "summary": "FancyShop to nowoczesny sklep e-commerce stworzony jako projekt portfolio front-end developera.",
-        "features": [
-          "Lista produktów z dynamicznymi danymi",
-          "Dodawanie produktów do koszyka",
-          "Liczenie ceny całkowitej",
-          "Pełna responsywność (mobile / tablet / desktop)",
-          "Nowoczesny, minimalistyczny design",
-          "Szybkie renderowanie i clean code"
-        ],
-        "stack": [
-          "React",
-          "JavaScript (ES6+)",
-          "SCSS / CSS Modules",
-          "Vite",
-          "React Router"
-        ]
-      }
-    },
-    {
-      "name": "Pawflo",
-      "fullName": "kameleon1312/Pawflo",
-      "available": true,
-      "private": false,
-      "description": null,
-      "topics": [],
-      "homepage": "https://pawflo.vercel.app",
-      "url": "https://github.com/kameleon1312/Pawflo",
-      "stars": 0,
-      "primaryLanguage": "TypeScript",
-      "createdAt": "2026-05-07T11:17:55Z",
-      "pushedAt": "2026-05-09T18:20:14Z",
-      "lastCommitAt": "2026-05-09T18:20:14Z",
-      "languages": [],
-      "readme": {
-        "summary": null,
+        "summary": "Statyczna strona usługowa firmy instalacyjnej (pompy ciepła, kotły, instalacje hydrauliczne, dotacje). Działa bez backendu i bazy danych; kontakt to linki tel: i formularz wysyłany przez Worker Cloudflare. Cookies (tag Google) tylko po zgodzie odwiedzającego.",
         "features": [],
         "stack": []
       }
@@ -92,8 +54,25 @@
       "primaryLanguage": "TypeScript",
       "createdAt": "2026-01-14T23:21:48Z",
       "pushedAt": "2026-04-24T11:07:15Z",
-      "lastCommitAt": "2026-04-24T11:07:15Z",
-      "languages": [],
+      "lastCommitAt": "2026-04-24T11:07:08Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 49.5
+        },
+        {
+          "name": "SCSS",
+          "percent": 46.2
+        },
+        {
+          "name": "HTML",
+          "percent": 3.9
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.5
+        }
+      ],
       "readme": {
         "summary": "BarberSpace to landing page dla premium salonu barberskiego, zbudowany w stylu editorial — ciepłe tło jak papier, głęboka czerwień jako akcent, Barlow Condensed w roli kroju display. Inspiracja: NYC barbershop culture przez pryzmat magazynu Dazed.",
         "features": [
@@ -118,36 +97,118 @@
       }
     },
     {
-      "name": "ai-language-teacher",
-      "fullName": "kameleon1312/ai-language-teacher",
+      "name": "Fancyshop",
+      "fullName": "kameleon1312/Fancyshop",
       "available": true,
       "private": false,
       "description": null,
       "topics": [],
-      "homepage": "https://teach-on.vercel.app",
-      "url": "https://github.com/kameleon1312/ai-language-teacher",
+      "homepage": "https://my-fancyshop.vercel.app",
+      "url": "https://github.com/kameleon1312/Fancyshop",
       "stars": 0,
       "primaryLanguage": "TypeScript",
-      "createdAt": "2026-02-15T13:57:10Z",
-      "pushedAt": "2026-04-16T17:34:42Z",
-      "lastCommitAt": "2026-04-16T17:34:42Z",
-      "languages": [],
+      "createdAt": "2025-12-06T19:47:21Z",
+      "pushedAt": "2026-05-25T12:55:58Z",
+      "lastCommitAt": "2026-05-25T12:55:53Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 53.5
+        },
+        {
+          "name": "SCSS",
+          "percent": 45.6
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.5
+        }
+      ],
       "readme": {
-        "summary": "Twoje prywatne atelier językowe. Aplikacja do nauki angielskiego i hiszpańskiego z pomocą AI — konwersacje, fiszki z powtarzaniem rozłożonym w czasie (algorytm SM-2) i śledzenie postępów.",
+        "summary": "FancyShop to nowoczesny sklep e-commerce stworzony jako projekt portfolio front-end developera.",
         "features": [
-          "Konwersacje z AI — nauczyciel oparty na Groq (llama-3.3-70b), dopasowany do poziomu A0–C2",
-          "Fiszki — system spaced repetition (SM-2), automatyczne dodawanie słówek z rozmów",
-          "Asystent głosowy — mówienie i słuchanie przez Web Speech API",
-          "Statystyki — postępy, passa, osiągnięcia, XP",
-          "PWA — działa offline, instalowalna na urządzeniu",
-          "Polski interfejs — zaprojektowane dla polskojęzycznych uczniów"
+          "Lista produktów z dynamicznymi danymi",
+          "Dodawanie produktów do koszyka",
+          "Liczenie ceny całkowitej",
+          "Pełna responsywność (mobile / tablet / desktop)",
+          "Nowoczesny, minimalistyczny design",
+          "Szybkie renderowanie i clean code"
         ],
         "stack": [
-          "Next.js 16 · React 19 · TypeScript 5",
-          "Tailwind CSS v4 · Framer Motion",
-          "Groq SDK (llama-3.3-70b-versatile)",
-          "LocalStorage (bez backendu)"
+          "React",
+          "JavaScript (ES6+)",
+          "SCSS / CSS Modules",
+          "Vite",
+          "React Router"
         ]
+      }
+    },
+    {
+      "name": "TravelPoint",
+      "fullName": "kameleon1312/TravelPoint",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://travelpointdemo-web.vercel.app",
+      "url": "https://github.com/kameleon1312/TravelPoint",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-31T02:07:09Z",
+      "pushedAt": "2026-10-19T19:37:42Z",
+      "lastCommitAt": "2026-10-19T18:22:43Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 96.3
+        },
+        {
+          "name": "JavaScript",
+          "percent": 3
+        },
+        {
+          "name": "CSS",
+          "percent": 0.5
+        }
+      ],
+      "readme": {
+        "summary": null,
+        "features": [],
+        "stack": []
+      }
+    },
+    {
+      "name": "Pawflo",
+      "fullName": "kameleon1312/Pawflo",
+      "available": true,
+      "private": false,
+      "description": null,
+      "topics": [],
+      "homepage": "https://pawflo.vercel.app",
+      "url": "https://github.com/kameleon1312/Pawflo",
+      "stars": 0,
+      "primaryLanguage": "TypeScript",
+      "createdAt": "2026-05-07T11:17:55Z",
+      "pushedAt": "2026-05-09T18:20:14Z",
+      "lastCommitAt": "2026-05-09T18:19:55Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 96.6
+        },
+        {
+          "name": "MDX",
+          "percent": 2.6
+        },
+        {
+          "name": "JavaScript",
+          "percent": 0.6
+        }
+      ],
+      "readme": {
+        "summary": "Polish dog community + matchmaking application.",
+        "features": [],
+        "stack": []
       }
     },
     {
@@ -162,9 +223,22 @@
       "stars": 0,
       "primaryLanguage": "TypeScript",
       "createdAt": "2026-04-09T13:04:24Z",
-      "pushedAt": "2026-04-09T13:04:56Z",
-      "lastCommitAt": "2026-04-09T13:04:56Z",
-      "languages": [],
+      "pushedAt": "2026-11-06T11:31:10Z",
+      "lastCommitAt": "2026-11-06T11:31:08Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 64.1
+        },
+        {
+          "name": "SCSS",
+          "percent": 33.4
+        },
+        {
+          "name": "JavaScript",
+          "percent": 2
+        }
+      ],
       "readme": {
         "summary": "Taskiner is a modern task management PWA built with React + Vite, designed for clarity, elegance, and real productivity. It combines glassmorphism visuals, smooth micro-animations, and smart features like the Eisenhower Matrix, streak tracking, and push notifications to create a workspace that feels premium.",
         "features": [
@@ -203,32 +277,28 @@
       "stars": 0,
       "primaryLanguage": "TypeScript",
       "createdAt": "2026-10-13T08:53:37Z",
-      "pushedAt": "2026-11-01T18:16:28Z",
-      "lastCommitAt": "2026-11-01T18:16:28Z",
-      "languages": [],
+      "pushedAt": "2026-11-11T14:34:52Z",
+      "lastCommitAt": "2026-11-11T14:34:46Z",
+      "languages": [
+        {
+          "name": "TypeScript",
+          "percent": 52.7
+        },
+        {
+          "name": "C#",
+          "percent": 43.3
+        },
+        {
+          "name": "CSS",
+          "percent": 1.8
+        },
+        {
+          "name": "PLpgSQL",
+          "percent": 1.7
+        }
+      ],
       "readme": {
-        "summary": null,
-        "features": [],
-        "stack": []
-      }
-    },
-    {
-      "name": "SL",
-      "fullName": "kameleon1312/SL",
-      "available": true,
-      "private": true,
-      "description": null,
-      "topics": [],
-      "homepage": "https://sweetlove-sand.vercel.app",
-      "url": "https://github.com/kameleon1312/SL",
-      "stars": 0,
-      "primaryLanguage": "TypeScript",
-      "createdAt": "2026-02-14T12:03:16Z",
-      "pushedAt": "2026-02-14T22:36:00Z",
-      "lastCommitAt": "2026-02-14T22:36:00Z",
-      "languages": [],
-      "readme": {
-        "summary": null,
+        "summary": "Mobilne RPG o ziomkach z miasta: stwórz swojego Buda, rozkręć się w sześciu miastach,",
         "features": [],
         "stack": []
       }

@@ -63,11 +63,35 @@
   gap: var(--s-2);
   padding: var(--s-6);
   border-radius: var(--r-lg);
-  background: var(--sand-100);
-
   background: var(--cream);
+}
 
-  &:nth-child(4) { background: var(--mint-soft); }
+/* Korzyści: pełna szerokość, wyróżnione */
+.gain {
+  grid-column: 1 / -1;
+  background: var(--mint-soft);
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: var(--s-3) var(--s-6);
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--green);
+  }
 }
 
 .stepLabel {
@@ -80,69 +104,6 @@
   font-size: 0.9375rem;
 }
 
-.challengeTitle {
-  font-size: 1.125rem;
-  color: var(--color-text);
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-
-.chip {
-  padding: 5px 12px;
-  font-size: var(--fs-small);
-  background: var(--sand-200);
-  border-radius: var(--r-pill);
-  color: var(--color-text);
-}
-
-.langs { display: flex; flex-direction: column; gap: var(--s-2); }
-
-.langBar {
-  display: flex;
-  height: 6px;
-  border-radius: 3px;
-  overflow: hidden;
-  gap: 2px;
-
-  span { display: block; background: var(--clay); }
-  span:nth-child(2) { background: var(--ochre); }
-  span:nth-child(3) { background: var(--sage); }
-  span:nth-child(n + 4) { background: var(--sand-300); }
-}
-
-.langText { font-size: var(--fs-small); color: var(--color-text-muted); }
-
-.limits {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-2);
-  color: var(--color-text-muted);
-
-  li {
-    position: relative;
-    padding-left: var(--s-6);
-
-    &::before {
-      content: '!';
-      position: absolute;
-      left: 0;
-      top: 0.2em;
-      width: 16px;
-      height: 16px;
-      display: grid;
-      place-items: center;
-      font-size: 11px;
-      color: var(--clay-ink);
-      background: var(--clay-soft);
-      border-radius: 50%;
-    }
-  }
-}
-
 .links {
   display: flex;
   flex-wrap: wrap;
@@ -151,14 +112,4 @@
 }
 
 .linkPrimary { @include btn-primary; }
-.link { @include btn-secondary; }
 
-.linkMuted {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-}
-
-.meta {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-}

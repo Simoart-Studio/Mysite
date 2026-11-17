@@ -130,10 +130,16 @@
   --dur-slow:     600ms;
 }
 
-/* Tła sekcji */
-:root { --bg-mint: #EAF6DD; }
-.bg-cream { background-color: var(--cream); }
-.bg-white { background-color: var(--white); }
+/* Tła sekcji: jedno pudrowe tło strony, sekcje to półprzezroczyste warstwy na nim */
+:root {
+  --bg-mint: #EAF6DD;
+  --on-mint: var(--ink); /* tekst na miętowym tle */
+  --powder:  #EEF3E6;                    /* baza: krem z lekką zielenią */
+  --sec-a:   rgb(255 255 255 / 0);       /* sekcja „odkryta” — widać puder */
+  --sec-b:   rgb(255 255 255 / 0.42);    /* sekcja „za mgiełką” — jaśniejsza */
+}
+.bg-cream { background-color: var(--sec-a); }
+.bg-white { background-color: var(--sec-b); }
 .bg-mint  { background-color: var(--bg-mint); }
 
 .section-light {
@@ -158,25 +164,29 @@
   color: var(--color-text);
 }
 
-.hl {
+/* Słowo-klucz osiadające z pyłu (komponent Dust) */
+.dust {
+  position: relative;
   display: inline-block;
-  padding: 0 0.16em 0.04em;
-  margin: 0.04em 0;
-  line-height: 1.05;
   color: var(--green-ink);
-  border: 1.5px solid var(--green-line);
-  border-radius: 0.28em;
-  transition: border-color 0.9s var(--ease-out), background-color 0.9s var(--ease-out);
 }
 
-html.js [data-reveal] .hl {
-  border-color: transparent;
+.dust__text {
+  display: inline-block;
 }
 
-html.js [data-reveal].is-in .hl {
-  border-color: var(--green-line);
-  transition-delay: 0.35s;
+/* Do końca procesu słowo widać tylko na płótnie; podmiana na tekst następuje w jednej klatce */
+html.js .dust:not(.is-done) .dust__text {
+  opacity: 0;
 }
+
+.dust__canvas {
+  position: absolute;
+  max-width: none; /* globalne `canvas { max-width: 100% }` ścisnęłoby płótno do szerokości słowa */
+  pointer-events: none;
+}
+
+.section-dark .dust { color: var(--mint); }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -198,7 +208,7 @@ html {
   text-size-adjust: 100%;
   
   overflow-x: clip;
-  background-color: var(--cream);
+  background-color: var(--powder);
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
@@ -208,7 +218,7 @@ html {
 section[id] { scroll-margin-top: calc(var(--nav-height) + 16px); }
 
 body {
-  background-color: var(--color-bg);
+  background-color: transparent;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -302,27 +312,25 @@ button {
   border: 0;
 }
 
+/* wjazd przy przewijaniu: tylko opacity + transform (bez filter: blur — każdy rozmyty element to drogi
+   w malowaniu filtrowany layer, a przy starcie strony czeka ich kilkanaście naraz) */
 html.js [data-reveal] {
   opacity: 0;
   transform: translateY(28px) scale(0.985);
-  filter: blur(6px);
   transition:
     opacity 0.9s var(--ease-out),
-    transform 1s var(--ease-out),
-    filter 0.9s var(--ease-out);
+    transform 1s var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
-  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal] {
     transform: none;
-    filter: none;
     transition: opacity 0.3s linear;
   }
 }
@@ -331,7 +339,7 @@ html.js [data-reveal].is-in {
   --btn-bg: var(--ink);
   --btn-fg: var(--white);
   --btn-icon-bg: var(--mint);
-  --btn-icon-fg: var(--ink);
+  --btn-icon-fg: var(--on-mint);
 
   display: inline-flex;
   align-items: center;
@@ -375,7 +383,7 @@ html.js [data-reveal].is-in {
 
 .btn--green {
   --btn-bg: var(--mint);
-  --btn-fg: var(--ink);
+  --btn-fg: var(--on-mint);
   --btn-icon-bg: var(--ink);
   --btn-icon-fg: var(--mint);
 }
@@ -411,5 +419,130 @@ html.js [data-reveal].is-in {
   border-radius: var(--r-xl);
 }
 
-.section-dark .hl { color: var(--mint); border-color: rgb(168 238 106 / 0.45); }
-html.js .section-dark [data-reveal].is-in .hl { border-color: rgb(168 238 106 / 0.45); }
+
+
+/* ── Puder: miękkie zielone odbicia światła i drobne ziarno pod całą stroną ── */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  inset: -12%;
+  background:
+    radial-gradient(38% 34% at 16% 14%, rgb(168 238 106 / 0.24), transparent 70%),
+    radial-gradient(42% 36% at 84% 22%, rgb(255 255 255 / 0.75), transparent 72%),
+    radial-gradient(46% 42% at 72% 82%, rgb(94 143 74 / 0.13), transparent 70%),
+    radial-gradient(40% 40% at 12% 78%, rgb(224 246 203 / 0.7), transparent 72%),
+    radial-gradient(30% 26% at 48% 50%, rgb(255 255 255 / 0.35), transparent 75%);
+  animation: powderDrift 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+body::after {
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes powderDrift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-3%, 2.5%, 0) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Koncepcja (/koncepcja): jedno ciemne tło zamiast pudru ── */
+@property --k { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --w { syntax: '<number>'; inherits: true; initial-value: 400; }
+@property --mx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --my { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+
+html:has([data-concept]) {
+  background-color: #060807;
+  color-scheme: dark;
+  scroll-padding-top: 0;
+}
+html:has([data-concept]) body { color: #ECEFEA; }
+html:has([data-concept]) body::before,
+html:has([data-concept]) body::after { display: none; }
+html:has([data-concept]) ::selection { background: #86C24A; color: #060807; }
+html:has([data-concept]) :focus-visible { outline-color: #A8EE6A; }
+
+/* ── Hybryda (/hybryda): wcześniejsze sekcje na jednym ciemnym tle koncepcji ── */
+html:has([data-hybrid]) {
+  --white:     #0F1412;
+  --cream:     #0A0D0C;
+  --cream-2:   #141A17;
+  --ink:       #ECEFEA;
+  --ink-2:     #D9DFD6;
+  --green:     #86C24A;
+  --green-ink: #A8EE6A;
+  --mint-soft: rgb(168 238 106 / 0.12);
+  --green-line: rgb(168 238 106 / 0.3);
+  --on-mint:   #0E1D15;
+  --bg-mint:   rgb(168 238 106 / 0.08);
+
+  --sand-300:  #2A312D;
+  --sage:      #86C24A;
+  --sage-soft: rgb(134 194 74 / 0.12);
+  --ochre-soft: rgb(244 183 64 / 0.1);
+  --rose-soft: rgb(255 255 255 / 0.04);
+  --cocoa:     #A3AEA5;
+
+  --color-bg:         #0A0D0C;
+  --color-bg-raised:  #0F1412;
+  --color-text:       #ECEFEA;
+  --color-text-muted: #B4BEB6;
+  --color-text-dim:   #8E9A92;
+  --color-border:     rgb(255 255 255 / 0.08);
+  --color-border-hi:  rgb(255 255 255 / 0.18);
+  --color-accent:     #A8EE6A;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 8px -4px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 16px 36px -18px rgb(0 0 0 / 0.7);
+  --shadow-lg: 0 32px 64px -28px rgb(0 0 0 / 0.8);
+
+  --powder: #060807;
+  --sec-a:  transparent;
+  --sec-b:  transparent;
+  --surface-dark: #111714;
+}
+
+html:has([data-hybrid]) .btn--green { --btn-icon-bg: #0E1D15; --btn-icon-fg: #A8EE6A; }
+
+html:has([data-hybrid]) .section-dark {
+  --color-bg:        #0F1412;
+  --color-bg-raised: #161C19;
+  --color-border:    rgb(255 255 255 / 0.08);
+  --color-border-hi: rgb(255 255 255 / 0.16);
+  background-color: rgb(255 255 255 / 0.03);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+
+/* hybryda bez numeracji: kroki kontaktu jako punkty */
+html:has([data-hybrid]) .contact-steps li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin: 8px 8px 0;
+}
+
+/*
+ * Sekcje daleko pod zgięciem: przeglądarka pomija ich styl, układ i malowanie, dopóki użytkownik się nie
+ * zbliży (mniej pracy przy starcie na słabszych telefonach). Tylko proste sekcje — bez przypiętych efektów
+ * przewijania, które mierzą układ, i bez sekcji kontaktu (cel kotwic, dokładne przewijanie).
+ * `auto` w contain-intrinsic-size: po pierwszym wyrenderowaniu przeglądarka pamięta prawdziwą wysokość.
+ */
+#zasady,
+#process,
+#opinie,
+footer[role='contentinfo'] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

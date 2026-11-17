@@ -1,6 +1,15 @@
 import type { Project } from '@/types/project';
 import { BRAND, OWNER, EMAIL, PHONE, GITHUB_URL, LINKEDIN_URL } from '@/data/config';
-import { SITE_URL } from './metadata';
+import { SITE_URL, siteMetadata } from './metadata';
+
+/* Usługi (te same, co w sekcji „Co chcesz zbudować?”) — katalog oferty dla wyszukiwarek */
+const SERVICES = [
+  { name: 'Strona firmowa', description: 'Strona, która w kilka sekund mówi, co robisz, i prowadzi do kontaktu.' },
+  { name: 'Sklep internetowy', description: 'Sklep z prostą ścieżką zakupu, wygodny na telefonie.' },
+  { name: 'Aplikacja webowa', description: 'Powtarzalny proces zamieniony w prostą aplikację w przeglądarce.' },
+  { name: 'Aplikacja mobilna (PWA)', description: 'Aplikacja instalowana z przeglądarki, działająca offline.' },
+  { name: 'MVP lub prototyp', description: 'Najmniejsza wersja produktu do sprawdzenia na prawdziwych użytkownikach.' },
+] as const;
 
 export function jsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
@@ -18,13 +27,22 @@ export function buildPersonSchema() {
         '@id': ORG_ID,
         name: BRAND,
         url: SITE_URL,
+        description: siteMetadata.description,
         logo: `${SITE_URL}/logo.png`,
         email: EMAIL,
         ...(PHONE ? { telephone: PHONE } : {}),
         founder: { '@id': PERSON_ID },
-        areaServed: 'PL',
+        areaServed: { '@type': 'Country', name: 'Polska' },
         knowsLanguage: 'pl',
         sameAs: [GITHUB_URL, LINKEDIN_URL],
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Usługi',
+          itemListElement: SERVICES.map((s) => ({
+            '@type': 'Offer',
+            itemOffered: { '@type': 'Service', name: s.name, description: s.description, provider: { '@id': ORG_ID } },
+          })),
+        },
       },
       {
         '@type': 'Person',

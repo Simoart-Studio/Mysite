@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { m, useReducedMotion } from 'framer-motion';
 import { useOverlay } from '@/context/OverlayContext';
 import { BRAND } from '@/data/config';
+import { LogoPill } from '@/components/LogoPill/LogoPill';
 import { scrollToTarget } from '@/lib/scrollLock';
 import { ContactTrigger } from '@/components/ContactTrigger/ContactTrigger';
 import { BtnIcon } from '@/components/BtnIcon/BtnIcon';
@@ -17,11 +19,14 @@ const LINKS = [
   { id: 'about',   label: 'O mnie'     },
 ] as const;
 
-export function Nav() {
+/** `home` — adres strony, na której leżą sekcje (logo przewija do góry zamiast przechodzić dalej). */
+export function Nav({ home = '/', sticker = false }: { home?: string; sticker?: boolean } = {}) {
   const [scrolled, setScrolled]   = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [active, setActive]       = useState<string | null>(null);
-  const [heroCta, setHeroCta]     = useState(false);
+  /* null = jeszcze nie sprawdzone: wtedy o widoczności CTA decyduje CSS (strona z przyciskami w hero →
+     ukryte od pierwszej klatki), więc przycisk nie mignie przed hydratacją */
+  const [heroCta, setHeroCta]     = useState<boolean | null>(null);
   const lastY = useRef(0);
   const { overlay, openMenu, close } = useOverlay();
   const prefersReduced = useReducedMotion();
@@ -56,7 +61,7 @@ export function Nav() {
   // Na stronie głównej CTA w nawigacji pojawia się dopiero, gdy przyciski hero znikną z ekranu.
   useEffect(() => {
     const el = document.querySelector('[data-hero-actions]');
-    if (!el) return;
+    if (!el) return; // brak przycisków w hero: stan null, CSS pokazuje CTA
     const io = new IntersectionObserver(([e]) => setHeroCta(!!e?.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
@@ -78,16 +83,18 @@ export function Nav() {
     >
       <div className={styles.inner}>
         <Link
-          href="/"
+          href={home}
           className={styles.logo}
           aria-label={`${BRAND}, strona główna`}
           onClick={(e) => {
-            if (window.location.pathname !== '/') return;
+            if (window.location.pathname !== home) return;
             e.preventDefault();
             scrollToTarget(0, !!prefersReduced);
           }}
         >
-          SimoArt<span className={styles.logoDot} aria-hidden="true" />
+          {sticker
+            ? <LogoPill priority className={styles.pillIn} />
+            : <Image src="/logo.webp" alt="" width={316} height={160} priority sizes="110px" className={styles.logoImg} />}
         </Link>
 
         <nav className={styles.links} aria-label="Główna nawigacja">
@@ -105,7 +112,10 @@ export function Nav() {
         </nav>
 
         <div className={styles.right}>
-          <span className={`${styles.ctaWrap} ${heroCta ? styles.ctaAway : ''}`} inert={heroCta || undefined}>
+          <span
+            className={`${styles.ctaWrap} ${heroCta ? styles.ctaAway : heroCta === null ? styles.ctaAuto : ''}`}
+            inert={heroCta || undefined}
+          >
             <ContactTrigger className={`btn ${styles.cta}`}>
               Porozmawiajmy
               <BtnIcon />

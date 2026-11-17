@@ -13,6 +13,7 @@ export default function Error({ error, retry }: { error: unknown; retry: () => v
   const digest = error instanceof Error && 'digest' in error ? (error as Error & { digest?: string }).digest : undefined;
 
   return (
+    <div data-concept data-hybrid>
     <main id="main-content" className={styles.page} aria-labelledby="error-title">
       <div className={styles.card}>
         <h1 id="error-title" className={styles.headline}>Coś poszło nie tak.</h1>
@@ -26,5 +27,6 @@ export default function Error({ error, retry }: { error: unknown; retry: () => v
         </div>
       </div>
     </main>
+    </div>
   );
 }
