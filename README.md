@@ -1,73 +1,142 @@
-# SimoArt studio — strona
+<div align="center">
 
-Strona-wizytówka SimoArt studio (Szymon Pochopień): projekty w formie interaktywnej talii kart,
-asystent „Co chcesz zbudować?”, proces współpracy, formularz kontaktowy.
+<img src="public/logo.png" alt="SimoArt studio" width="320" />
 
-**Stack:** Next.js 16 (App Router), React 19, TypeScript, SCSS Modules, Framer Motion, Lenis.
+# SimoArt studio
+
+Strona studia projektowania i programowania stron, sklepów internetowych i aplikacji.
+
+[![CI](https://github.com/kameleon1312/szymon-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/kameleon1312/szymon-studio/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)
+![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
+![Vercel](https://img.shields.io/badge/hosting-Vercel-000?logo=vercel)
+
+**[sp-flow.vercel.app](https://sp-flow.vercel.app)**
+
+</div>
+
+---
+
+## O projekcie
+
+Strona prezentuje realizacje i ofertę studia oraz prowadzi odwiedzającego do kontaktu. Każda sekcja
+opowiada część procesu: od pomysłu, przez projekt, po wdrożenie.
+
+| Sekcja | Opis |
+|---|---|
+| **Hero** | animowana kostka z logo, nagłówek i dwa wezwania do działania |
+| **Wybrane projekty** | kafelki realizacji z podglądem na urządzeniach; każdy projekt ma własne case study (`/works/[slug]`) |
+| **Co chcesz zbudować?** | interaktywny wybór typu projektu z przykładem z portfolio |
+| **Tak powstaje strona** | makieta strony budowana etapami: siatka, układ, typografia, kolor, interakcja, responsywność |
+| **Zasady i proces** | trzy zasady współpracy i cztery etapy pracy z efektem każdego z nich |
+| **Miło Cię poznać** | naklejka z logo pod szklaną pokrywą, odsłaniana przewijaniem lub kliknięciem |
+| **Kontakt** | formularz z załącznikiem, wysyłany przez Server Action |
+
+## Najważniejsze cechy
+
+- **Wydajność** — animacje wyłącznie na `transform` i `opacity` (warstwa kompozytora), `content-visibility`
+  dla sekcji poniżej ekranu, Framer Motion ładowany przez `LazyMotion`, font z polskimi znakami 5 KB.
+- **Dostępność** — testy axe (WCAG 2.2 AA) dla desktopu i mobile, pełna obsługa klawiaturą,
+  cele dotyku min. 44 px, wsparcie `prefers-reduced-motion`, treść dostępna bez JavaScriptu.
+- **Bezpieczeństwo** — ścisła polityka CSP i nagłówki bezpieczeństwa, walidacja formularza po stronie
+  serwera (Zod), weryfikacja załącznika po zawartości, limit wiadomości per IP, `security.txt`.
+- **SEO** — metadane i obrazy Open Graph generowane dla każdej strony, dane strukturalne (JSON-LD),
+  sitemap i `robots.txt`; wdrożenia preview są wyłączone z indeksowania.
+
+## Stack
+
+| Obszar | Technologie |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Style | SCSS Modules |
+| Animacje | Framer Motion, Web Animations API, CSS `@property` |
+| Formularz | Server Actions, Zod, Nodemailer (Gmail SMTP) |
+| Testy | Playwright, axe-core |
+| Infrastruktura | Vercel (region `fra1`), GitHub Actions, Dependabot, gitleaks |
+
+## Uruchomienie lokalne
+
+Wymagany **Node.js 22**.
 
 ```bash
-npm install
-npm run dev        # http://localhost:3000
-npm run build      # build produkcyjny
-npm run typecheck  # sprawdzenie typów
+git clone https://github.com/kameleon1312/szymon-studio.git
+cd szymon-studio
+npm ci
+cp .env.example .env.local   # uzupełnij, jeśli formularz ma wysyłać wiadomości
+npm run dev                  # http://localhost:3000
 ```
 
-## Projekty: dane z GitHuba + nadpisania
+### Skrypty
 
-Talia kart czyta dane z dwóch plików, które scala `src/lib/projects.ts`:
-
-| Plik | Kto edytuje | Zawartość |
-|---|---|---|
-| `src/data/projects.json` | skrypt (nie edytuj ręcznie) | nazwa, opis, topics, języki (%), homepage, URL repo, daty, gwiazdki, wyciąg z README (cel, funkcje, stack) |
-| `src/data/projects.overrides.json` | Ty | kolejność kart (`order`), własne opisy, status, etykiety, chipy technologii, zrzuty ekranu, `hidden` |
-
-**Nadpisania mają pierwszeństwo.** Pole, którego nie ma ani w nadpisaniach, ani na GitHubie,
-wyświetla się na stronie jako „Do uzupełnienia”. Nic nie jest dopisywane automatycznie.
-
-### Odświeżenie danych
-
-```bash
-npm run projects                 # pobierz dane z GitHub API
-npm run projects -- --strict     # zakończ z błędem, jeśli pobranie się nie uda
-```
-
-- **Token:** opcjonalny `GITHUB_TOKEN` (tylko odczyt) w zmiennych środowiskowych buildu/CI
-  (Vercel → Settings → Environment Variables). Nigdy w kodzie ani w repozytorium.
-  Bez tokenu skrypt widzi tylko repozytoria publiczne (limit 60 zapytań/h).
-  Z tokenem pobierze też dane repozytoriów prywatnych wpisanych w `order`.
-- **Błędy i limity API:** przy błędzie skrypt zostawia ostatni poprawny `projects.json`
-  (całość albo pojedyncze pola). Build nigdy nie pada z powodu GitHuba.
-- **Build:** `prebuild` odświeża dane automatycznie tylko w CI/Vercel (`CI` lub `VERCEL`).
-  Lokalny `npm run build` nie zmienia plików.
-- **Repozytoria prywatne:** na stronie nie ma do nich linku (dla odwiedzających byłby to błąd 404).
-
-### Dodanie lub zmiana projektu
-
-1. Dopisz nazwę repozytorium do `order` w `projects.overrides.json` (wyżej = bliżej wierzchu talii).
-2. Dodaj wpis w `projects`: `slug`, `name`, `status` (`Wdrożony` / `W rozwoju` / `Prototyp`),
-   `labels` (`projekt własny` / `demo` / `prototyp` / `klient`), `tagline`, `stack` (3–4 chipy) i case study:
-   `forWho`, `problem`, `solution`, `scope`, `effect`, `challenge`, `limitations`.
-3. Zrzuty ekranu w WebP wrzuć do `public/projects/<slug>/` i podaj wymiary (`width`, `height`, `device`).
-4. `npm run projects`, potem `npm run build`.
+| Polecenie | Działanie |
+|---|---|
+| `npm run dev` | serwer deweloperski |
+| `npm run build` | walidacja zmiennych środowiskowych i build produkcyjny |
+| `npm start` | uruchomienie zbudowanej wersji |
+| `npm run typecheck` | sprawdzenie typów TypeScript |
+| `npm run lint` | ESLint |
+| `npm test` | testy jednostkowe i E2E (desktop + mobile) |
+| `npm run test:smoke` | testy dymne tylko do odczytu (bezpieczne na produkcji) |
+| `npm run projects` | odświeżenie danych projektów z GitHub API |
 
 ## Zmienne środowiskowe
 
-| Zmienna | Gdzie | Po co |
+Pełny opis w [`.env.example`](.env.example).
+
+| Zmienna | Wymagana | Opis |
 |---|---|---|
-| `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Vercel (runtime) | wysyłka formularza kontaktowego |
-| `GITHUB_TOKEN` | Vercel (build), opcjonalnie | dane repozytoriów do talii |
+| `GMAIL_USER` | tak (produkcja) | skrzynka odbierająca wiadomości z formularza |
+| `GMAIL_APP_PASSWORD` | tak (produkcja) | hasło aplikacji Google (nie hasło do konta) |
+| `NEXT_PUBLIC_SITE_URL` | nie | docelowa domena; domyślnie adres produkcyjny Vercel |
+| `GITHUB_TOKEN` | nie | token tylko do odczytu — dane prywatnych repozytoriów w portfolio |
 
-## Do uzupełnienia przed publikacją
+## Struktura
 
-- `src/app/polityka-prywatnosci/page.tsx` → adres/NIP, okres przechowywania danych, data aktualizacji
-  (oznaczone na stronie). Tekst polityki to szkic do weryfikacji.
-- `src/data/testimonials.ts` → prawdziwe opinie klientów (pusta lista = sekcja ukryta).
-- `src/components/sections/About/About.tsx` → `PORTRAIT`, jeśli dodasz zdjęcie.
-- Opisy projektów prywatnych (TravelPoint, Pawflo, Buds, SL) w `projects.overrides.json`.
+```text
+src/
+├── app/                 # trasy App Router, metadane, obrazy OG, robots, sitemap
+│   ├── works/           # lista projektów i case study (/works/[slug])
+│   ├── actions/         # Server Action formularza kontaktowego
+│   └── polityka-prywatnosci/
+├── components/
+│   ├── hybrid/          # sekcje strony głównej (hero, szkło, maskotki)
+│   ├── sections/        # projekty, wybór projektu, proces, kontakt
+│   └── concept/         # makieta „Tak powstaje strona”
+├── data/                # konfiguracja marki, dane i nadpisania projektów
+├── lib/                 # schematy, metadane, logika serwerowa
+└── styles/              # tokeny, mixiny, style globalne
+tests/                   # Playwright: unit, E2E, dostępność, smoke
+scripts/                 # walidacja env, pobieranie danych z GitHuba, generowanie ikon
+docs/                    # architektura, runbook, RODO, plan incydentów
+```
 
-## Dostępność i fallbacki
+## Projekty w portfolio
 
-- Talia: obsługa klawiaturą (Enter/Spacja odsłania, strzałki nawigują, Esc zamyka),
-  fokus przenoszony do otwartej karty i zwracany po zamknięciu, `prefers-reduced-motion` → bez odklejania.
-- Bez JS albo przy błędzie: statyczna siatka kart z tymi samymi treściami (`ProjectGrid`).
-- Podgląd demo (iframe) ładuje się dopiero po kliknięciu „Uruchom podgląd”.
+Dane projektów pochodzą z dwóch plików scalanych w `src/lib/projects.ts`:
+
+- `src/data/projects.json` — generowany przez `npm run projects` z GitHub API (nie edytuj ręcznie),
+- `src/data/projects.overrides.json` — kolejność, opisy, statusy, case study i zrzuty ekranu; **ma pierwszeństwo**.
+
+**Nowy projekt:** dopisz repozytorium do `order` i wpis do `projects` w pliku nadpisań, dodaj zrzuty
+ekranu w WebP do `public/projects/<slug>/`, następnie uruchom `npm run projects`. Gdy GitHub API jest
+niedostępne, zostają ostatnie poprawne dane — build nie zatrzymuje się z tego powodu.
+
+## Jakość i CI
+
+Każdy push i pull request przechodzi przez pipeline GitHub Actions:
+typecheck → lint → audyt zależności produkcyjnych → build → testy Playwright → SBOM → skan sekretów (gitleaks).
+Po każdym wdrożeniu produkcyjnym i co 6 godzin workflow „Smoke” sprawdza działającą stronę.
+
+## Wdrożenie
+
+Gałąź `main` wdraża się automatycznie na produkcję Vercel, pozostałe gałęzie i pull requesty — jako preview.
+Konfiguracja, domena i lista kontrolna: [`DEPLOY.md`](DEPLOY.md). Procedury operacyjne:
+[`docs/RUNBOOK.md`](docs/RUNBOOK.md).
+
+## Autor
+
+**Szymon Pochopień** — SimoArt studio
+[GitHub](https://github.com/kameleon1312) · [LinkedIn](https://linkedin.com/in/szymon-pochopien) · [szymon.pochopien01@gmail.com](mailto:szymon.pochopien01@gmail.com)
+
+© 2026 SimoArt studio. Wszelkie prawa zastrzeżone.
